@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": null,
+    "password": "여러분의 비밀번호",
     "database": "swe_development",
     "host": "127.0.0.1",
     "dialect": "mysql"
