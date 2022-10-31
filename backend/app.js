@@ -1,6 +1,8 @@
 const express = require('express');
-const app = express();
+const cookieParser = require('cookie-parser');
 const path = require('path');
+
+const app = express();
 
 const sequelize = require('./models').sequelize;
 sequelize.sync({force: true}).then(()=> {
@@ -8,6 +10,10 @@ sequelize.sync({force: true}).then(()=> {
 }).catch((err)=> {
     console.log(err);
 });
+
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+app.use(cookieParser());
 
 const router = require('./routes/index');
 app.use("/", router);
