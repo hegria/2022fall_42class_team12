@@ -3,6 +3,13 @@ const path = require("path");
 const fs = require('fs');
 
 try{
+    fs.readdirSync( path.join(__dirname, "../../img"));
+}catch(err){
+    console.error("img 폴더가 없어서 폴더를 생성합니다");
+    fs.mkdirSync(path.join(__dirname, "../../img"));
+}
+
+try{
     fs.readdirSync( path.join(__dirname, "../../img/profiles"));
 }catch(err){
     console.error("img/profiles가 없어서 폴더를 생성합니다");
