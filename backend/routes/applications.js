@@ -10,6 +10,24 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 
+router.get('/', function(req, res) {
+    
+});
 
+router.post('/', function(req, res) {
+    
+});
+
+router.delete('/', function(req, res) {
+    
+});
+
+router.patch('/:userId', function(req, res) {
+    
+});
+
+router.delete('/:userId', function(req, res) {
+    
+});
 
 module.exports = router;

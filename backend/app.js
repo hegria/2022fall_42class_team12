@@ -15,8 +15,9 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(cookieParser());
 
-const router = require('./routes/index');
-app.use("/", router);
+app.use("/users", require('./routes/users'));
+app.use("/applications", require('./routes/applications'));
+app.use("/projects", require('./routes/projects'));
 
 app.listen(5000, () => {
     console.log("backend server started at port 5000");
