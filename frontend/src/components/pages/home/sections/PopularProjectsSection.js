@@ -1,11 +1,11 @@
 import { Heading, SimpleGrid } from "@chakra-ui/react";
 import { MOCKUP_PROJECT_LIST } from "constants/mockups/projects";
 import ProjectCard from "components/common/ProjectCard";
-import HomeSection from "components/pages/home/HomeSection";
+import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
 
-function MostFavoriteSection() {
+function PopularProjectsSection() {
   return (
-    <HomeSection>
+    <HomeSectionLayout>
       <Heading size="lg" marginBottom="40px">
         인기 모집글
       </Heading>
@@ -27,8 +27,8 @@ function MostFavoriteSection() {
           />
         ))}
       </SimpleGrid>
-    </HomeSection>
+    </HomeSectionLayout>
   );
 }
 
-export default MostFavoriteSection;
+export default PopularProjectsSection;

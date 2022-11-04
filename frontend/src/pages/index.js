@@ -1,13 +1,13 @@
 import HeroSection from "components/pages/home/sections/HeroSection";
-import PopularSection from "components/pages/home/sections/PopularSection";
-import RandomSection from "components/pages/home/sections/RandomSection";
+import PopularProjectsSection from "components/pages/home/sections/PopularProjectsSection";
+import RandomProjectsSection from "components/pages/home/sections/RandomProjectsSection";
 
 function HomePage() {
   return (
     <>
       <HeroSection />
-      <RandomSection />
-      <PopularSection />
+      <RandomProjectsSection />
+      <PopularProjectsSection />
     </>
   );
 }

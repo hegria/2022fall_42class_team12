@@ -2,11 +2,11 @@ import { Box, Container, Heading, HStack, IconButton, SimpleGrid } from "@chakra
 import ProjectCard from "components/common/ProjectCard";
 import { MOCKUP_PROJECT_LIST } from "constants/mockups/projects";
 import { RepeatIcon } from "@chakra-ui/icons";
-import HomeSection from "components/pages/home/HomeSection";
+import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
 
-function RandomSection() {
+function RandomProjectsSection() {
   return (
-    <HomeSection>
+    <HomeSectionLayout>
       <HStack spacing="16px" marginBottom="40px">
         <Heading size="lg">랜덤 모집글</Heading>
         <IconButton
@@ -34,8 +34,8 @@ function RandomSection() {
           />
         ))}
       </SimpleGrid>
-    </HomeSection>
+    </HomeSectionLayout>
   );
 }
 
-export default RandomSection;
+export default RandomProjectsSection;
