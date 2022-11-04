@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 
 function BackgroundCircles() {
   return (
-    <Box position="absolute" w="100%" top="0" left="0" zIndex={-1}>
+    <Box position="absolute" w="100%" top="0" left="0" zIndex="hide">
       <Box
         position="absolute"
         top="-76px"

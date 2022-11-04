@@ -15,6 +15,7 @@ function Navbar() {
       align="center"
       boxShadow="base"
       bgColor="white"
+      zIndex="sticky"
     >
       <Container maxW="container.xl">
         <Flex justifyContent="space-between" alignItems="center">
