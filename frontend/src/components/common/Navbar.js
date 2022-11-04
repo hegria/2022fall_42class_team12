@@ -1,8 +1,6 @@
 import { Button, Container, Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
 
-export const NAVBAR_HEIGHT = 60;
-
 function Navbar() {
   return (
     <Flex
@@ -11,7 +9,7 @@ function Navbar() {
       top="0"
       left="0"
       w="100%"
-      h={`${NAVBAR_HEIGHT}px`}
+      h="60px"
       align="center"
       boxShadow="base"
       bgColor="white"

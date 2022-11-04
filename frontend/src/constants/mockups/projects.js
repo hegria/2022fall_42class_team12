@@ -1,4 +1,5 @@
-import defaultImage from "/public/images/hero.png";
+import defaultImage from "/public/images/default-project-thumbnail.png";
+import defaultUserImage from "/public/images/default-user-image.png";
 
 export const MOCKUP_PROJECT_LIST = [
   {
@@ -9,7 +10,7 @@ export const MOCKUP_PROJECT_LIST = [
     skills: ["Frontend", "React.js"],
     author: {
       name: "김성균",
-      photoUrl: defaultImage.src,
+      photoUrl: defaultUserImage.src,
     },
     photoUrl: defaultImage.src,
     approvalCount: 0,
@@ -23,7 +24,7 @@ export const MOCKUP_PROJECT_LIST = [
     skills: ["Frontend", "React.js"],
     author: {
       name: "김성균",
-      photoUrl: defaultImage.src,
+      photoUrl: defaultUserImage.src,
     },
     photoUrl: defaultImage.src,
     approvalCount: 0,
@@ -37,7 +38,7 @@ export const MOCKUP_PROJECT_LIST = [
     skills: ["Frontend", "React.js"],
     author: {
       name: "김성균",
-      photoUrl: defaultImage.src,
+      photoUrl: defaultUserImage.src,
     },
     photoUrl: defaultImage.src,
     approvalCount: 0,
@@ -51,7 +52,7 @@ export const MOCKUP_PROJECT_LIST = [
     skills: ["Frontend", "React.js"],
     author: {
       name: "김성균",
-      photoUrl: defaultImage.src,
+      photoUrl: defaultUserImage.src,
     },
     photoUrl: defaultImage.src,
     approvalCount: 0,
@@ -65,7 +66,7 @@ export const MOCKUP_PROJECT_LIST = [
     skills: ["Frontend", "React.js"],
     author: {
       name: "김성균",
-      photoUrl: defaultImage.src,
+      photoUrl: defaultUserImage.src,
     },
     photoUrl: defaultImage.src,
     approvalCount: 0,
