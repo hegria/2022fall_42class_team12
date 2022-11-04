@@ -12,14 +12,6 @@ const fontsStyle = css`
   }
 `;
 
-const globalStyles = css`
-  ${fontsStyle};
-
-  html {
-    background-color: "gray.50";
-  }
-`;
-
 export function GlobalStyle() {
-  return <Global styles={globalStyles} />;
+  return <Global styles={fontsStyle} />;
 }

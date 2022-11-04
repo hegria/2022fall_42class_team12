@@ -7,6 +7,7 @@ export const theme = extendTheme({
     global: {
       body: {
         bgColor: "gray.50",
+        minWidth: "1280px",
       },
     },
   },
