@@ -8,3 +8,5 @@
 > npm install
 > npm run dev
 ```
+
+(vscode) 개발 시작 전 prettier, eslint extension 설치 권장드립니다.
