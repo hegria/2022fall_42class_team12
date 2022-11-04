@@ -7,13 +7,16 @@ export const theme = extendTheme({
       body: {
         bgColor: "gray.50",
         minWidth: "1280px",
+        overflowX: { base: "scroll", xl: "hidden" },
       },
     },
   },
+
   fonts: {
     heading: `"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`,
     body: `"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`,
   },
+
   components: {
     Button: CustomButton,
     Container: CustomContainer,
