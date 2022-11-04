@@ -1,6 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
-import { CustomButton } from "./button";
-import { CustomContainer } from "./container";
+import { CustomButton, CustomContainer, CustomTag } from "./components";
 
 export const theme = extendTheme({
   styles: {
@@ -18,5 +17,6 @@ export const theme = extendTheme({
   components: {
     Button: CustomButton,
     Container: CustomContainer,
+    Tag: CustomTag,
   },
 });
