@@ -12,6 +12,8 @@
 
 <b>(vscode) 개발 시작 전 prettier, eslint extension 설치하기</b>
 
+---
+
 ## Project Structure
 
 ```
