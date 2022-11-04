@@ -1,8 +1,11 @@
-import { Box } from "@chakra-ui/react";
-import Navbar from "../components/common/Navbar";
+import HeroSection from "../components/pages/home/sections/HeroSection";
 
 function HomePage() {
-  return <Box height="200vh">asdf</Box>;
+  return (
+    <>
+      <HeroSection />
+    </>
+  );
 }
 
 export default HomePage;
