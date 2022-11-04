@@ -1,7 +1,7 @@
 import { Heading, SimpleGrid } from "@chakra-ui/react";
-import { MOCKUP_PROJECT_LIST } from "../../../../constants/mockups/projects";
-import ProjectCard from "../../../common/ProjectCard";
-import HomeSection from "../HomeSection";
+import { MOCKUP_PROJECT_LIST } from "constants/mockups/projects";
+import ProjectCard from "components/common/ProjectCard";
+import HomeSection from "components/pages/home/HomeSection";
 
 function MostFavoriteSection() {
   return (

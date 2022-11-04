@@ -1,8 +1,8 @@
 import { Box, Container, Heading, HStack, IconButton, SimpleGrid } from "@chakra-ui/react";
-import ProjectCard from "../../../common/ProjectCard";
-import { MOCKUP_PROJECT_LIST } from "../../../../constants/mockups/projects";
+import ProjectCard from "components/common/ProjectCard";
+import { MOCKUP_PROJECT_LIST } from "constants/mockups/projects";
 import { RepeatIcon } from "@chakra-ui/icons";
-import HomeSection from "../HomeSection";
+import HomeSection from "components/pages/home/HomeSection";
 
 function RandomSection() {
   return (

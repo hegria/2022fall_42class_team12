@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Box, Button, Container, Flex, Heading } from "@chakra-ui/react";
 import Image from "next/image";
-import BackgroundCircles from "../BackgroundCircles";
+import BackgroundCircles from "components/pages/home/BackgroundCircles";
 import heroImage from "/public/images/hero.png";
 
 function HeroSection() {
