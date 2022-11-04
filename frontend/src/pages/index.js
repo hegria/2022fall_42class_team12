@@ -1,5 +1,8 @@
+import { Box } from "@chakra-ui/react";
+import Navbar from "../components/common/Navbar";
+
 function HomePage() {
-  return <div>Hello World!</div>;
+  return <Box height="200vh">asdf</Box>;
 }
 
 export default HomePage;
