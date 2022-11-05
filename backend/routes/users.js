@@ -23,15 +23,15 @@ router.get('/', async function(req, res){
         if(req.query.keyword){
             const keyword = req.query.keyword;
             let totalCount = await db.User.count({
-            where:{
-                [Op.or]: [
-                    {name:{[Op.substring]: keyword},},
-                    {id:{[Op.substring]: keyword},},
-                    {major:{[Op.substring]: keyword},},
-                    {email:{[Op.substring]: keyword},},
-                    {stacks:{[Op.substring]: keyword},},
-                ]
-            }
+                where:{
+                    [Op.or]: [
+                        {name:{[Op.substring]: keyword},},
+                        {id:{[Op.substring]: keyword},},
+                        {major:{[Op.substring]: keyword},},
+                        {email:{[Op.substring]: keyword},},
+                        {stacks:{[Op.substring]: keyword},},
+                    ]
+                }
             });
             totalCount = parseInt(totalCount);
             
@@ -42,7 +42,7 @@ router.get('/', async function(req, res){
             
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if(totalPages < pageNumber || pageNumber < 1){
-                throw new Error("페이지 숫자가 범위 밖입니다.")
+                throw new Error("페이지 숫자가 범위 밖입니다.");
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -96,7 +96,7 @@ router.get('/', async function(req, res){
 
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if(totalPages < pageNumber || pageNumber < 1){
-                throw new Error("페이지 숫자가 범위 밖입니다.")
+                throw new Error("페이지 숫자가 범위 밖입니다.");
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -184,7 +184,7 @@ router.post('/login', async function(req, res) {
     let body = req.body;
     //1. Input이 충분하지 않았을 경우
     if(!body.id || !body.password){
-        return res.status(400).json({"success":false, "token": "", "reason": "아이디와 패스워드 입력하고 다시 요청하세요"})
+        return res.status(400).json({"success":false, "token": "", "reason": "아이디와 패스워드 입력하고 다시 요청하세요"});
     }
 
     let user = await db.User.findOne({
@@ -275,10 +275,10 @@ router.post('/register', uploadProfile.single('photoUrl'), async function(req, r
         message: body.introduction ? body.introduction : "..."
     };
     
-    db.User.create(userInfo).then( result => {
-        return res.status(201).json({"success":true, "reason": "회원가입되었습니다."})
+    await db.User.create(userInfo).then( result => {
+        return res.status(201).json({"success":true, "reason": "회원가입되었습니다."});
     }).catch(err => {
-        return res.status(500).json({"success": false, "reason": "시스템 오류가 발생했습니다. 다시 요청해주세요"})
+        return res.status(500).json({"success": false, "reason": "시스템 오류가 발생했습니다. 다시 요청해주세요"});
     });
 });
 
@@ -363,7 +363,7 @@ router.patch('/me', uploadProfile.single('photoUrl'), async function(req, res) {
                         fs.unlinkSync("../../frontend/public/images/profiles" + user.dataValues.image);
                     }
 
-                    await db.User.update({image: req.file.filename},{where:{userId: identity.userId}})
+                    await db.User.update({image: req.file.filename},{where:{userId: identity.userId}});
                 }
 
                 //이름을 변경하는 경우
@@ -432,14 +432,42 @@ router.delete('/me', async function(req, res) {
         else{
             try{
                 if(user.dataValues.image !== "default-user-image.png"
-                && fs.existsSync("../../frontend/public/images/profiles" + user.dataValues.image)){
-                    fs.unlinkSync("../../frontend/public/images/profiles" + user.dataValues.image);
+                && fs.existsSync("../../frontend/public/images/profiles/" + user.dataValues.image)){
+                    fs.unlinkSync("../../frontend/public/images/profiles/" + user.dataValues.image);
                 }
-
+                
+                //참여 관계, 즐겨찾기 관계, 프로젝트 관계 모두 반영
+                
+                // 사용자가 참여가 승인된 프로젝트 찾기
+                let projectList = await db.Participate.findAll({
+                    raw: true,
+                    where:{
+                        user: identity.userId,
+                        accept: 1
+                    }
+                });
+                // 프로젝트 승인 처리된 프로젝트들의 current(현재 참여 인원 1씩 감소)
+                for(let i = 0 ; i < projectList.length; i++){
+                    await db.Project.decrement({current: 1},{where:{projectId: projectList[i].project}});
+                }
                 await db.Participate.destroy({where: {user: identity.userId}});
-                await db.Star.destroy({where: {user: identity.userId}});
-                await db.User.destroy({where: {userId: identity.userId}});
 
+                // 사용자가 즐겨찾기한 프로젝트 찾기
+                projectList = await db.Star.findAll({
+                    raw: true,
+                    where:{
+                        user: identity.userId
+                    }
+                });
+                // 프로젝트 승인 처리된 프로젝트들의 stras(현재 참여 인원 1씩 감소)
+                for(let i = 0 ; i < projectList.length; i++){
+                    await db.Project.decrement({stars: 1},{where:{projectId: projectList[i].project}});
+                }
+                await db.Star.destroy({where: {user: identity.userId}});
+                
+                await db.Project.destroy({where:{leader: identity.userId}});
+                await db.User.destroy({where: {userId: identity.userId}});
+                
                 // 탈퇴 완료
                 return res.status(200).json({"success": true, "reason": "회원탈퇴가 완료되었습니다."});
             }catch(err){

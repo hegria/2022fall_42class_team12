@@ -20,15 +20,11 @@ router.post('/', function(req, res) {
     
 });
 
-router.delete('/', function(req, res) {
+router.patch('/:id', function(req, res) {
     
 });
 
-router.patch('/:userId', function(req, res) {
-    
-});
-
-router.delete('/:userId', function(req, res) {
+router.delete('/:id', function(req, res) {
     
 });
 

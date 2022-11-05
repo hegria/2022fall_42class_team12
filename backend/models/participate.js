@@ -12,7 +12,7 @@ module.exports = function(sequelize) {
             field: 'accept',
             type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: 0
+            defaultValue: 0 // 0: waiting, 1: approved, 2: rejected
         }
     }, {
         tableName: 'participate',

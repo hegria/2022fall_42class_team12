@@ -64,6 +64,11 @@ module.exports = function(sequelize) {
             field: 'image',
             type: DataTypes.STRING,
             allowNull: true,
+        },
+        message:{
+            field: 'message',
+            type: DataTypes.STRING,
+            allowNull: true,
         }
     }, {
         tableName: 'project',
