@@ -4,6 +4,8 @@ const path = require('path');
 
 const app = express();
 
+require('dotenv').config();
+
 const sequelize = require('./models').sequelize;
 sequelize.sync({force: true}).then(()=> {
     console.log('database connect');

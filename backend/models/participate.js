@@ -10,9 +10,9 @@ module.exports = function(sequelize) {
         },
         accept:{
             field: 'accept',
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: false
+            defaultValue: 0
         }
     }, {
         tableName: 'participate',

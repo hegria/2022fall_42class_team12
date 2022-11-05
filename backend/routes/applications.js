@@ -1,6 +1,8 @@
 const db = require('../models');
 const {uploadProfile, uploadProject} = require('../utils/multer');
 const mysql = require('mysql');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const express = require('express');
 const http = require('http');
