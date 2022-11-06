@@ -10,16 +10,16 @@ module.exports = function(sequelize) {
         },
         accept:{
             field: 'accept',
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: false
+            defaultValue: 0 // 0: waiting, 1: approved, 2: rejected
         }
     }, {
         tableName: 'participate',
         underscored: false,
         freezeTableName: true,
         timestamps: true,
-        createdAt: false,
+        createdAt: true,
         updatedAt: false,
         charset: "utf8mb4",
         collate: "utf8mb4_general_ci"
