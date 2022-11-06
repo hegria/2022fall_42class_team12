@@ -252,6 +252,7 @@ router.get('/', async function(req, res) {
 
             // user 확인이 된 경우에는 isFavorite(유저가 즐쳐찾기로 선택했는지 안했는지) 반환
             if(userFilter > 0){
+                temp.isFavorite = false;
                 let isStar = await db.Star.findOne({
                     where:{
                         project: projectList[i].projectId,
@@ -262,7 +263,7 @@ router.get('/', async function(req, res) {
                     temp.isFavorite = true;
                 }
             }
-            
+
             content.push(temp);
         }
 
