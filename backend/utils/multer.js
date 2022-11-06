@@ -3,24 +3,24 @@ const path = require("path");
 const fs = require('fs');
 
 try{
-    fs.readdirSync( path.join(__dirname, "../../img"));
+    fs.readdirSync( path.join(__dirname, "../../frontend/public/images"));
 }catch(err){
     console.error("img 폴더가 없어서 폴더를 생성합니다");
-    fs.mkdirSync(path.join(__dirname, "../../img"));
+    fs.mkdirSync(path.join(__dirname, "../../frontend/public/images"));
 }
 
 try{
-    fs.readdirSync( path.join(__dirname, "../../img/profiles"));
+    fs.readdirSync( path.join(__dirname, "../../frontend/public/images/profiles"));
 }catch(err){
     console.error("img/profiles가 없어서 폴더를 생성합니다");
-    fs.mkdirSync(path.join(__dirname, "../../img/profiles"));
+    fs.mkdirSync(path.join(__dirname, "../../frontend/public/images/profiles"));
 }
 
 try{
-    fs.readdirSync( path.join(__dirname, "../../img/projects"));
+    fs.readdirSync( path.join(__dirname, "../../frontend/public/images/projects"));
 }catch(err){
     console.error("img/projects가 없어서 폴더를 생성합니다");
-    fs.mkdirSync(path.join(__dirname, "../../img/projects"));
+    fs.mkdirSync(path.join(__dirname, "../../frontend/public/images/projects"));
 }
 
 const fileFilter = (req, file, cb) => {
@@ -36,7 +36,7 @@ const fileFilter = (req, file, cb) => {
 const uploadProfile = multer({
     storage: multer.diskStorage({
         destination: (req, file, done) => {
-            done(null, path.join(__dirname, "../../img/profiles"));
+            done(null, path.join(__dirname, "../../frontend/public/images/profiles"));
         },
         filename: (req, file, done) => {
             const ext = path.extname(file.originalname);
@@ -51,7 +51,7 @@ const uploadProfile = multer({
 const uploadProject = multer({
     storage: multer.diskStorage({
         destination: (req, file, done) => {
-            done(null, path.join(__dirname, "../../img/projects"));
+            done(null, path.join(__dirname, "../../frontend/public/images/projects"));
         },
         filename: (req, file, done) => {
             const ext = path.extname(file.originalname);
