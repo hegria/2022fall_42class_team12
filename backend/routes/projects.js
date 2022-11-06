@@ -37,7 +37,7 @@ router.get('/', async function(req, res) {
         }
     }
 
-    let orderStandard = 'lastEdit';
+    let orderStandard = 'createdAt';
     let order = 'desc';
     if(req.query.sortBy){
         if(req.query.sortBy === "favorite.desc"){
@@ -70,7 +70,7 @@ router.get('/', async function(req, res) {
             
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if(totalPages < pageNumber || pageNumber < 1){
-                throw new Error("페이지 숫자가 범위 밖입니다.");
+                return res.status(404);
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -101,7 +101,7 @@ router.get('/', async function(req, res) {
             
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if(totalPages < pageNumber || pageNumber < 1){
-                throw new Error("페이지 숫자가 범위 밖입니다.");
+                return res.status(404);
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -136,7 +136,7 @@ router.get('/', async function(req, res) {
             
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if(totalPages < pageNumber || pageNumber < 1){
-                throw new Error("페이지 숫자가 범위 밖입니다.");
+                return res.status(404);
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -175,7 +175,7 @@ router.get('/', async function(req, res) {
             
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if(totalPages < pageNumber || pageNumber < 1){
-                throw new Error("페이지 숫자가 범위 밖입니다.");
+                return res.status(404);
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -206,7 +206,7 @@ router.get('/', async function(req, res) {
             
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if(totalPages < pageNumber || pageNumber < 1){
-                throw new Error("페이지 숫자가 범위 밖입니다.");
+                return res.status(404);
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -239,7 +239,7 @@ router.get('/', async function(req, res) {
             temp.content = projectList[i].message;
             temp.skills = projectList[i].stacks.split('#');
             temp.photoUrl = projectList[i].image;
-            temp.lastEdited = projectList[i].lastEdit;
+            temp.lastEdited = projectList[i].updatedAt;
             temp.capacity = projectList[i].required;
             temp.applicationCount = await db.Participate.count({
                 where:{
@@ -260,13 +260,7 @@ router.get('/', async function(req, res) {
         });
 
     }catch(err){
-        return res.status(400).json({
-            "pageNumber": pageNumber,
-            "pageSize": pageSize,
-            "totalCount": 0,
-            "totalPages": 0,
-            "content": []
-        });
+        return res.status(400);
     }
 });
 
@@ -304,7 +298,6 @@ router.post('/', uploadProject.single('photoUrl'), async function(req, res) {
                 stars: 0,
                 startTime: body.startDate,
                 endTime: body.endDate,
-                lastEdit: sequelize.fn('NOW'),
                 image: req.file ? req.file.filename : "default-project-thumbnail.png",
                 message: body.content ? body.content : "..."
             };
@@ -322,7 +315,7 @@ router.post('/', uploadProject.single('photoUrl'), async function(req, res) {
     }
 });
 
-// 프로젝트 랜덤뽑기
+// 랜덤 프로젝트
 router.get('/random', async function(req, res) {
     let count = req.query.count;
     try{
@@ -362,7 +355,7 @@ router.get('/random', async function(req, res) {
             temp.content = projectList[i].message;
             temp.skills = projectList[i].stacks.split('#');
             temp.photoUrl = projectList[i].image;
-            temp.lastEdited = projectList[i].lastEdit;
+            temp.lastEdited = projectList[i].updatedAt;
             temp.capacity = projectList[i].required;
             temp.applicationCount = await db.Participate.count({
                 where:{
@@ -379,10 +372,10 @@ router.get('/random', async function(req, res) {
     }
 });
 
-// 프로젝트 상세 정보 조회
+// 프로젝트 상세 정보
 router.get('/:id', async function(req, res) {
     let userFlag = false;
-    let userId;
+    let userId = '';
     try{
         const token = req.cookies.swe42_team12;
         const key = process.env.SECRET_KEY;
@@ -429,7 +422,7 @@ router.get('/:id', async function(req, res) {
         let skills = project.dataValues.stacks.split('#');
         temp.skills = skills;
         temp.photoUrl = project.dataValues.image;
-        temp.lastEdited = project.dataValues.lastEdit;
+        temp.lastEdited = project.dataValues.updatedAt;
         temp.capacity = project.dataValues.required;
         temp.approvalCount = project.dataValues.current;
         temp.favoriteCount = project.dataValues.stars;
@@ -483,7 +476,7 @@ router.get('/:id', async function(req, res) {
     }
 });
 
-// 프로젝트 삭제하기
+// 프로젝트 삭제
 router.delete('/:id', async function(req, res) {
     try{
         const token = req.cookies.swe42_team12;
@@ -544,7 +537,7 @@ router.delete('/:id', async function(req, res) {
     }
 });
 
-// 프로젝트 수정하기
+// 프로젝트 내용 수정
 router.patch('/:id', uploadProject.single('photoUrl'), async function(req, res) {
     try{
         const token = req.cookies.swe42_team12;
@@ -632,14 +625,11 @@ router.patch('/:id', uploadProject.single('photoUrl'), async function(req, res) 
                     await db.Project.update({message: req.body.content},{where:{projectId: project.dataValues.projectId}});
                 }
 
-                //프로젝트 변경 시기 업데이트
-                await db.Project.update({lastEdit: sequelize.fn('NOW')},{where:{projectId: project.dataValues.projectId}});
-
                 // 개인 페이지 수정 완료
                 return res.status(200).json({"success": true, "reason": "정보를 수정했습니다."});
             }catch(err){
                 // 시스템 오류
-                return res.status(500).json({"success": false, "reason": "정보 수정에 실패했습니다."});
+                return res.status(500);
             }
             
         }
@@ -688,7 +678,7 @@ router.post('/:id/favorite', async function(req, res) {
         }).then( result => {
             return res.status(201).json({"success":true, "reason": "즐겨찾기에 등록되었습니다."});
         }).catch(err => {
-            return res.status(500).json({"success": false, "reason": "시스템 오류가 발생했습니다. 다시 요청해주세요"});
+            return res.status(500);
         });
 
     }catch(err){
@@ -697,7 +687,7 @@ router.post('/:id/favorite', async function(req, res) {
     }
 });
 
-// 프로젝트 찜하기 취소
+// 프로젝트 찜해제
 router.delete('/:id/favorite', async function(req, res) {
     try{
         const token = req.cookies.swe42_team12;
@@ -735,7 +725,7 @@ router.delete('/:id/favorite', async function(req, res) {
         }).then( result => {
             return res.status(200).json({"success":true, "reason": "즐겨찾기에서 삭제했습니다."});
         }).catch(err => {
-            return res.status(500).json({"success": false, "reason": "시스템 오류가 발생했습니다. 다시 요청해주세요"});
+            return res.status(500);
         });
 
     }catch(err){

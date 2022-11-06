@@ -55,11 +55,6 @@ module.exports = function(sequelize) {
             type: DataTypes.DATE,
             allowNull: false,
         },
-        lastEdit:{
-            field: 'lastEdit',
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
         image:{
             field: 'image',
             type: DataTypes.STRING,
@@ -75,8 +70,8 @@ module.exports = function(sequelize) {
         underscored: false,
         freezeTableName: true,
         timestamps: true,
-        createdAt: false,
-        updatedAt: false,
+        createdAt: true,
+        updatedAt: true,
         charset: "utf8mb4",
         collate: "utf8mb4_general_ci"
     });

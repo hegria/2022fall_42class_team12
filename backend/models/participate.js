@@ -19,7 +19,7 @@ module.exports = function(sequelize) {
         underscored: false,
         freezeTableName: true,
         timestamps: true,
-        createdAt: false,
+        createdAt: true,
         updatedAt: false,
         charset: "utf8mb4",
         collate: "utf8mb4_general_ci"

@@ -13,10 +13,10 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 
-//유저 리스트 불러오기
+//유저 리스트
 router.get('/', async function(req, res){
-    const pageNumber = parseInt(req.query.pageNumber)
-    const pageSize = parseInt(req.query.pageSize)
+    const pageNumber = parseInt(req.query.pageNumber);
+    const pageSize = parseInt(req.query.pageSize);
 
     try{
         // 검색 keyword가 있는 경우
@@ -42,7 +42,7 @@ router.get('/', async function(req, res){
             
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if(totalPages < pageNumber || pageNumber < 1){
-                throw new Error("페이지 숫자가 범위 밖입니다.");
+                return res.status(404);
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -96,7 +96,7 @@ router.get('/', async function(req, res){
 
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if(totalPages < pageNumber || pageNumber < 1){
-                throw new Error("페이지 숫자가 범위 밖입니다.");
+                return res.status(404);
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -130,17 +130,11 @@ router.get('/', async function(req, res){
             });
         }
     }catch(err){
-        return res.status(400).json({
-            "pageNumber": pageNumber,
-            "pageSize": pageSize,
-            "totalCount": 0,
-            "totalPages": 0,
-            "content": []
-        });
+        return res.status(400);
     }
 });
 
-//유저 상세 정보 불러오기
+//유저 상세 정보
 router.get('/:id', async function (req, res) {
     const userId = req.params.id;
 
@@ -166,16 +160,7 @@ router.get('/:id', async function (req, res) {
     }
     // 해당 유저 식별 번호에 해당하는 계정이 없을 경우
     else{
-        return res.status(404).json({
-            "userId": 0,
-            "name": "",
-            "department": "",
-            "introduction": "",
-            "skills": "",
-            "email": "",
-            "personalLink": null,
-            "photoUrl": ""
-        });
+        return res.status(404);
     }
 });
 
@@ -184,7 +169,7 @@ router.post('/login', async function(req, res) {
     let body = req.body;
     //1. Input이 충분하지 않았을 경우
     if(!body.id || !body.password){
-        return res.status(400).json({"success":false, "token": "", "reason": "아이디와 패스워드 입력하고 다시 요청하세요"});
+        return res.status(400);
     }
 
     let user = await db.User.findOne({
@@ -195,14 +180,14 @@ router.post('/login', async function(req, res) {
     });
     //2. 해당 아이디가 등록되어 있지 않은 경우
     if (!user){
-        return res.status(400).json({"success": false, "token": "", "reason": "등록되지 않은 아이디 입니다."});
+        return res.status(200).json({"success": false, "token": "", "reason": "등록되지 않은 아이디 입니다."});
     }
     //3. 패스워드 일치 여부 확인
     else{
         const hashedPassword = crypto.createHash("sha512").update(body.password).digest("base64");
         // 3. 패스워드가 일치 하지 않음 
         if(user.dataValues.password !== hashedPassword){
-            return res.status(400).json({"success": false, "token": "", "reason": "비밀번호가 틀렸습니다."});
+            return res.status(200).json({"success": false, "token": "", "reason": "비밀번호가 틀렸습니다."});
         }
         // 4. 로그인 성공
         else{
@@ -232,11 +217,11 @@ router.post('/register', uploadProfile.single('photoUrl'), async function(req, r
     // 보낸 정보들이 필수 조건을 만족하는지 확인
     // 1. 보낸 인풋 중 필수 인풋이 없는 경우
     if( !body.id || !body.password || !body.email || !body.department || !body.name){
-        return res.status(400).json({"success": false, "reason": "필수 입력 사항 불충분(필수 입력 사항: 아이디, 패스워드, 이름, 이메일, 전공)"});
+        return res.status(200).json({"success": false, "reason": "필수 입력 사항 불충분(필수 입력 사항: 아이디, 패스워드, 이름, 이메일, 전공)"});
     }
     // 2. 우리 학교 이메일이 아닌 경우
     if( !body.email.endsWith('skku.edu') && !body.email.endsWith('g.skku.edu') ){
-        return res.status(400).json({"success": false, "reason": "성균관대학교 이메일만 사용 가능합니다!!"});
+        return res.status(200).json({"success": false, "reason": "성균관대학교 이메일만 사용 가능합니다!!"});
     }
 
     //중복된 아이디와 중복된 이메일이 있는지 검사
@@ -247,7 +232,7 @@ router.post('/register', uploadProfile.single('photoUrl'), async function(req, r
         }
     });
     if (exUser){
-        return res.status(400).json({"success": false, "reason": "중복된 아이디가 사용 중입니다."});
+        return res.status(200).json({"success": false, "reason": "중복된 아이디가 사용 중입니다."});
     }
     //2. 이메일이 중복된 경우
     exUser = await db.User.findOne({
@@ -256,7 +241,7 @@ router.post('/register', uploadProfile.single('photoUrl'), async function(req, r
         }
     });
     if (exUser){
-        return res.status(400).json({"success": false, "reason": "이미 사용 중인 이메일 입니다."});
+        return res.status(200).json({"success": false, "reason": "이미 사용 중인 이메일 입니다."});
     }
 
     // 중복된 아이디 이메일도 없고 인풋의 조건이 충족되면 생성
@@ -282,7 +267,7 @@ router.post('/register', uploadProfile.single('photoUrl'), async function(req, r
     });
 });
 
-// 마이페이지 내 정보 조회
+// 내 정보 조회
 router.get('/me', async function(req, res) {
     try{
         const token = req.cookies.swe42_team12;
@@ -297,16 +282,7 @@ router.get('/me', async function(req, res) {
 
         // 해당 식별번호의 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404).json({
-                "userId": 0,
-                "name": "",
-                "department": "",
-                "introduction": "",
-                "skills": "",
-                "email": "",
-                "personalLink": null,
-                "photoUrl": ""
-            });
+            return res.status(404);
         }
         
         let temp = new Object();
@@ -323,20 +299,11 @@ router.get('/me', async function(req, res) {
 
     }catch(err){
         // Token이 유효하지 않은 경우
-        return res.status(401).json({
-            "userId": 0,
-            "name": "",
-            "department": "",
-            "introduction": "",
-            "skills": "",
-            "email": "",
-            "personalLink": null,
-            "photoUrl": ""
-        });
+        return res.status(401);
     }
 });
 
-//회원 정보 수정
+//내 정보 수정
 router.patch('/me', uploadProfile.single('photoUrl'), async function(req, res) {
     try{
         const token = req.cookies.swe42_team12;
@@ -351,7 +318,7 @@ router.patch('/me', uploadProfile.single('photoUrl'), async function(req, res) {
 
         // 해당 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(400).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
+            return res.status(400);
         }
         // 계정 수정 가능한 경우
         else{
@@ -401,13 +368,13 @@ router.patch('/me', uploadProfile.single('photoUrl'), async function(req, res) {
                 return res.status(200).json({"success": true, "reason": "정보를 수정했습니다."});
             }catch(err){
                 // 시스템 오류
-                return res.status(500).json({"success": false, "reason": "정보 수정에 실패했습니다."});
+                return res.status(500);
             }
             
         }
     }catch(err){
         // 토큰이 유효하지 않은 경우
-        return res.status(401).json({"success": false, "reason": "토큰이 유효하지 않습니다."});
+        return res.status(401);
     }
 });
 
@@ -426,7 +393,7 @@ router.delete('/me', async function(req, res) {
 
         // 해당 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(400).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
+            return res.status(400);
         }
         // 계정 삭제 가능한 경우
         else{
@@ -472,13 +439,13 @@ router.delete('/me', async function(req, res) {
                 return res.status(200).json({"success": true, "reason": "회원탈퇴가 완료되었습니다."});
             }catch(err){
                 // 시스템 오류
-                return res.status(500).json({"success": false, "reason": "계정 삭제에 실패했습니다."});
+                return res.status(500);
             }
             
         }
     }catch(err){
         // 토큰이 유효하지 않은 경우
-        return res.status(401).json({"success": false, "reason": "토큰이 유효하지 않습니다."});
+        return res.status(401);
     }
 });
 
