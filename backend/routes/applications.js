@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/', async function(req, res) {
     try{
         const token = req.cookies.swe42_team12;
-        const key = process.env.SECRET_KEY;
+        const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
         const user = await db.User.findOne({
@@ -109,7 +109,7 @@ router.get('/', async function(req, res) {
 router.post('/', async function(req, res) {
     try{
         const token = req.cookies.swe42_team12;
-        const key = process.env.SECRET_KEY;
+        const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
         const user = await db.User.findOne({
@@ -161,7 +161,7 @@ router.patch('/:id', async function(req, res) {
         }
 
         const token = req.cookies.swe42_team12;
-        const key = process.env.SECRET_KEY;
+        const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
         const user = await db.User.findOne({
@@ -236,9 +236,10 @@ router.patch('/:id', async function(req, res) {
 
 // 참여 신청 취소(유저)
 router.delete('/:id', async function(req, res) {
-    try{
+    try {
+        
         const token = req.cookies.swe42_team12;
-        const key = process.env.SECRET_KEY;
+        const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
         const user = await db.User.findOne({

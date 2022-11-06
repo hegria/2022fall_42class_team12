@@ -421,7 +421,7 @@ router.get('/:id', async function(req, res) {
     let userId = '';
     try{
         const token = req.cookies.swe42_team12;
-        const key = process.env.SECRET_KEY;
+        const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
         const user = await db.User.findOne({
@@ -523,7 +523,7 @@ router.get('/:id', async function(req, res) {
 router.delete('/:id', async function(req, res) {
     try{
         const token = req.cookies.swe42_team12;
-        const key = process.env.SECRET_KEY;
+        const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
         const user = await db.User.findOne({
@@ -539,7 +539,7 @@ router.delete('/:id', async function(req, res) {
         // 토큰이 유효한 경우
         else{
             let project;
-            try{
+            try {
                 project = await db.Project.findOne({
                     where:{
                         projectId: req.params.id,
@@ -584,7 +584,7 @@ router.delete('/:id', async function(req, res) {
 router.patch('/:id', uploadProject.single('photoUrl'), async function(req, res) {
     try{
         const token = req.cookies.swe42_team12;
-        const key = process.env.SECRET_KEY;
+        const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
         const user = await db.User.findOne({
@@ -600,7 +600,8 @@ router.patch('/:id', uploadProject.single('photoUrl'), async function(req, res) 
         // 요청을 보낸 사용자의 토큰은 정상
         else{
             let project;
-            try{
+            try {
+                
                 project = await db.Project.findOne({
                     where:{
                         projectId: req.params.id,
@@ -686,7 +687,7 @@ router.patch('/:id', uploadProject.single('photoUrl'), async function(req, res) 
 router.post('/:id/favorite', async function(req, res) {
     try{
         const token = req.cookies.swe42_team12;
-        const key = process.env.SECRET_KEY;
+        const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
         const user = await db.User.findOne({
@@ -734,7 +735,7 @@ router.post('/:id/favorite', async function(req, res) {
 router.delete('/:id/favorite', async function(req, res) {
     try{
         const token = req.cookies.swe42_team12;
-        const key = process.env.SECRET_KEY;
+        const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
         const user = await db.User.findOne({
