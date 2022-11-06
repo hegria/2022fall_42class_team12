@@ -12,7 +12,7 @@ const fs = require('fs');
 // 프로젝트 리스트
 router.get('/', async function(req, res) {
     if(!req.query.pageSize || !req.query.pageNumber){
-        return res.status(400).json({"reason": "페이지 사이즈와 페이지 수는 필수 입력사항 입니다."});
+        return res.status(400).json({"success": false, "reason": "페이지 사이즈와 페이지 수는 필수 입력사항 입니다."});
     }
     const pageSize = req.query.pageSize;
     const pageNumber = req.query.pageNumber;
@@ -299,7 +299,7 @@ router.get('/', async function(req, res) {
         });
 
     }catch(err){
-        return res.status(400).json({"reason": "요청 처리 중 오류가 발생했습니다."});
+        return res.status(400).json({"success": false, "reason": "요청 처리 중 오류가 발생했습니다."});
     }
 });
 
