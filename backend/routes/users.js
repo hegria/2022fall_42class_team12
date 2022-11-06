@@ -92,8 +92,8 @@ router.get('/', async function(req, res){
             }
 
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
-            if(totalPages < pageNumber || pageNumber < 1){
-                return res.status(404);
+            if (totalPages < pageNumber || pageNumber < 1) {
+                return res.status(404).send('not found');
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -170,7 +170,7 @@ router.post('/login', async function(req, res) {
     }
 
     let user = await db.User.findOne({
-        attributes: [userId, id, password, name, email],
+        attributes: ['userId', 'id', 'password', 'name', 'email'],
         where:{
             id: body.id
         }
@@ -243,7 +243,10 @@ router.post('/register', uploadProfile.single('photoUrl'), async function(req, r
 
     // 중복된 아이디 이메일도 없고 인풋의 조건이 충족되면 생성
     const hashedPassword = crypto.createHash("sha512").update(body.password).digest("base64");
-    let stacks = body.skills.join('#');
+    let stacks = ""
+    if (body.skills) {
+        stacks = body.skills.join('#');
+    }
 
     const userInfo = {
         id: body.id,

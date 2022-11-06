@@ -14,8 +14,8 @@ router.get('/', async function(req, res) {
     if(!req.query.pageSize || !req.query.pageNumber){
         return res.status(400);
     }
-    const pageSize = req.query.pageSize;
-    const pageNumber = req.query.pageNumber;
+    const pageSize = parseInt(req.query.pageSize);
+    const pageNumber = parseInt(req.query.pageNumber);
 
     // userFilter: 0 유저 인증 없는 경우
     let userFilter = 0;
@@ -189,7 +189,6 @@ router.get('/', async function(req, res) {
         }
         // 검색어가 없을 경우 프로젝트 리스트 가지고 오기
         else{
-            const keyword = req.query.keyword;
             totalCount = await db.Project.count({});
             totalCount = parseInt(totalCount);
             
@@ -277,7 +276,7 @@ router.get('/', async function(req, res) {
 router.post('/', uploadProject.single('photoUrl'), async function(req, res) {
     try{
         const token = req.cookies.swe42_team12;
-        const key = process.env.SECRET_KEY;
+        const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
         const user = await db.User.findOne({
@@ -293,15 +292,20 @@ router.post('/', uploadProject.single('photoUrl'), async function(req, res) {
         // 새로운 프로젝트 생성
         else{
             const body = req.body;
-            let skills = body.skills.join('#');
-            let contact = body.contact.method + '#' + body.contact.value;
+            let stacks = "";
+            if (body.skills) {
+                stacks = body.skills.join('#');
+            }
+            let contact = ""
+            if (body.contact)
+                contact = body.contact.method + '#' + body.contact.value;
 
             const projectInfo = {
                 name: body.title,
                 topic: body.subject,
                 leader: identity.userId,
                 contact: contact,
-                stacks: skills,
+                stacks: stacks,
                 required: body.capacity,
                 current: 0,
                 stars: 0,
