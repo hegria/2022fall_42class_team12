@@ -101,7 +101,7 @@ router.get('/', async function(req, res) {
 
     }catch(err){
         // Token이 유효하지 않은 경우
-        return res.status(401).json({"success": false, "reason": "유호하지 않은 접근입니다."});
+        return res.status(401).json({"success": false, "reason": "유효하지 않은 접근입니다."});
     }
 });
 
@@ -148,7 +148,7 @@ router.post('/', async function(req, res) {
 
     }catch(err){
         // Token이 유효하지 않은 경우
-        return res.status(401).json({"success": false, "reason": "유호하지 않은 접근입니다."});
+        return res.status(401).json({"success": false, "reason": "유효하지 않은 접근입니다."});
     }
 });
 
@@ -230,7 +230,7 @@ router.patch('/:id', async function(req, res) {
 
     }catch(err){
         // Token이 유효하지 않은 경우
-        return res.status(401).json({"success": false, "reason": "유호하지 않은 접근입니다."});
+        return res.status(401).json({"success": false, "reason": "유효하지 않은 접근입니다."});
     }
 });
 
@@ -280,7 +280,7 @@ router.delete('/:id', async function(req, res) {
 
     }catch(err){
         // Token이 유효하지 않은 경우
-        return res.status(401).json({"success": false, "reason": "유호하지 않은 접근입니다."});
+        return res.status(401).json({"success": false, "reason": "유효하지 않은 접근입니다."});
     }
 });
 

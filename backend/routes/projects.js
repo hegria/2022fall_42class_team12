@@ -301,6 +301,7 @@ router.post('/', uploadProject.single('photoUrl'), async function(req, res) {
     try{
         const token = req.cookies.swe42_team12;
         const key = process.env.JWT_SECRET;
+        const body = req.body;
 
         const identity = jwt.verify(token, key);
         const user = await db.User.findOne({
@@ -316,14 +317,12 @@ router.post('/', uploadProject.single('photoUrl'), async function(req, res) {
         }
         // 새로운 프로젝트 생성
         else{
-            const body = req.body;
             let stacks = "";
             if (body.skills) {
                 stacks = body.skills.join('#');
             }
             let contact = ""
-            if (body.contact)
-                contact = body.contact.method + '#' + body.contact.value;
+            if (body.contact) contact = body.contact.method + '#' + body.contact.value;
 
             const projectInfo = {
                 name: body.title,
@@ -347,9 +346,10 @@ router.post('/', uploadProject.single('photoUrl'), async function(req, res) {
             });
             
         }
-    }catch(err){
+    } catch (err) {
+        console.log(err.message);
         // 토큰이 유효하지 않은 경우
-        return res.status(401).json({"success": false, "reason": "유호하지 않은 접근입니다."});
+        return res.status(401).json({"success": false, "reason": "유효하지 않은 접근입니다."});
     }
 });
 
@@ -576,7 +576,7 @@ router.delete('/:id', async function(req, res) {
         }
     }catch(err){
         // 토큰이 유효하지 않은 경우
-        return res.status(401).json({"success": false, "reason": "유호하지 않은 접근입니다."});
+        return res.status(401).json({"success": false, "reason": "유효하지 않은 접근입니다."});
     }
 });
 
@@ -727,7 +727,7 @@ router.post('/:id/favorite', async function(req, res) {
 
     }catch(err){
         // Token이 유효하지 않은 경우
-        return res.status(401).json({"success": false, "reason": "유호하지 않은 접근입니다."});
+        return res.status(401).json({"success": false, "reason": "유효하지 않은 접근입니다."});
     }
 });
 
@@ -774,7 +774,7 @@ router.delete('/:id/favorite', async function(req, res) {
 
     }catch(err){
         // Token이 유효하지 않은 경우
-        return res.status(401).json({"success": false, "reason": "유호하지 않은 접근입니다."});
+        return res.status(401).json({"success": false, "reason": "유효하지 않은 접근입니다."});
     }
 });
 
