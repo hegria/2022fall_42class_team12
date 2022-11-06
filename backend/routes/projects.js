@@ -13,7 +13,6 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 const project = require('../models/project');
-const { now } = require('sequelize/types/utils');
 const { sequelize } = require('../models');
 
 // 프로젝트 리스트
