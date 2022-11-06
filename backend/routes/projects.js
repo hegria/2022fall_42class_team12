@@ -24,16 +24,17 @@ router.get('/', async function(req, res) {
     const pageSize = req.query.pageSize;
     const pageNumber = req.query.pageNumber;
 
+    // userFilter: 0 유저 인증 없는 경우
     let userFilter = 0;
     if(req.query.userId){
         if(req.query.isAuthor){
-            userFilter = 1;
+            userFilter = 1; // 자신이 작성한 것
         }
         else if(req.query.isFavorite){
-            userFilter = 2;
+            userFilter = 2; // 자신이 즐겨찾기 한 것
         }
         else if(req.query.isApplied){
-            userFilter = 3;
+            userFilter = 3; // 자신이 신청한 것
         }
     }
 
@@ -248,6 +249,20 @@ router.get('/', async function(req, res) {
             });
             temp.favoriteCount = projectList[i].stars;
             temp.approvalCount = projectList[i].current;
+
+            // user 확인이 된 경우에는 isFavorite(유저가 즐쳐찾기로 선택했는지 안했는지) 반환
+            if(userFilter > 0){
+                let isStar = await db.Star.findOne({
+                    where:{
+                        project: projectList[i].projectId,
+                        user: req.query.userId
+                    }
+                });
+                if(isStar){
+                    temp.isFavorite = true;
+                }
+            }
+            
             content.push(temp);
         }
 
