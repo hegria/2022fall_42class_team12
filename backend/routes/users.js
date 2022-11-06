@@ -6,12 +6,9 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const express = require('express');
-const http = require('http');
-const app = express();
 
 const router = express.Router();
 const fs = require('fs');
-const path = require('path');
 
 //유저 리스트
 router.get('/', async function(req, res){
