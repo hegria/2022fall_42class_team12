@@ -21,7 +21,7 @@ router.get('/', async function(req, res) {
 
         // 해당 식별번호의 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(400);
+            return res.status(400).json({"success": false, "reason": "사용자 인증에 실패했습니다."});
         }
         
         let isLeader = await db.Project.findOne({
@@ -48,7 +48,13 @@ router.get('/', async function(req, res) {
 
         // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
         if(totalPages < pageNumber || pageNumber < 1){
-            return res.status(404);
+            return res.status(404).json({
+                "pageNumber": pageNumber,
+                "pageSize": pageSize,
+                "totalCount": totalCount,
+                "totalPages": totalPages,
+                "content": []
+            });
         }
 
         let offset = (pageNumber - 1) * pageSize;
@@ -95,7 +101,7 @@ router.get('/', async function(req, res) {
 
     }catch(err){
         // Token이 유효하지 않은 경우
-        return res.status(401);
+        return res.status(401).json({"success": false, "reason" : "토큰이 유효하지 않습니다."});
     }
 });
 
@@ -114,7 +120,7 @@ router.post('/', async function(req, res) {
 
         // 해당 식별번호의 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(400);
+            return res.status(400).json({"success": false, "reason": "사용자 인증에 실패했습니다."});
         }
         
         let isJoin = await db.Participate.findOne({
@@ -136,12 +142,12 @@ router.post('/', async function(req, res) {
         }).then( result => {
             return res.status(201).json({"success":true, "reason": "프로젝트 신청서를 보냈습니다."});
         }).catch(err => {
-            return res.status(500);
+            return res.status(500).json({"success":false, "reason": "시스템 오류가 발생했습니다. 다시 요청해주세요."});
         });
 
     }catch(err){
         // Token이 유효하지 않은 경우
-        return res.status(401);
+        return res.status(401).json({"success":false, "reason": "토큰이 유효하지 않습니다."});
     }
 });
 
@@ -150,7 +156,7 @@ router.patch('/:id', async function(req, res) {
     try{
         // status가 주어지지 않으면 잘못된 요청
         if(!req.body.status){
-            return res.status(400);
+            return res.status(400).json({"success":false, "reason": "status는 필수 입력사항 입니다."});
         }
 
         const token = req.cookies.swe42_team12;
@@ -165,7 +171,7 @@ router.patch('/:id', async function(req, res) {
 
         // 해당 식별번호의 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(400);
+            return res.status(400).json({"success":false, "reason": "사용자 인증에 실패했습니다."});
         }
         
         let isLeader = await db.Project.findOne({
@@ -213,16 +219,16 @@ router.patch('/:id', async function(req, res) {
             }
             // 처리할 수 없는 이상한 인풋이 들어옴
             else{
-                return res.status(400);
+                return res.status(400).json({"success":false, "reason": "예상하지 못한 쿼리입니다."});
             }
 
         }catch(err){
-            return res.status(500); // 시스템 에러
+            return res.status(500).json({"success":false, "reason": "시스템 오류가 발생했습니다. 다시 요청해주세요."}); // 시스템 에러
         }
 
     }catch(err){
         // Token이 유효하지 않은 경우
-        return res.status(401);
+        return res.status(401).json({"success":false, "reason": "토큰이 유효하지 않습니다."});;
     }
 });
 
@@ -241,7 +247,7 @@ router.delete('/:id', async function(req, res) {
 
         // 해당 식별번호의 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(400);
+            return res.status(400).json({"success":false, "reason": "사용자 인증에 실패했습니다."});
         }
         
         let isJoin = await db.Participate.findOne({
@@ -266,12 +272,12 @@ router.delete('/:id', async function(req, res) {
         }).then( result => {
             return res.status(200).json({"success":true, "reason": "참여 신청을 취소했습니다."});
         }).catch(err => {
-            return res.status(500);
+            return res.status(500).json({"success":true, "reason": "시스템 오류가 발생했습니다. 다시 요청해주세요."});
         });
 
     }catch(err){
         // Token이 유효하지 않은 경우
-        return res.status(401);
+        return res.status(401).json({"success":true, "reason": "토큰이 유효하지 않습니다."});
     }
 });
 

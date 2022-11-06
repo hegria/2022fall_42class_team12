@@ -39,7 +39,13 @@ router.get('/', async function(req, res){
             
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if(totalPages < pageNumber || pageNumber < 1){
-                return res.status(404);
+                return res.status(404).json({
+                    "pageNumber": pageNumber,
+                    "pageSize": pageSize,
+                    "totalCount": totalCount,
+                    "totalPages": totalPages,
+                    "content": []
+                });
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -93,7 +99,13 @@ router.get('/', async function(req, res){
 
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if(totalPages < pageNumber || pageNumber < 1){
-                return res.status(404);
+                return res.status(404).json({
+                    "pageNumber": pageNumber,
+                    "pageSize": pageSize,
+                    "totalCount": totalCount,
+                    "totalPages": totalPages,
+                    "content": []
+                });
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -127,7 +139,7 @@ router.get('/', async function(req, res){
             });
         }
     }catch(err){
-        return res.status(400);
+        return res.status(400).json({"success": false, "reason": "처리 중 오류가 발생했습니다."});
     }
 });
 
@@ -157,7 +169,7 @@ router.get('/:id', async function (req, res) {
     }
     // 해당 유저 식별 번호에 해당하는 계정이 없을 경우
     else{
-        return res.status(404);
+        return res.status(404).json({"success": false, "reason": "해당 계정이 없습니다."});
     }
 });
 
@@ -166,7 +178,7 @@ router.post('/login', async function(req, res) {
     let body = req.body;
     //1. Input이 충분하지 않았을 경우
     if(!body.id || !body.password){
-        return res.status(400);
+        return res.status(400).json({"success": false, "reason": "아이디와 비밀번호를 모두 입력해주세요."});
     }
 
     let user = await db.User.findOne({
@@ -279,7 +291,7 @@ router.get('/me', async function(req, res) {
 
         // 해당 식별번호의 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404);
+            return res.status(404).json({"success": false, "reason": "해당 계정을 찾지 못했습니다."});
         }
         
         let temp = new Object();
@@ -296,7 +308,7 @@ router.get('/me', async function(req, res) {
 
     }catch(err){
         // Token이 유효하지 않은 경우
-        return res.status(401);
+        return res.status(401).json({"success": false, "reason": "토큰이 유효하지 않습니다."});
     }
 });
 
@@ -315,7 +327,7 @@ router.patch('/me', uploadProfile.single('photoUrl'), async function(req, res) {
 
         // 해당 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(400);
+            return res.status(400).json({"success": false, "reason": "해당 계정을 찾을 수 없습니다."});
         }
         // 계정 수정 가능한 경우
         else{
@@ -365,13 +377,13 @@ router.patch('/me', uploadProfile.single('photoUrl'), async function(req, res) {
                 return res.status(200).json({"success": true, "reason": "정보를 수정했습니다."});
             }catch(err){
                 // 시스템 오류
-                return res.status(500);
+                return res.status(500).json({"success": false, "reason": "시스템 오류가 발생했습니다. 다시 요청해주세요"});;
             }
             
         }
     }catch(err){
         // 토큰이 유효하지 않은 경우
-        return res.status(401);
+        return res.status(401).json({"success": false, "reason": "토큰이 유효하지 않습니다."});
     }
 });
 
@@ -390,7 +402,7 @@ router.delete('/me', async function(req, res) {
 
         // 해당 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(400);
+            return res.status(400).json({"success": false, "reason": "해당 계정을 찾을 수 없습니다."});
         }
         // 계정 삭제 가능한 경우
         else{
@@ -436,13 +448,13 @@ router.delete('/me', async function(req, res) {
                 return res.status(200).json({"success": true, "reason": "회원탈퇴가 완료되었습니다."});
             }catch(err){
                 // 시스템 오류
-                return res.status(500);
+                return res.status(500).json({"success": false, "reason": "시스템 오류가 발생했습니다. 다시 요청해주세요."});
             }
             
         }
     }catch(err){
         // 토큰이 유효하지 않은 경우
-        return res.status(401);
+        return res.status(401).json({"success": false, "reason": "토큰이 유효하지 않습니다."});
     }
 });
 

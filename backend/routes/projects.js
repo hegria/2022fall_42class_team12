@@ -12,7 +12,7 @@ const fs = require('fs');
 // 프로젝트 리스트
 router.get('/', async function(req, res) {
     if(!req.query.pageSize || !req.query.pageNumber){
-        return res.status(400);
+        return res.status(400).json({"reason": "페이지 사이즈와 페이지 수는 필수 입력사항 입니다."});
     }
     const pageSize = req.query.pageSize;
     const pageNumber = req.query.pageNumber;
@@ -64,7 +64,13 @@ router.get('/', async function(req, res) {
             
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if(totalPages < pageNumber || pageNumber < 1){
-                return res.status(404);
+                return res.status(404).json({
+                    "pageNumber": pageNumber,
+                    "pageSize": pageSize,
+                    "totalCount": totalCount,
+                    "totalPages": totalPages,
+                    "content": []
+                });
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -95,7 +101,13 @@ router.get('/', async function(req, res) {
             
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if(totalPages < pageNumber || pageNumber < 1){
-                return res.status(404);
+                return res.status(404).json({
+                    "pageNumber": pageNumber,
+                    "pageSize": pageSize,
+                    "totalCount": totalCount,
+                    "totalPages": totalPages,
+                    "content": []
+                });
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -130,7 +142,13 @@ router.get('/', async function(req, res) {
             
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if(totalPages < pageNumber || pageNumber < 1){
-                return res.status(404);
+                return res.status(404).json({
+                    "pageNumber": pageNumber,
+                    "pageSize": pageSize,
+                    "totalCount": totalCount,
+                    "totalPages": totalPages,
+                    "content": []
+                });
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -169,7 +187,13 @@ router.get('/', async function(req, res) {
             
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if(totalPages < pageNumber || pageNumber < 1){
-                return res.status(404);
+                return res.status(404).json({
+                    "pageNumber": pageNumber,
+                    "pageSize": pageSize,
+                    "totalCount": totalCount,
+                    "totalPages": totalPages,
+                    "content": []
+                });
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -200,7 +224,13 @@ router.get('/', async function(req, res) {
             
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if(totalPages < pageNumber || pageNumber < 1){
-                return res.status(404);
+                return res.status(404).json({
+                    "pageNumber": pageNumber,
+                    "pageSize": pageSize,
+                    "totalCount": totalCount,
+                    "totalPages": totalPages,
+                    "content": []
+                });
             }
 
             let offset = (pageNumber - 1) * pageSize;
@@ -269,7 +299,7 @@ router.get('/', async function(req, res) {
         });
 
     }catch(err){
-        return res.status(400);
+        return res.status(400).json({"reason": "요청 처리 중 오류가 발생했습니다."});
     }
 });
 
@@ -377,7 +407,7 @@ router.get('/random', async function(req, res) {
         }
         return res.status(200).json({"content": content});
     }catch(err){
-        return res.status(404);
+        return res.status(404).json({"reason": "요청 처리 중 오류가 발생했습니다."});
     }
 });
 
@@ -481,7 +511,7 @@ router.get('/:id', async function(req, res) {
 
     }catch(err){
         // 해당 프로젝트가 존재하지 않을 경우 혹은 데이터베이스 에러
-        return res.status(404);
+        return res.status(404).json({"reason": "요청 처리 중 오류가 발생했습니다."});;
     }
 });
 
@@ -638,7 +668,7 @@ router.patch('/:id', uploadProject.single('photoUrl'), async function(req, res) 
                 return res.status(200).json({"success": true, "reason": "정보를 수정했습니다."});
             }catch(err){
                 // 시스템 오류
-                return res.status(500);
+                return res.status(500).json({"success": false, "reason": "시스템 오류가 발생했습니다. 다시 요청해주세요."});
             }
             
         }
@@ -663,7 +693,7 @@ router.post('/:id/favorite', async function(req, res) {
 
         // 해당 식별번호의 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(400);
+            return res.status(400).json({"success": false, "reason": "사용자 인증에 실패했습니다."});
         }
         
         let isStar = await db.Star.findOne({
@@ -687,12 +717,12 @@ router.post('/:id/favorite', async function(req, res) {
         }).then( result => {
             return res.status(201).json({"success":true, "reason": "즐겨찾기에 등록되었습니다."});
         }).catch(err => {
-            return res.status(500);
+            return res.status(500).json({"success":false, "reason": "시스템 오류가 발생했습니다. 다시 요청해주세요."});
         });
 
     }catch(err){
         // Token이 유효하지 않은 경우
-        return res.status(401);
+        return res.status(401).json({"success":false, "reason": "토큰이 유효하지 않습니다."});
     }
 });
 
@@ -711,7 +741,7 @@ router.delete('/:id/favorite', async function(req, res) {
 
         // 해당 식별번호의 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(400);
+            return res.status(400).json({"success": false, "reason": "사용자 인증에 실패했습니다."});
         }
         
         let isStar = await db.Star.findOne({
@@ -734,12 +764,12 @@ router.delete('/:id/favorite', async function(req, res) {
         }).then( result => {
             return res.status(200).json({"success":true, "reason": "즐겨찾기에서 삭제했습니다."});
         }).catch(err => {
-            return res.status(500);
+            return res.status(500).json({"success":false, "reason": "시스템 오류가 발생했습니다. 다시 요청해주세요."});
         });
 
     }catch(err){
         // Token이 유효하지 않은 경우
-        return res.status(401);
+        return res.status(401).json({"success":false, "reason": "토큰이 유효하지 않습니다."});
     }
 });
 
