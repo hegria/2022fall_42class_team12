@@ -12,6 +12,10 @@ router.get('/', async function(req, res) {
         const token = req.cookies.swe42_team12;
         const key = process.env.JWT_SECRET;
 
+        if (!req.query.projectId) {
+            return res.status(403).json({"success": false, "reason": "입력 값이 부족합니다."});
+        }
+
         const identity = jwt.verify(token, key);
         const user = await db.User.findOne({
             where:{
@@ -111,6 +115,11 @@ router.post('/', async function(req, res) {
         const token = req.cookies.swe42_team12;
         const key = process.env.JWT_SECRET;
 
+        // projectId가 주어지지 않으면 잘못된 요청
+        if(!req.body.projectId){
+            return res.status(403).json({"success": false, "reason": "입력 값이 부족합니다."});
+        }
+
         const identity = jwt.verify(token, key);
         const user = await db.User.findOne({
             where:{
@@ -155,8 +164,8 @@ router.post('/', async function(req, res) {
 // 참여 신청 여부 변경 (글 작성자)
 router.patch('/:id', async function(req, res) {
     try{
-        // status가 주어지지 않으면 잘못된 요청
-        if(!req.body.status){
+        // projectId가 주어지지 않으면 잘못된 요청
+        if(!req.body.projectId){
             return res.status(403).json({"success": false, "reason": "입력 값이 부족합니다."});
         }
 

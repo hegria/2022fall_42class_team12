@@ -582,7 +582,11 @@ router.delete('/:id', async function(req, res) {
 
 // 프로젝트 내용 수정
 router.patch('/:id', uploadProject.single('photoUrl'), async function(req, res) {
-    try{
+    try {
+        if (!req.file && !req.body.title && !req.body.subject && !req.body.capacity && !req.body.capacity
+            && !req.body.startDate && !req.body.endDate && !req.body.contact && !req.body.skills && !req.body.content ) {
+            return res.status(403).json({"success": false, "reason": "입력 값이 부족합니다."});
+        }
         const token = req.cookies.swe42_team12;
         const key = process.env.JWT_SECRET;
 

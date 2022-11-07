@@ -217,7 +217,7 @@ router.post('/login', async function(req, res) {
     let body = req.body;
     //1. Input이 충분하지 않았을 경우
     if(!body.id || !body.password){
-        return res.status(400).json({"success": false, "reason": "입력이 충분하지 않습니다."});
+        return res.status(403).json({"success": false, "reason": "입력 값이 부족합니다."});
     }
 
     let user = await db.User.findOne({
@@ -324,6 +324,11 @@ router.patch('/me', uploadProfile.single('photoUrl'), async function(req, res) {
     try{
         const token = req.cookies.swe42_team12;
         const key = process.env.JWT_SECRET;
+
+        if (!req.file && !req.body.id && !req.body.password && !req.body.name && !req.body.department
+            && !req.body.email && !req.body.personalLink && !req.body.skills && !req.body.introduction  ) {
+            return res.status(403).json({"success": false, "reason": "입력 값이 부족합니다."});
+        }
 
         const identity = jwt.verify(token, key);
         const user = await db.User.findOne({
