@@ -366,6 +366,9 @@ router.patch('/me', uploadProfile.single('photoUrl'), async function(req, res) {
 
                 //이메일을 변경하는 경우
                 if(req.body.email){
+                    if( !body.email.endsWith('skku.edu') && !body.email.endsWith('g.skku.edu') ){
+                        return res.status(403).json({"success": false, "reason": "성균관대학교 이메일만 사용 가능합니다!!"});
+                    }
                     await db.User.update({email: req.body.email},{where:{userId: identity.userId}});
                 }
 
