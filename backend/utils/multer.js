@@ -3,24 +3,24 @@ const path = require("path");
 const fs = require('fs');
 
 try{
-    fs.readdirSync( path.join(__dirname, "../../frontend/public/images"));
+    fs.readdirSync( path.join(__dirname, "../../images"));
 }catch(err){
     console.error("img 폴더가 없어서 폴더를 생성합니다");
-    fs.mkdirSync(path.join(__dirname, "../../frontend/public/images"));
+    fs.mkdirSync(path.join(__dirname, "../../images"));
 }
 
 try{
-    fs.readdirSync( path.join(__dirname, "../../frontend/public/images/profiles"));
+    fs.readdirSync( path.join(__dirname, "../../images/profiles"));
 }catch(err){
     console.error("img/profiles가 없어서 폴더를 생성합니다");
-    fs.mkdirSync(path.join(__dirname, "../../frontend/public/images/profiles"));
+    fs.mkdirSync(path.join(__dirname, "../../images/profiles"));
 }
 
 try{
-    fs.readdirSync( path.join(__dirname, "../../frontend/public/images/projects"));
+    fs.readdirSync( path.join(__dirname, "../../images/projects"));
 }catch(err){
     console.error("img/projects가 없어서 폴더를 생성합니다");
-    fs.mkdirSync(path.join(__dirname, "../../frontend/public/images/projects"));
+    fs.mkdirSync(path.join(__dirname, "../../images/projects"));
 }
 
 const fileFilter = (req, file, cb) => {
@@ -36,7 +36,7 @@ const fileFilter = (req, file, cb) => {
 const uploadProfile = multer({
     storage: multer.diskStorage({
         destination: (req, file, done) => {
-            done(null, path.join(__dirname, "../../frontend/public/images/profiles"));
+            done(null, path.join(__dirname, "../../images/profiles"));
         },
         filename: (req, file, done) => {
             const ext = path.extname(file.originalname);
@@ -51,7 +51,7 @@ const uploadProfile = multer({
 const uploadProject = multer({
     storage: multer.diskStorage({
         destination: (req, file, done) => {
-            done(null, path.join(__dirname, "../../frontend/public/images/projects"));
+            done(null, path.join(__dirname, "../../images/projects"));
         },
         filename: (req, file, done) => {
             const ext = path.extname(file.originalname);
