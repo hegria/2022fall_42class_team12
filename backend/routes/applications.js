@@ -165,7 +165,7 @@ router.post('/', async function(req, res) {
 router.patch('/:id', async function(req, res) {
     try{
         // projectId가 주어지지 않으면 잘못된 요청
-        if(!req.body.projectId){
+        if(!req.body.projectId || !req.body.status){
             return res.status(403).json({"success": false, "reason": "입력 값이 부족합니다."});
         }
 
