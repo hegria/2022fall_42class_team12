@@ -23,13 +23,13 @@ function RecruitPage() {
       </Center>
       <Center>
         <Center>
-          <InputGroup marginBottom="100px">
+          <InputGroup marginBottom="100px" size="lg">
             <InputLeftElement
               pointerEvents="none"
               // eslint-disable-next-line react/no-children-prop
               children={<SearchIcon color="gray.500" />}
             />
-            <Input variant="filled" placeholder="    검색어를 입력하세요" size="lg" w="800px" />
+            <Input variant="filled" placeholder="검색어를 입력하세요" w="800px" />
           </InputGroup>
         </Center>
       </Center>
