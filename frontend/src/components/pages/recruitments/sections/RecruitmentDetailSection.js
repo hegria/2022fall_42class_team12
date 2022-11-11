@@ -19,6 +19,7 @@ import {
 import { MOCKUP_PROJECT } from "constants/mockups/project";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const InfoTitle = chakra(Text, {
   baseStyle: {
@@ -37,7 +38,9 @@ const InfoText = chakra(InfoTitle, {
 });
 
 function RecruitmentDetailSection() {
-  const data = MOCKUP_PROJECT;
+  const [data, setData] = useState(MOCKUP_PROJECT);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [mine, setMine] = useState(false);
 
   return (
     <Box as="section" marginTop="80px">
@@ -57,9 +60,22 @@ function RecruitmentDetailSection() {
                 />
               </Link>
 
-              <Button colorScheme="gray" variant="outline">
-                즐겨찾기 등록
-              </Button>
+              {loggedIn ? (
+                mine ? (
+                  <HStack spacing="8px">
+                    <Button colorScheme="gray" variant="outline">
+                      수정
+                    </Button>
+                    <Button colorScheme="red">삭제</Button>
+                  </HStack>
+                ) : (
+                  <Button colorScheme="gray" variant="outline">
+                    즐겨찾기 등록
+                  </Button>
+                )
+              ) : (
+                <></>
+              )}
             </Flex>
 
             <Flex justify="space-between" w="100%" align="center">
@@ -129,7 +145,15 @@ function RecruitmentDetailSection() {
 
           <Box w="100%">{data.content}</Box>
 
-          <Button size="lg">신청하기</Button>
+          {loggedIn ? (
+            mine ? (
+              <Button size="lg">신청자 확인하기</Button>
+            ) : (
+              <Button size="lg">신청하기</Button>
+            )
+          ) : (
+            <></>
+          )}
         </VStack>
       </Container>
     </Box>
