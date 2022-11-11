@@ -1,7 +1,7 @@
 import { Button, Heading, SimpleGrid, VStack } from "@chakra-ui/react";
 import ProjectCard from "components/common/ProjectCard";
 import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
-import { MOCKUP_PROJECT_LIST } from "constants/mockups/projects";
+import { MOCKUP_PROJECT_LIST } from "constants/mockups/project";
 
 function RecentProjectsSection() {
   return (
@@ -11,8 +11,8 @@ function RecentProjectsSection() {
       </Heading>
 
       <VStack spacing="40px">
-        <SimpleGrid columns={3} spacing="24px">
-          {MOCKUP_PROJECT_LIST.map((project) => (
+        <SimpleGrid columns={3} spacing="24px" w="100%">
+          {MOCKUP_PROJECT_LIST.content.map((project) => (
             <ProjectCard
               key={project.id}
               projectId={project.id}

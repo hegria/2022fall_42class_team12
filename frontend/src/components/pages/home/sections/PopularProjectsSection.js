@@ -1,5 +1,5 @@
 import { Heading, SimpleGrid } from "@chakra-ui/react";
-import { MOCKUP_PROJECT_LIST } from "constants/mockups/projects";
+import { MOCKUP_PROJECT_LIST } from "constants/mockups/project";
 import ProjectCard from "components/common/ProjectCard";
 import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
 
@@ -11,7 +11,7 @@ function PopularProjectsSection() {
       </Heading>
 
       <SimpleGrid columns={3} spacing="24px">
-        {MOCKUP_PROJECT_LIST.slice(0, 3).map((project) => (
+        {MOCKUP_PROJECT_LIST.content.slice(0, 3).map((project) => (
           <ProjectCard
             key={project.id}
             projectId={project.id}

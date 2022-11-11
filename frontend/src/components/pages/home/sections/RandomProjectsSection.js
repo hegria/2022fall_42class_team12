@@ -1,6 +1,6 @@
-import { Box, Container, Heading, HStack, IconButton, SimpleGrid } from "@chakra-ui/react";
+import { Heading, HStack, IconButton, SimpleGrid } from "@chakra-ui/react";
 import ProjectCard from "components/common/ProjectCard";
-import { MOCKUP_PROJECT_LIST } from "constants/mockups/projects";
+import { MOCKUP_PROJECT_LIST } from "constants/mockups/project";
 import { RepeatIcon } from "@chakra-ui/icons";
 import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
 
@@ -18,7 +18,7 @@ function RandomProjectsSection() {
       </HStack>
 
       <SimpleGrid columns={3} spacing="24px">
-        {MOCKUP_PROJECT_LIST.slice(0, 3).map((project) => (
+        {MOCKUP_PROJECT_LIST.content.slice(0, 3).map((project) => (
           <ProjectCard
             key={project.id}
             projectId={project.id}

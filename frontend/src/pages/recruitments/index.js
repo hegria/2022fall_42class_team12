@@ -10,7 +10,7 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
-import { MOCKUP_PROJECT_LIST } from "constants/mockups/projects";
+import { MOCKUP_PROJECT_LIST } from "constants/mockups/project";
 import ProjectCard from "components/common/ProjectCard";
 
 function RecruitPage() {
@@ -34,8 +34,8 @@ function RecruitPage() {
         </Center>
       </Center>
       <VStack spacing="40px">
-        <SimpleGrid columns={3} spacing="24px">
-          {MOCKUP_PROJECT_LIST.map((project) => (
+        <SimpleGrid columns={3} spacing="24px" w="100%">
+          {MOCKUP_PROJECT_LIST.content.map((project) => (
             <ProjectCard
               key={project.id}
               projectId={project.id}
