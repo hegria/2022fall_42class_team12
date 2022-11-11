@@ -8,6 +8,9 @@ const Anchor = chakra("a", {
     cursor: "pointer",
     _hover: {
       transform: "translate(-2px, -2px)",
+      "& > div": {
+        boxShadow: "lg",
+      },
     },
     transition: "transform 0.2s",
   },
@@ -35,6 +38,7 @@ function ProjectCard({
           bgColor="white"
           boxShadow="base"
           overflow="hidden"
+          transition="box-shadow 0.2s"
         >
           <Flex direction="column">
             <Box width="100%" height="200px" position="relative">
