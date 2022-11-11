@@ -23,7 +23,9 @@ function Navbar() {
             </Text>
           </Link>
           <Link href="/login" passHref>
-            <Button borderRadius="99px">로그인</Button>
+            <Button as="a" borderRadius="99px">
+              로그인
+            </Button>
           </Link>
         </Flex>
       </Container>

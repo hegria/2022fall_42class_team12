@@ -1,26 +1,27 @@
-import { Container, Flex, Heading, Text, Input } from "@chakra-ui/react";
+import { Container, Flex, Heading, Input, FormControl, FormLabel } from "@chakra-ui/react";
 
 function AccountInfoSection() {
   return (
-    <Container maxW="80%" paddingY="20px">
+    <Container maxW="1024px" paddingY="20px">
       <Flex direction="column">
-        <Heading size="md" fontSize="30px" marginBottom="28px">
+        <Heading fontSize="30px" marginBottom="28px">
           계정 정보를 입력해주세요.
         </Heading>
-        <Text size="md" marginBottom="8px">
-          아이디
-        </Text>
-        <Input type="text" placeholder="" size="md" bg="white" width="320px" required></Input>
 
-        <Text size="md" marginTop="16px" marginBottom="8px">
-          비밀번호
-        </Text>
-        <Input type="password" placeholder="" size="md" bg="white" width="320px" required></Input>
+        <FormControl marginBottom="16px">
+          <FormLabel>아이디</FormLabel>
+          <Input type="text" placeholder="" bg="white" width="320px" required />
+        </FormControl>
 
-        <Text size="md" marginTop="16px" marginBottom="8px">
-          비밀번호 확인
-        </Text>
-        <Input type="password" placeholder="" size="md" bg="white" width="320px" required></Input>
+        <FormControl marginBottom="16px">
+          <FormLabel>비밀번호</FormLabel>
+          <Input type="password" placeholder="" bg="white" width="320px" required />
+        </FormControl>
+
+        <FormControl marginBottom="16px">
+          <FormLabel>비밀번호 확인</FormLabel>
+          <Input type="password" placeholder="" bg="white" width="320px" required />
+        </FormControl>
       </Flex>
     </Container>
   );
