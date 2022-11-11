@@ -22,8 +22,11 @@ function Navbar() {
               스꾸팀플
             </Text>
           </Link>
-
-          <Button borderRadius="99px">로그인</Button>
+          <Link href="/login" passHref>
+            <Button as="a" borderRadius="99px">
+              로그인
+            </Button>
+          </Link>
         </Flex>
       </Container>
     </Flex>
