@@ -1,4 +1,3 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -18,9 +17,32 @@ import {
   Select,
   Textarea,
   VStack,
+  Wrap,
 } from "@chakra-ui/react";
+import EditableTag from "components/common/EditableTag";
+import { useCallback, useRef, useState } from "react";
 
 function RecruitmentWriteSection() {
+  const [skills, setSkills] = useState([]);
+
+  const skillInputRef = useRef(null);
+  const handleSkillsInput = useCallback((e) => {
+    if (!skillInputRef.current) {
+      return;
+    }
+
+    if (e.keyCode === 13) {
+      const value = skillInputRef.current.value;
+      if (value.length === 0) {
+        return;
+      }
+      setSkills((p) => {
+        return [...p, value];
+      });
+      skillInputRef.current.value = "";
+    }
+  }, []);
+
   return (
     <Box as="section" marginTop="80px">
       <Container as="article" maxW="container.lg" paddingY="80px">
@@ -36,7 +58,7 @@ function RecruitmentWriteSection() {
                 <Input placeholder="같이 프로젝트 하실 분 구합니다!" />
               </FormControl>
 
-              <HStack w="100%" spacing="40px">
+              <HStack w="100%" spacing="16px">
                 <FormControl isRequired>
                   <FormLabel>모집 주제</FormLabel>
                   <Input placeholder="프로젝트" />
@@ -54,7 +76,7 @@ function RecruitmentWriteSection() {
                 </FormControl>
               </HStack>
 
-              <HStack w="100%" spacing="40px">
+              <HStack w="100%" spacing="16px">
                 <FormControl isRequired>
                   <FormLabel>시작 예정</FormLabel>
                   <Input type="date" />
@@ -67,7 +89,7 @@ function RecruitmentWriteSection() {
               </HStack>
 
               <HStack w="100%" spacing="16px" align="flex-end">
-                <FormControl isRequired w="30%" flexDirection="row">
+                <FormControl isRequired w="30%">
                   <FormLabel>연락 방법</FormLabel>
                   <Select>
                     <option value="kakao">카카오톡 오픈채팅</option>
@@ -82,9 +104,25 @@ function RecruitmentWriteSection() {
 
               <FormControl isRequired>
                 <FormLabel>기술 스택</FormLabel>
-                <Input placeholder="엔터로 입력해주세요" />
-                <input type="hidden" />
+                <Input
+                  ref={skillInputRef}
+                  onKeyDown={handleSkillsInput}
+                  placeholder="엔터로 입력해주세요"
+                />
               </FormControl>
+
+              <Wrap w="100%" overflow="visible">
+                {skills.map((skill, idx) => (
+                  <EditableTag
+                    key={idx}
+                    onClickCloseButton={() => {
+                      setSkills(skills.filter((_, seletedIdx) => seletedIdx !== idx));
+                    }}
+                  >
+                    {skill}
+                  </EditableTag>
+                ))}
+              </Wrap>
             </VStack>
 
             <Divider />
