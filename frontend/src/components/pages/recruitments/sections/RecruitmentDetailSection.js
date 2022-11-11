@@ -48,7 +48,7 @@ function RecruitmentDetailSection() {
         <VStack spacing="40px">
           <VStack as="header" spacing="24px" align="flex-start" w="100%">
             <Flex justify="space-between" w="100%" align="center">
-              <Link href="/" passHref>
+              <Link href="/recruitments" passHref>
                 <IconButton
                   as="a"
                   aria-label="Back to main page"

@@ -3,6 +3,7 @@ import { Box, Button, Container, Flex, Heading } from "@chakra-ui/react";
 import Image from "next/image";
 import BackgroundCircles from "components/pages/home/BackgroundCircles";
 import heroImage from "/public/images/hero.png";
+import Link from "next/link";
 
 function HeroSection() {
   return (
@@ -25,9 +26,11 @@ function HeroSection() {
               함께 프로젝트 할 동료들을 찾아보세요!
             </Heading>
 
-            <Button size="lg" rightIcon={<ChevronRightIcon />}>
-              둘러보러 가기
-            </Button>
+            <Link href="/recruitments" passHref>
+              <Button as="a" size="lg" rightIcon={<ChevronRightIcon />}>
+                둘러보러 가기
+              </Button>
+            </Link>
           </Flex>
 
           <Image
