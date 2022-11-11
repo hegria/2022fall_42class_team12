@@ -9,7 +9,7 @@ function UserDetailPage() {
     <>
       <UserInfoSection />
 
-      <Container maxW="container.xl">
+      <Container maxW="container.xl" paddingBottom="80px">
         <Tabs variant="soft-rounded" colorScheme="green">
           <TabList>
             <Tab>즐겨찾기한 모집글</Tab>
