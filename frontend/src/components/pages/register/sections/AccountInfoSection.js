@@ -10,17 +10,17 @@ function AccountInfoSection() {
         <Text size="md" marginBottom="8px">
           아이디
         </Text>
-        <Input placeholder="" size="md" bg="white" width="320px"></Input>
+        <Input type="text" placeholder="" size="md" bg="white" width="320px" required></Input>
 
         <Text size="md" marginTop="16px" marginBottom="8px">
           비밀번호
         </Text>
-        <Input placeholder="" size="md" bg="white" width="320px"></Input>
+        <Input type="password" placeholder="" size="md" bg="white" width="320px" required></Input>
 
         <Text size="md" marginTop="16px" marginBottom="8px">
           비밀번호 확인
         </Text>
-        <Input placeholder="" size="md" bg="white" width="320px"></Input>
+        <Input type="password" placeholder="" size="md" bg="white" width="320px" required></Input>
       </Flex>
     </Container>
   );

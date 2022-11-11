@@ -1,4 +1,4 @@
-import { Button, Container, Flex, Text, Input } from "@chakra-ui/react";
+import { Button, Container, Flex, Text, Input, Link } from "@chakra-ui/react";
 
 function LoginSection() {
   return (
@@ -8,27 +8,29 @@ function LoginSection() {
           <Text size="md" marginBottom="16px">
             아이디
           </Text>
-          <Input placeholder="" size="md" bg="white"></Input>
+          <Input type="text" placeholder="" size="md" bg="white" required></Input>
 
           <Text size="md" marginTop="16px" marginBottom="16px">
             비밀번호
           </Text>
-          <Input placeholder="" size="md" bg="white"></Input>
+          <Input type="password" placeholder="" size="md" bg="white" required></Input>
         </Container>
 
         <Container>
-          <Button width="100%" height="40px" marginBottom="16px">
+          <Button type="submit" width="100%" height="40px" marginBottom="16px">
             로그인
           </Button>
-          <Button
-            colorScheme="gray"
-            variant="outline"
-            width="100%"
-            height="40px"
-            marginBottom="16px"
-          >
-            회원가입
-          </Button>
+          <Link href="/register" passHref>
+            <Button
+              colorScheme="gray"
+              variant="outline"
+              width="100%"
+              height="40px"
+              marginBottom="16px"
+            >
+              회원가입
+            </Button>
+          </Link>
         </Container>
       </Flex>
     </Container>
