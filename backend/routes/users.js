@@ -17,6 +17,7 @@ router.get('/', async function (req, res) {
     }
     const pageNumber = parseInt(req.query.pageNumber);
     const pageSize = parseInt(req.query.pageSize);
+    let content = [];
 
     try{
         // 검색 keyword가 있는 경우
@@ -43,9 +44,14 @@ router.get('/', async function (req, res) {
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
 
             if (totalCount == 0) {
-                return res.status(404).json({"success": false, "reason": "검색 결과가 없습니다."});
+                return res.status(200).json({
+                    "pageNumber": pageNumber,
+                    "pageSize": pageSize,
+                    "totalCount": totalCount,
+                    "totalPages": totalPages,
+                    "content": content
+                });
             }
-
             if(totalPages < pageNumber || pageNumber < 1){
                 return res.status(400).json({"success": false, "reason": "잘못된 접근입니다"});
             }
@@ -67,7 +73,6 @@ router.get('/', async function (req, res) {
                 },
             });
 
-            let content = [];
             for(let i = 0; i < userList.length; i++){
                 let temp = new Object();
                 temp.userId = userList[i].userId;
@@ -101,7 +106,13 @@ router.get('/', async function (req, res) {
 
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if (totalCount == 0) {
-                return res.status(404).json({"success": false, "reason": "검색 결과가 없습니다."});
+                return res.status(200).json({
+                    "pageNumber": pageNumber,
+                    "pageSize": pageSize,
+                    "totalCount": totalCount,
+                    "totalPages": totalPages,
+                    "content": content
+                });
             }
 
             if(totalPages < pageNumber || pageNumber < 1){
@@ -161,7 +172,7 @@ router.get('/me', async function (req, res) {
 
         // 해당 식별번호의 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
+            return res.status(404).json({"success": false, "reason": "유효하지 않은 접근입니다."});
         }
         
         let temp = new Object();
@@ -208,7 +219,7 @@ router.get('/:id', async function (req, res) {
     }
     // 해당 유저 식별 번호에 해당하는 계정이 없을 경우
     else{
-        return res.status(404).json({"success": false, "reason": "검색 결과가 없습니다."});
+        return res.status(404).json({"success": false, "reason": "존재하지 않는 유저입니다."});
     }
 });
 
@@ -228,14 +239,14 @@ router.post('/login', async function(req, res) {
     });
     //2. 해당 아이디가 등록되어 있지 않은 경우
     if (!user){
-        return res.status(401).json({"success": false, "token": "", "reason": "등록되지 않은 아이디 입니다."});
+        return res.status(200).json({"success": false, "token": "", "reason": "등록되지 않은 아이디 입니다."});
     }
     //3. 패스워드 일치 여부 확인
     else{
         const hashedPassword = crypto.createHash("sha512").update(body.password).digest("base64");
         // 3. 패스워드가 일치 하지 않음 
         if(user.dataValues.password !== hashedPassword){
-            return res.status(401).json({"success": false, "token": "", "reason": "비밀번호가 틀렸습니다."});
+            return res.status(200).json({"success": false, "token": "", "reason": "비밀번호가 틀렸습니다."});
         }
         // 4. 로그인 성공
         else{
@@ -339,7 +350,7 @@ router.patch('/me', uploadProfile.single('photoUrl'), async function(req, res) {
 
         // 해당 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
+            return res.status(404).json({"success": false, "reason": "유효하지 않은 접근입니다."});
         }
         // 계정 수정 가능한 경우
         else{
@@ -418,7 +429,7 @@ router.delete('/me', async function(req, res) {
 
         // 해당 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
+            return res.status(404).json({"success": false, "reason": "유효하지 않은 접근입니다."});
         }
         // 계정 삭제 가능한 경우
         else{
