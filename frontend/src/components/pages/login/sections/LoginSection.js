@@ -1,6 +1,5 @@
 import { Button, Container, Flex, Input, FormControl, FormLabel, useToast } from "@chakra-ui/react";
 import Link from "next/link";
-import Router from "next/router";
 import { useForm } from "react-hook-form";
 import { serverAxios } from "utils/axios";
 
@@ -8,8 +7,6 @@ function LoginSection() {
   const { register, handleSubmit } = useForm();
 
   const toast = useToast();
-
-  // const [setCookie] = useCookies(["jwt"]);
 
   const onSubmit = async (data) => {
     const reqBody = data;
@@ -20,11 +17,11 @@ function LoginSection() {
       if (res.data.success) {
         toast.closeAll();
         document.cookie = `jwt=${res.data.token};`;
-        Router.push("/");
+        window.location = "/";
       } else {
         toast({
           title: "로그인 실패",
-          description: `${res.data.reason}??`,
+          description: res.data.reason,
           status: "error",
           isClosable: true,
         });

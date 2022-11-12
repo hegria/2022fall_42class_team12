@@ -1,12 +1,22 @@
-import { Button, Container, Flex, HStack, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Button,
+  Container,
+  Flex,
+  HStack,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+} from "@chakra-ui/react";
+import useMe from "components/hooks/useMe";
 import Link from "next/link";
-import useSWR from "swr";
-import { authFetcher } from "utils/axios";
 
 function Navbar() {
-  const { data } = useSWR("/users/me", authFetcher);
+  const { loggedIn, logout, user } = useMe();
 
-  console.log(data);
+  console.log(loggedIn, user);
 
   return (
     <Flex
@@ -44,13 +54,38 @@ function Navbar() {
             </HStack>
           </Flex>
 
-          <HStack spacing="16px">
+          {loggedIn && user ? (
+            <HStack spacing="8px">
+              <Link href="/recruitments/write" passHref>
+                <Button as="a" variant="ghost" colorScheme="gray">
+                  새 글 쓰기
+                </Button>
+              </Link>
+
+              <Menu>
+                <MenuButton as={Button} colorScheme="gray" variant="ghost">
+                  <HStack spacing="18px">
+                    <Avatar src={user?.photoUrl} size="sm" />
+                    <Text fontSize="16px">{user.name}</Text>
+                  </HStack>
+                </MenuButton>
+                <MenuList>
+                  <Link href={`/users/${user.userId}`} passHref>
+                    <MenuItem as="a">마이페이지</MenuItem>
+                  </Link>
+                  <MenuItem onClick={logout} color="red">
+                    로그아웃
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </HStack>
+          ) : (
             <Link href="/login" passHref>
               <Button as="a" borderRadius="99px">
                 로그인
               </Button>
             </Link>
-          </HStack>
+          )}
         </Flex>
       </Container>
     </Flex>
