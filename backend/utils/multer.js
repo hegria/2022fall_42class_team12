@@ -49,4 +49,13 @@ const uploadProject = multer({
     limits: {fileSize: 30*1024*1024},
 });
 
-module.exports = {uploadProfile, uploadProject};
+async function deleteImage(key){
+    s3.deleteObject({
+        Bucket: '2022fall-42class-team12',
+        Key: key,
+    }, (err, data) => {
+        if(err) throw err;
+    });
+}
+
+module.exports = {uploadProfile, uploadProject, deleteImage};
