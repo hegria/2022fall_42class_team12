@@ -8,7 +8,6 @@ function RecentProjectsSection() {
   const { recruitments, size, setSize, initialLoading, loadingMore, empty, reachingEnd } =
     useRecruitments({
       pageSize: PAGE_SIZE,
-      sortBy: "favorite.desc",
     });
 
   return (

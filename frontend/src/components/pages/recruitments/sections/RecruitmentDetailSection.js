@@ -11,15 +11,28 @@ import {
   Heading,
   HStack,
   IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Tag,
   Text,
+  useDisclosure,
   VStack,
   Wrap,
 } from "@chakra-ui/react";
-import { MOCKUP_PROJECT } from "constants/mockups/project";
+import useMe from "components/hooks/useMe";
+import useRecruitment from "components/hooks/useRecruitment";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useCallback } from "react";
+import { getAuthHeader } from "utils/auth";
+import { serverAxios } from "utils/axios";
+import defaultUserImage from "/public/images/default-user-image.png";
 
 const InfoTitle = chakra(Text, {
   baseStyle: {
@@ -38,10 +51,24 @@ const InfoText = chakra(InfoTitle, {
 });
 
 function RecruitmentDetailSection() {
-  const [data, setData] = useState(MOCKUP_PROJECT);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [mine, setMine] = useState(false);
+  const router = useRouter();
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleClickDeleteButton = useCallback(async () => {
+    try {
+      await serverAxios.delete(`/projects/${router.query.id}`, getAuthHeader());
+      router.push("/");
+    } catch (e) {
+      console.log(e);
+    }
+  }, [router]);
+
+  const { data, loading } = useRecruitment(router.query.id);
+  const { loggedIn, user } = useMe();
+  const mine = user?.userId === data?.author.id ?? false;
+
+  if (loading) return "loading...";
   return (
     <Box as="section" marginTop="80px">
       <Container as="article" maxW="container.lg" paddingY="80px">
@@ -66,7 +93,28 @@ function RecruitmentDetailSection() {
                     <Button colorScheme="gray" variant="outline">
                       수정
                     </Button>
-                    <Button colorScheme="red">삭제</Button>
+                    <Button colorScheme="red" onClick={onOpen}>
+                      삭제
+                    </Button>
+
+                    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                      <ModalOverlay />
+                      <ModalContent>
+                        <ModalHeader>정말 삭제하시겠습니까?</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>삭제한 게시글은 되돌릴 수 없습니다.</ModalBody>
+                        <ModalFooter>
+                          <HStack spacing="8px">
+                            <Button colorScheme="gray" onClick={onClose}>
+                              취소
+                            </Button>
+                            <Button colorScheme="red" onClick={handleClickDeleteButton}>
+                              삭제
+                            </Button>
+                          </HStack>
+                        </ModalFooter>
+                      </ModalContent>
+                    </Modal>
                   </HStack>
                 ) : (
                   <Button colorScheme="gray" variant="outline">
@@ -92,7 +140,7 @@ function RecruitmentDetailSection() {
             <VStack spacing="30px" w="100%" align="flex-start">
               <Link href={`/users/${data.author.id}`} passHref>
                 <HStack as="a" spacing="16px">
-                  <Avatar size="md" src={data.author.photoUrl} />
+                  <Avatar size="md" src={data.author.photoUrl ?? defaultUserImage.src} />
                   <Text fontSize="20px" color="gray.700" fontWeight="bold">
                     {data.author.name}
                   </Text>
@@ -139,9 +187,16 @@ function RecruitmentDetailSection() {
 
           <Divider />
 
-          <Box w="100%" h="420px" position="relative">
-            <Image src={data.photoUrl} alt="게시글 대표 이미지" layout="fill" objectFit="contain" />
-          </Box>
+          {data.photoUrl && (
+            <Box w="100%" h="420px" position="relative">
+              <Image
+                src={data.photoUrl}
+                alt="게시글 대표 이미지"
+                layout="fill"
+                objectFit="contain"
+              />
+            </Box>
+          )}
 
           <Box w="100%">{data.content}</Box>
 
