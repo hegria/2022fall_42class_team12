@@ -11,8 +11,16 @@ import {
   Heading,
   HStack,
   IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Tag,
   Text,
+  useDisclosure,
   VStack,
   Wrap,
 } from "@chakra-ui/react";
@@ -21,6 +29,9 @@ import useRecruitment from "components/hooks/useRecruitment";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useCallback } from "react";
+import { getAuthHeader } from "utils/auth";
+import { serverAxios } from "utils/axios";
 import defaultUserImage from "/public/images/default-user-image.png";
 
 const InfoTitle = chakra(Text, {
@@ -41,6 +52,17 @@ const InfoText = chakra(InfoTitle, {
 
 function RecruitmentDetailSection() {
   const router = useRouter();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleClickDeleteButton = useCallback(async () => {
+    try {
+      await serverAxios.delete(`/projects/${router.query.id}`, getAuthHeader());
+      router.push("/");
+    } catch (e) {
+      console.log(e);
+    }
+  }, [router]);
 
   const { data, loading } = useRecruitment(router.query.id);
   const { loggedIn, user } = useMe();
@@ -71,7 +93,28 @@ function RecruitmentDetailSection() {
                     <Button colorScheme="gray" variant="outline">
                       수정
                     </Button>
-                    <Button colorScheme="red">삭제</Button>
+                    <Button colorScheme="red" onClick={onOpen}>
+                      삭제
+                    </Button>
+
+                    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                      <ModalOverlay />
+                      <ModalContent>
+                        <ModalHeader>정말 삭제하시겠습니까?</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>삭제한 게시글은 되돌릴 수 없습니다.</ModalBody>
+                        <ModalFooter>
+                          <HStack spacing="8px">
+                            <Button colorScheme="gray" onClick={onClose}>
+                              취소
+                            </Button>
+                            <Button colorScheme="red" onClick={handleClickDeleteButton}>
+                              삭제
+                            </Button>
+                          </HStack>
+                        </ModalFooter>
+                      </ModalContent>
+                    </Modal>
                   </HStack>
                 ) : (
                   <Button colorScheme="gray" variant="outline">
