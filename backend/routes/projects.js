@@ -523,7 +523,7 @@ router.get('/:id', async function(req, res) {
             let isFavorite = await db.Star.findOne({
                 where:{
                     project: req.params.id,
-                    user: identity.userId
+                    user: userId
                 }
             });
             if(isFavorite){
@@ -535,7 +535,7 @@ router.get('/:id', async function(req, res) {
             let isApply = await db.Participate.findOne({
                 where:{
                     project: req.params.id,
-                    user: identity.userId
+                    user: userId
                 }
             });
             if(isApply){
@@ -590,7 +590,7 @@ router.delete('/:id', async function(req, res) {
             try{
                 //이미지가 기본 이미지가 아닐 경우 이미지 삭제
                 if(project.dataValues.image !== null){
-                    await deleteImage(project.dataValues.image);
+                    await deleteImage('projects/' + project.dataValues.image.split('projects/')[1]);
                 }
                 
                 //참여 관계, 즐겨찾기 관계, 프로젝트 관계 모두 반영
@@ -657,7 +657,7 @@ router.post('/:id', uploadProject.single('photoUrl'), async function(req, res) {
                 if(req.file){
                     //이미지가 기본 이미지가 아닐 경우 이미지 삭제
                     if(project.dataValues.image !== null){
-                        await deleteImage(project.dataValues.image);
+                        await deleteImage('projects/' + project.dataValues.image.split('projects/')[1]);
                     }
                     await db.Project.update({image: req.file.location},{where:{projectId: project.dataValues.projectId}});
                 }

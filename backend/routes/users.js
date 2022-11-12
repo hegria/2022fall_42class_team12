@@ -358,8 +358,8 @@ router.post('/me', uploadProfile.single('photoUrl'), async function(req, res) {
                 // 이미지를 바꾼경우
                 if(req.file){
                     //이미지가 기본 이미지가 아닐 경우 이미지 삭제
-                    if(project.dataValues.image !== null){
-                        await deleteImage(project.dataValues.image);
+                    if(user.dataValues.image !== null){
+                        await deleteImage('profiles/' + user.dataValues.image.split('profiles/')[1]);
                     }
                     await db.User.update({image: req.file.location},{where:{userId: identity.userId}});
                 }
@@ -434,8 +434,8 @@ router.delete('/me', async function(req, res) {
         else{
             try{
                 //이미지가 기본 이미지가 아닐 경우 이미지 삭제
-                if(project.dataValues.image !== null){
-                    await deleteImage(project.dataValues.image);
+                if(user.dataValues.image !== null){
+                    await deleteImage('profiles/' + user.dataValues.image.split('profiles/')[1]);
                 }
                 
                 //참여 관계, 즐겨찾기 관계, 프로젝트 관계 모두 반영
