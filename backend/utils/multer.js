@@ -1,27 +1,17 @@
 const multer = require("multer");
 const path = require("path");
 const fs = require('fs');
+const AWS = require('aws-sdk');
+const multerS3 = require('multer-s3');
+require('dotenv').config();
 
-try{
-    fs.readdirSync( path.join(__dirname, "../../images"));
-}catch(err){
-    console.error("img 폴더가 없어서 폴더를 생성합니다");
-    fs.mkdirSync(path.join(__dirname, "../../images"));
-}
+AWS.config.update({
+    region: 'ap-northeast-2',
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
 
-try{
-    fs.readdirSync( path.join(__dirname, "../../images/profiles"));
-}catch(err){
-    console.error("img/profiles가 없어서 폴더를 생성합니다");
-    fs.mkdirSync(path.join(__dirname, "../../images/profiles"));
-}
-
-try{
-    fs.readdirSync( path.join(__dirname, "../../images/projects"));
-}catch(err){
-    console.error("img/projects가 없어서 폴더를 생성합니다");
-    fs.mkdirSync(path.join(__dirname, "../../images/projects"));
-}
+const s3 = new AWS.S3();
 
 const fileFilter = (req, file, cb) => {
     if(file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg"){
@@ -34,30 +24,26 @@ const fileFilter = (req, file, cb) => {
 };
 
 const uploadProfile = multer({
-    storage: multer.diskStorage({
-        destination: (req, file, done) => {
-            done(null, path.join(__dirname, "../../images/profiles"));
-        },
-        filename: (req, file, done) => {
-            const ext = path.extname(file.originalname);
-            const fileName = path.basename(file.originalname, ext) + Date.now() + ext;
-            done(null, fileName);
-        },
+    storage: multerS3({
+        s3: s3,
+        bucket: '2022fall-42class-team12',
+        acl: 'public-read-write',
+        key: function(req, file, cb){
+            cb(null, 'profiles/' + Date.now() + file.originalname);
+        }
     }),
     fileFilter: fileFilter,
     limits: {fileSize: 30*1024*1024},
 });
 
 const uploadProject = multer({
-    storage: multer.diskStorage({
-        destination: (req, file, done) => {
-            done(null, path.join(__dirname, "../../images/projects"));
-        },
-        filename: (req, file, done) => {
-            const ext = path.extname(file.originalname);
-            const fileName = path.basename(file.originalname, ext) + Date.now() + ext;
-            done(null, fileName);
-        },
+    storage: multerS3({
+        s3: s3,
+        bucket: '2022fall-42class-team12',
+        acl: 'public-read-write',
+        key: function(req, file, cb){
+            cb(null, 'projects/' + Date.now() + file.originalname);
+        }
     }),
     fileFilter: fileFilter,
     limits: {fileSize: 30*1024*1024},
