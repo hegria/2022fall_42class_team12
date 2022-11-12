@@ -1,5 +1,5 @@
 const db = require('../models');
-const {uploadProfile, uploadProject} = require('../utils/multer');
+const {uploadProfile, uploadProject, deleteImage} = require('../utils/multer');
 const {Op} = require('sequelize');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
@@ -317,7 +317,7 @@ router.post('/register', uploadProfile.single('photoUrl'), async function(req, r
         major: body.department,
         email: body.email,
         link: body.personalLink ? body.personalLink: null,
-        image: req.file ? req.file.location : "default-user-image.png",
+        image: req.file ? req.file.location : null,
         stacks: stacks,
         message: body.introduction ? body.introduction : "..."
     };
@@ -357,6 +357,10 @@ router.post('/me', uploadProfile.single('photoUrl'), async function(req, res) {
             try{
                 // 이미지를 바꾼경우
                 if(req.file){
+                    //이미지가 기본 이미지가 아닐 경우 이미지 삭제
+                    if(project.dataValues.image !== null){
+                        await deleteImage(project.dataValues.image);
+                    }
                     await db.User.update({image: req.file.location},{where:{userId: identity.userId}});
                 }
 
@@ -429,9 +433,9 @@ router.delete('/me', async function(req, res) {
         // 계정 삭제 가능한 경우
         else{
             try{
-                if(user.dataValues.image !== "default-user-image.png"
-                && fs.existsSync("../../frontend/public/images/profiles/" + user.dataValues.image)){
-                    fs.unlinkSync("../../frontend/public/images/profiles/" + user.dataValues.image);
+                //이미지가 기본 이미지가 아닐 경우 이미지 삭제
+                if(project.dataValues.image !== null){
+                    await deleteImage(project.dataValues.image);
                 }
                 
                 //참여 관계, 즐겨찾기 관계, 프로젝트 관계 모두 반영
