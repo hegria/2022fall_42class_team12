@@ -317,7 +317,7 @@ router.post('/register', uploadProfile.single('photoUrl'), async function(req, r
         major: body.department,
         email: body.email,
         link: body.personalLink ? body.personalLink: null,
-        image: req.file ? req.file.filename : "default-user-image.png",
+        image: req.file ? req.file.location : "default-user-image.png",
         stacks: stacks,
         message: body.introduction ? body.introduction : "..."
     };
@@ -357,12 +357,7 @@ router.post('/me', uploadProfile.single('photoUrl'), async function(req, res) {
             try{
                 // 이미지를 바꾼경우
                 if(req.file){
-                    if(user.dataValues.image !== "default-user-image.png"
-                    && fs.existsSync("../../frontend/public/images/profiles" + user.dataValues.image)){
-                        fs.unlinkSync("../../frontend/public/images/profiles" + user.dataValues.image);
-                    }
-
-                    await db.User.update({image: req.file.filename},{where:{userId: identity.userId}});
+                    await db.User.update({image: req.file.location},{where:{userId: identity.userId}});
                 }
 
                 //이름을 변경하는 경우
