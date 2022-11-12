@@ -2,19 +2,14 @@ import { Button, Center, Heading, SimpleGrid, VStack } from "@chakra-ui/react";
 import ProjectCard from "components/common/ProjectCard";
 import useRecruitments from "components/hooks/useRecruitments";
 import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
-
-const PAGE_SIZE = 9;
+import { PAGE_SIZE } from "constants/list";
 
 function RecentProjectsSection() {
-  const { data, size, setSize, initialLoading } = useRecruitments({
-    pageSize: PAGE_SIZE,
-    sortBy: "favorite.desc",
-  });
-
-  const projects = data ? [].concat(...data.map((pageData) => pageData.content)) : [];
-  const loadingMore = initialLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
-  const empty = data?.[0]?.content.length === 0;
-  const reachingEnd = empty || (data && data[data.length - 1]?.content.length < PAGE_SIZE);
+  const { recruitments, size, setSize, initialLoading, loadingMore, empty, reachingEnd } =
+    useRecruitments({
+      pageSize: PAGE_SIZE,
+      sortBy: "favorite.desc",
+    });
 
   return (
     <HomeSectionLayout>
@@ -27,7 +22,7 @@ function RecentProjectsSection() {
           <Center>등록된 모집글이 없습니다.</Center>
         ) : (
           <SimpleGrid columns={3} spacing="24px" w="100%">
-            {projects.map((project) => (
+            {recruitments.map((project) => (
               <ProjectCard
                 key={project.id}
                 projectId={project.id}

@@ -3,16 +3,11 @@ import ProjectCard from "components/common/ProjectCard";
 import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
 import useRecruitments from "components/hooks/useRecruitments";
 
-const PAGE_SIZE = 3;
-
 function PopularProjectsSection() {
-  const { data, initialLoading } = useRecruitments({
-    pageSize: PAGE_SIZE,
+  const { recruitments, initialLoading, empty } = useRecruitments({
+    pageSize: 3,
     sortBy: "favorite.desc",
   });
-
-  const projects = data ? [].concat(...data.map((pageData) => pageData.content)) : [];
-  const empty = data?.[0]?.content.length === 0;
 
   return (
     <HomeSectionLayout>
@@ -24,7 +19,7 @@ function PopularProjectsSection() {
         <Center w="100%">등록된 모집글이 없습니다.</Center>
       ) : (
         <SimpleGrid columns={3} spacing="24px">
-          {projects.map((project) => (
+          {recruitments.map((project) => (
             <ProjectCard
               key={project.id}
               projectId={project.id}
