@@ -1,40 +1,79 @@
-import { Button, Container, Flex, Input, FormControl, FormLabel } from "@chakra-ui/react";
+import { Button, Container, Flex, Input, FormControl, FormLabel, useToast } from "@chakra-ui/react";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { serverAxios } from "util/axios";
+import { useCookies } from "react-cookie";
 
 function LoginSection() {
+  const { register, handleSubmit } = useForm();
+
+  const toast = useToast();
+
+  const [setCookie] = useCookies(["jwt"]);
+
+  const onSubmit = async (data) => {
+    const reqBody = data;
+
+    try {
+      const res = await serverAxios.post("/users/login", reqBody);
+      if (res.data.success) {
+        toast.closeAll();
+        setCookie("jwt", res.data.token);
+        Router.push("/");
+      } else {
+        toast({
+          title: "로그인 실패",
+          description: res.data.reason,
+          status: "error",
+          isClosable: true,
+        });
+      }
+    } catch (e) {
+      toast({
+        title: "로그인 실패",
+        description: e.response?.data?.reason ?? e.message,
+        status: "error",
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <Container position="relative" maxW="480px" paddingY="40px">
-      <Flex direction="column" alignItems="center">
-        <Container marginBottom="60px">
-          <FormControl marginBottom="16px">
-            <FormLabel>아이디</FormLabel>
-            <Input type="text" placeholder="" bg="white" required />
-          </FormControl>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Flex direction="column" alignItems="center">
+          <Container marginBottom="60px">
+            <FormControl marginBottom="16px">
+              <FormLabel>아이디</FormLabel>
+              <Input type="text" bg="white" {...register("id", { required: true })} />
+            </FormControl>
 
-          <FormControl>
-            <FormLabel>비밀번호</FormLabel>
-            <Input type="password" placeholder="" bg="white" required />
-          </FormControl>
-        </Container>
+            <FormControl>
+              <FormLabel>비밀번호</FormLabel>
+              <Input type="password" bg="white" {...register("password", { required: true })} />
+            </FormControl>
+          </Container>
 
-        <Container>
-          <Button type="submit" width="100%" height="40px" marginBottom="16px">
-            로그인
-          </Button>
-          <Link href="/register" passHref>
-            <Button
-              as="a"
-              colorScheme="gray"
-              variant="outline"
-              width="100%"
-              height="40px"
-              marginBottom="16px"
-            >
-              회원가입
+          <Container>
+            <Button type="submit" width="100%" height="40px" marginBottom="16px">
+              로그인
             </Button>
-          </Link>
-        </Container>
-      </Flex>
+
+            <Link href="/register" passHref>
+              <Button
+                as="a"
+                colorScheme="gray"
+                variant="outline"
+                width="100%"
+                height="40px"
+                marginBottom="16px"
+              >
+                회원가입
+              </Button>
+            </Link>
+          </Container>
+        </Flex>
+      </form>
     </Container>
   );
 }
