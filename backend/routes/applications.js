@@ -53,9 +53,7 @@ router.get('/', async function(req, res) {
         }
 
         // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
-        if (totalCount == 0) {
-            return res.status(404).json({"success": false, "reason": "검색 결과가 없습니다."});
-        }
+        
 
         if(totalPages < pageNumber || pageNumber < 1){
             return res.status(400).json({"success": false, "reason": "잘못된 접근입니다"});
@@ -70,6 +68,7 @@ router.get('/', async function(req, res) {
         });
 
         let content = [];
+
         for(let i = 0; i < applyList.length; i++){
             let temp = new Object();
 
