@@ -351,7 +351,7 @@ router.post('/', uploadProject.single('photoUrl'), async function(req, res) {
                 stacks = body.skills.join('#');
             }
             let contact = ""
-            if (body.contact) contact = body.contact.method + '#' + body.contact.value;
+            if (body.contactMethod || body.contactValue) contact = body.contactMethod + '#' + body.contactValue;
 
             const projectInfo = {
                 name: body.title,
@@ -616,7 +616,7 @@ router.delete('/:id', async function(req, res) {
 router.post('/:id', uploadProject.single('photoUrl'), async function(req, res) {
     try {
         if (!req.file && !req.body.title && !req.body.subject && !req.body.capacity && !req.body.capacity
-            && !req.body.startDate && !req.body.endDate && !req.body.contact && !req.body.skills && !req.body.content ) {
+            && !req.body.startDate && !req.body.endDate && !req.body.contactMethod && !req.body.contactValue && !req.body.skills && !req.body.content ) {
             return res.status(400).json({"success": false, "reason": "입력 값이 부족합니다."});
         }
         const token = req.headers.authorization.split('Bearer ')[1];
@@ -688,8 +688,8 @@ router.post('/:id', uploadProject.single('photoUrl'), async function(req, res) {
                 }
 
                 // 프로젝트 연락 수단을 변경하는 경우
-                if(req.body.contact){
-                    let contact = body.contact.method + '#' + body.contact.value;
+                if(req.body.contactMethod || req.body.contactValue){
+                    let contact = body.contactMethod + '#' + body.contactValue;
                     await db.Project.update({message: contact},{where:{projectId: project.dataValues.projectId}});
                 }
 
