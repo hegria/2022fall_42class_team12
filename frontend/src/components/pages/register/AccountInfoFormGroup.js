@@ -1,8 +1,11 @@
-import { Flex, Heading, Input, FormControl, FormLabel } from "@chakra-ui/react";
+import { Flex, Heading, Input, FormControl, FormLabel, FormErrorMessage } from "@chakra-ui/react";
 import { useFormContext } from "react-hook-form";
 
 function AccountInfoFormGroup() {
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <Flex direction="column" w="100%">
@@ -32,7 +35,7 @@ function AccountInfoFormGroup() {
         />
       </FormControl>
 
-      <FormControl isRequired marginBottom="16px">
+      <FormControl isRequired isInvalid={errors.rpassword} marginBottom="16px">
         <FormLabel>비밀번호 확인</FormLabel>
         <Input
           type="password"
@@ -41,6 +44,7 @@ function AccountInfoFormGroup() {
           required
           {...register("rpassword", { required: true })}
         />
+        {errors.rpassword && <FormErrorMessage>{errors.rpassword.message}</FormErrorMessage>}
       </FormControl>
     </Flex>
   );

@@ -47,15 +47,17 @@ function PersonalInfoFormGroup() {
         </FormControl>
       </Flex>
 
+      {/* TODO: 이메일 주소 검사 */}
       <FormControl isRequired marginBottom="16px">
         <FormLabel>이메일</FormLabel>
         <Input
           type="email"
-          placeholder="honggildong@gmail.com"
+          placeholder="honggildong@skku.edu"
           bg="white"
           required
           {...register("email", { required: true })}
         />
+        <FormHelperText>성균관대학교 이메일(skku.edu, g.skku.edu)을 입력해주세요.</FormHelperText>
       </FormControl>
 
       <FormControl marginBottom="16px">
