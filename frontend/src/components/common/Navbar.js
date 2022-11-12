@@ -1,4 +1,4 @@
-import { Button, Container, Flex, Text } from "@chakra-ui/react";
+import { Button, Container, Flex, HStack, Text } from "@chakra-ui/react";
 import Link from "next/link";
 
 function Navbar() {
@@ -17,16 +17,34 @@ function Navbar() {
     >
       <Container maxW="container.xl">
         <Flex justifyContent="space-between" alignItems="center">
-          <Link href="/" passHref>
-            <Text as="a" fontFamily="BinggraeSamanco" fontSize="32px">
-              스꾸팀플
-            </Text>
-          </Link>
-          <Link href="/login" passHref>
-            <Button as="a" borderRadius="99px">
-              로그인
-            </Button>
-          </Link>
+          <Flex>
+            <Link href="/" passHref>
+              <Text as="a" fontFamily="BinggraeSamanco" fontSize="32px" marginRight="32px">
+                스꾸팀플
+              </Text>
+            </Link>
+
+            <HStack spacing="8px">
+              <Link href="/recruitments" passHref>
+                <Button as="a" variant="ghost" colorScheme="gray">
+                  모집글
+                </Button>
+              </Link>
+              <Link href="/users" passHref>
+                <Button as="a" variant="ghost" colorScheme="gray">
+                  유저
+                </Button>
+              </Link>
+            </HStack>
+          </Flex>
+
+          <HStack spacing="16px">
+            <Link href="/login" passHref>
+              <Button as="a" borderRadius="99px">
+                로그인
+              </Button>
+            </Link>
+          </HStack>
         </Flex>
       </Container>
     </Flex>
