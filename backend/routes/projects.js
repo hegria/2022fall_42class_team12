@@ -46,6 +46,7 @@ router.get('/', async function(req, res) {
     let projectList;
     let totalCount;
     let totalPages;
+    let content = [];
     try{
         // 자신이 작성한 프로젝트 리스트 가지고 오는 경우
         if(userFilter === 1){
@@ -65,7 +66,13 @@ router.get('/', async function(req, res) {
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
 
             if (totalCount == 0) {
-                return res.status(404).json({"success": false, "reason": "검색 결과가 없습니다."});
+                return res.status(200).json({
+                    "pageNumber": pageNumber,
+                    "pageSize": pageSize,
+                    "totalCount": totalCount,
+                    "totalPages": totalPages,
+                    "content": content
+                });
             }
 
             if(totalPages < pageNumber || pageNumber < 1){
@@ -100,9 +107,14 @@ router.get('/', async function(req, res) {
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
 
             if (totalCount == 0) {
-                return res.status(404).json({"success": false, "reason": "검색 결과가 없습니다."});
+                return res.status(200).json({
+                    "pageNumber": pageNumber,
+                    "pageSize": pageSize,
+                    "totalCount": totalCount,
+                    "totalPages": totalPages,
+                    "content": content
+                });
             }
-
             if(totalPages < pageNumber || pageNumber < 1){
                 return res.status(400).json({"success": false, "reason": "잘못된 접근입니다"});
             }
@@ -140,7 +152,13 @@ router.get('/', async function(req, res) {
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
 
             if (totalCount == 0) {
-                return res.status(404).json({"success": false, "reason": "검색 결과가 없습니다."});
+                return res.status(200).json({
+                    "pageNumber": pageNumber,
+                    "pageSize": pageSize,
+                    "totalCount": totalCount,
+                    "totalPages": totalPages,
+                    "content": content
+                });
             }
 
             if(totalPages < pageNumber || pageNumber < 1){
@@ -184,7 +202,13 @@ router.get('/', async function(req, res) {
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
 
             if (totalCount == 0) {
-                return res.status(404).json({"success": false, "reason": "검색 결과가 없습니다."});
+                return res.status(200).json({
+                    "pageNumber": pageNumber,
+                    "pageSize": pageSize,
+                    "totalCount": totalCount,
+                    "totalPages": totalPages,
+                    "content": content
+                });
             }
 
             if(totalPages < pageNumber || pageNumber < 1){
@@ -218,7 +242,13 @@ router.get('/', async function(req, res) {
             
             // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
             if (totalCount == 0) {
-                return res.status(404).json({"success": false, "reason": "검색 결과가 없습니다."});
+                return res.status(200).json({
+                    "pageNumber": pageNumber,
+                    "pageSize": pageSize,
+                    "totalCount": totalCount,
+                    "totalPages": totalPages,
+                    "content": content
+                });
             }
 
             if(totalPages < pageNumber || pageNumber < 1){
@@ -234,7 +264,6 @@ router.get('/', async function(req, res) {
             });
         }
         
-        let content = [];
         for(let i = 0; i < projectList.length; i++){
             let temp = new Object();
             temp.id = projectList[i].projectId;
@@ -447,6 +476,10 @@ router.get('/:id', async function(req, res) {
                 projectId: req.params.id
             }
         });
+
+        if (!project) {
+            return res.status(404).json({"success": false, "reason": "존재하지 않는 프로젝트입니다."});
+        }
 
         let temp = new Object();
         temp.id = project.dataValues.projectId;
