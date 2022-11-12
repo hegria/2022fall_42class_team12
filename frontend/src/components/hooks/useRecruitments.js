@@ -1,23 +1,20 @@
-import useSWR from "swr";
+import useSWRInfinite from "swr/infinite";
 import { fetcher } from "utils/axios";
 
-function useRecruitments({
-  pageSize,
-  pageNumber,
-  keyword,
-  sortBy,
-  userId,
-  isAuthor,
-  isFavorite,
-  isApplied,
-}) {
-  const queryString = `?pageSize=${pageSize}&pageNumber=${pageNumber}&keyword=${keyword}&sortBy=${sortBy}&userId=${userId}&isAuthor=${isAuthor}&isFavorite=${isFavorite}&isApplied=${isApplied}`;
-  const { data, error } = useSWR("/projects" + queryString, fetcher);
+function useRecruitments({ pageSize, keyword, sortBy, userId, isAuthor, isFavorite, isApplied }) {
+  const { data, size, setSize, error } = useSWRInfinite((idx, prevData) => {
+    if (prevData && !prevData.content.length) return null;
+    return `/projects?pageSize=${pageSize}&pageNumber=${
+      idx + 1
+    }&keyword=${keyword}&sortBy=${sortBy}&userId=${userId}&isAuthor=${isAuthor}&isFavorite=${isFavorite}&isApplied=${isApplied}`;
+  }, fetcher);
 
   return {
     data,
+    size,
+    setSize,
     error,
-    loading: !data && !error,
+    initialLoading: !data && !error,
   };
 }
 

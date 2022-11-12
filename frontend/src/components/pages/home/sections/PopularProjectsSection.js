@@ -6,9 +6,10 @@ import useRecruitments from "components/hooks/useRecruitments";
 function PopularProjectsSection() {
   const { data, loading } = useRecruitments({
     pageSize: 3,
-    pageNumber: 1,
     sortBy: "favorite.desc",
   });
+
+  const projects = data ? [].concat(...data.map((pageData) => pageData.content)) : [];
 
   return (
     <HomeSectionLayout>
@@ -16,11 +17,11 @@ function PopularProjectsSection() {
         인기 모집글
       </Heading>
 
-      {!loading && data.content.length === 0 ? (
+      {!loading && projects.length === 0 ? (
         <Center w="100%">등록된 모집글이 없습니다.</Center>
       ) : (
         <SimpleGrid columns={3} spacing="24px">
-          {data?.content.map((project) => (
+          {projects.map((project) => (
             <ProjectCard
               key={project.id}
               projectId={project.id}

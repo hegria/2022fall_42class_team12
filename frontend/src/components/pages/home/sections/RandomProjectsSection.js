@@ -41,7 +41,7 @@ function RandomProjectsSection() {
       </HStack>
 
       {!loading && projects.length === 0 ? (
-        <Center>등록된 게시물이 없습니다.</Center>
+        <Center>등록된 모집글이 없습니다.</Center>
       ) : (
         <SimpleGrid columns={3} spacing="24px">
           {projects.map((project) => (
