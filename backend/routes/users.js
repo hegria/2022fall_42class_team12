@@ -331,7 +331,7 @@ router.post('/register', uploadProfile.single('photoUrl'), async function(req, r
 
 
 //내 정보 수정
-router.patch('/me', uploadProfile.single('photoUrl'), async function(req, res) {
+router.post('/me', uploadProfile.single('photoUrl'), async function(req, res) {
     try{
         const token = req.cookies.swe42_team12;
         const key = process.env.JWT_SECRET;
