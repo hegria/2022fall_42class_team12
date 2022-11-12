@@ -12,8 +12,16 @@ import {
 import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
 import { MOCKUP_PROJECT_LIST } from "constants/mockups/project";
 import ProjectCard from "components/common/ProjectCard";
+import { PAGE_SIZE } from "constants/list";
+import useRecruitments from "components/hooks/useRecruitments";
 
 function RecruitPage() {
+  const { recruitments, size, setSize, initialLoading, loadingMore, empty, reachingEnd } =
+    useRecruitments({
+      pageSize: PAGE_SIZE,
+      sortBy: "favorite.desc",
+    });
+
   return (
     <HomeSectionLayout>
       <Center>

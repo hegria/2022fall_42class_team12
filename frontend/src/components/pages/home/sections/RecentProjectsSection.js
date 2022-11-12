@@ -2,8 +2,7 @@ import { Button, Center, Heading, SimpleGrid, VStack } from "@chakra-ui/react";
 import ProjectCard from "components/common/ProjectCard";
 import useRecruitments from "components/hooks/useRecruitments";
 import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
-
-const PAGE_SIZE = 9;
+import { PAGE_SIZE } from "constants/list";
 
 function RecentProjectsSection() {
   const { recruitments, size, setSize, initialLoading, loadingMore, empty, reachingEnd } =

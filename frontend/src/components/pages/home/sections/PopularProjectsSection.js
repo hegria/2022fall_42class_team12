@@ -3,11 +3,9 @@ import ProjectCard from "components/common/ProjectCard";
 import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
 import useRecruitments from "components/hooks/useRecruitments";
 
-const PAGE_SIZE = 3;
-
 function PopularProjectsSection() {
   const { recruitments, initialLoading, empty } = useRecruitments({
-    pageSize: PAGE_SIZE,
+    pageSize: 3,
     sortBy: "favorite.desc",
   });
 
