@@ -9,7 +9,7 @@ const router = express.Router();
 // 참여 신청자 리스트
 router.get('/', async function(req, res) {
     try{
-        const token = req.cookies.swe42_team12;
+        const token = req.headers.authorization.split('Bearer ')[1];
         const key = process.env.JWT_SECRET;
 
         if (!req.query.projectId) {
@@ -111,7 +111,7 @@ router.get('/', async function(req, res) {
 // 참여 신청하기(유저)
 router.post('/', async function(req, res) {
     try{
-        const token = req.cookies.swe42_team12;
+        const token = req.headers.authorization.split('Bearer ')[1];
         const key = process.env.JWT_SECRET;
 
         // projectId가 주어지지 않으면 잘못된 요청
@@ -168,7 +168,7 @@ router.patch('/:id', async function(req, res) {
             return res.status(400).json({"success": false, "reason": "입력 값이 부족합니다."});
         }
 
-        const token = req.cookies.swe42_team12;
+        const token = req.headers.authorization.split('Bearer ')[1];
         const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
@@ -246,7 +246,7 @@ router.patch('/:id', async function(req, res) {
 router.delete('/:id', async function(req, res) {
     try {
         
-        const token = req.cookies.swe42_team12;
+        const token = req.headers.authorization.split('Bearer ')[1];
         const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);

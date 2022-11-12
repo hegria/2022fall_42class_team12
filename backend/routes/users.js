@@ -159,7 +159,7 @@ router.get('/me', async function (req, res) {
     console.log("me")
     try{
         
-        const token = req.cookies.swe42_team12;
+        const token = req.headers.authorization.split('Bearer ')[1];
         const key = process.env.JWT_SECRET;
         const identity = jwt.verify(token, key);
         console.log(identity);
@@ -333,7 +333,7 @@ router.post('/register', uploadProfile.single('photoUrl'), async function(req, r
 //내 정보 수정
 router.post('/me', uploadProfile.single('photoUrl'), async function(req, res) {
     try{
-        const token = req.cookies.swe42_team12;
+        const token = req.headers.authorization.split('Bearer ')[1];
         const key = process.env.JWT_SECRET;
 
         if (!req.file && !req.body.id && !req.body.password && !req.body.name && !req.body.department
@@ -417,7 +417,7 @@ router.post('/me', uploadProfile.single('photoUrl'), async function(req, res) {
 // 회원 탈퇴
 router.delete('/me', async function(req, res) {
     try{
-        const token = req.cookies.swe42_team12;
+        const token = req.headers.authorization.split('Bearer ')[1];
         const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
