@@ -614,7 +614,7 @@ router.delete('/:id', async function(req, res) {
 });
 
 // 프로젝트 내용 수정
-router.patch('/:id', uploadProject.single('photoUrl'), async function(req, res) {
+router.post('/:id', uploadProject.single('photoUrl'), async function(req, res) {
     try {
         if (!req.file && !req.body.title && !req.body.subject && !req.body.capacity && !req.body.capacity
             && !req.body.startDate && !req.body.endDate && !req.body.contact && !req.body.skills && !req.body.content ) {
