@@ -4,34 +4,16 @@ import {
   Input,
   FormControl,
   FormLabel,
-  Wrap,
-  VStack,
   Textarea,
   FormHelperText,
 } from "@chakra-ui/react";
-import EditableTag from "components/common/EditableTag";
-import { useCallback, useRef, useState } from "react";
+import SkillInput from "components/common/SkillInput";
+import { useFormContext } from "react-hook-form";
 
 function PersonalInfoFormGroup() {
-  const [skills, setSkills] = useState([]);
+  const { register, setValue } = useFormContext();
 
-  const skillInputRef = useRef(null);
-  const handleSkillsInput = useCallback((e) => {
-    if (!skillInputRef.current) {
-      return;
-    }
-
-    if (e.keyCode === 13) {
-      const value = skillInputRef.current.value;
-      if (value.length === 0) {
-        return;
-      }
-      setSkills((p) => {
-        return [...p, value];
-      });
-      skillInputRef.current.value = "";
-    }
-  }, []);
+  register("skills", { required: true });
 
   return (
     <Flex direction="column" w="100%">
@@ -45,59 +27,68 @@ function PersonalInfoFormGroup() {
       <Flex marginBottom="16px">
         <FormControl isRequired marginRight="16px">
           <FormLabel>이름</FormLabel>
-          <Input type="text" placeholder="홍길동" bg="white" required />
+          <Input
+            type="text"
+            placeholder="홍길동"
+            bg="white"
+            required
+            {...register("name", { required: true })}
+          />
         </FormControl>
         <FormControl isRequired>
           <FormLabel>학과</FormLabel>
-          <Input type="text" placeholder="소프트웨어학과" bg="white" required />
+          <Input
+            type="text"
+            placeholder="소프트웨어학과"
+            bg="white"
+            required
+            {...register("department", { required: true })}
+          />
         </FormControl>
       </Flex>
 
       <FormControl isRequired marginBottom="16px">
         <FormLabel>이메일</FormLabel>
-        <Input type="email" placeholder="honggildong@gmail.com" bg="white" required />
+        <Input
+          type="email"
+          placeholder="honggildong@gmail.com"
+          bg="white"
+          required
+          {...register("email", { required: true })}
+        />
       </FormControl>
 
       <FormControl marginBottom="16px">
         <FormLabel>링크(선택)</FormLabel>
-        <Input type="url" placeholder="https://github.com/honggildong" bg="white" />
+        <Input
+          type="url"
+          placeholder="https://github.com/honggildong"
+          bg="white"
+          {...register("personalLink")}
+        />
       </FormControl>
 
       <FormControl isRequired marginBottom="16px">
         <FormLabel>한 줄 자기소개</FormLabel>
-        <Textarea resize="none" required bg="white" />
+        <Textarea
+          resize="none"
+          required
+          bg="white"
+          {...register("introduction", { required: true })}
+        />
       </FormControl>
 
-      <FormControl isRequired marginBottom="16px">
+      <FormControl marginBottom="16px">
         <FormLabel>프로필 사진</FormLabel>
-        <Input type="file" bg="white" />
+        <Input type="file" bg="white" {...register("photoUrl")} />
         <FormHelperText>jpg, png 파일을 지원합니다.</FormHelperText>
       </FormControl>
 
-      <VStack spacing="20px">
-        <FormControl isRequired>
-          <FormLabel>기술 스택</FormLabel>
-          <Input
-            ref={skillInputRef}
-            onKeyDown={handleSkillsInput}
-            placeholder="엔터로 입력해주세요"
-            bg="white"
-          />
-        </FormControl>
-
-        <Wrap w="100%" overflow="visible">
-          {skills.map((skill, idx) => (
-            <EditableTag
-              key={idx}
-              onClickCloseButton={() => {
-                setSkills(skills.filter((_, seletedIdx) => seletedIdx !== idx));
-              }}
-            >
-              {skill}
-            </EditableTag>
-          ))}
-        </Wrap>
-      </VStack>
+      <SkillInput
+        onChange={(skills) => {
+          setValue("skills", skills);
+        }}
+      />
     </Flex>
   );
 }
