@@ -3,7 +3,7 @@ import AccountInfoFormGroup from "components/pages/register/AccountInfoFormGroup
 import PersonalInfoFormGroup from "components/pages/register/PersonalInfoFormGroup";
 import Router from "next/router";
 import { FormProvider, useForm } from "react-hook-form";
-import { serverAxios } from "util/axios";
+import { serverAxios } from "utils/axios";
 
 function RegisterFormSection() {
   const methods = useForm();
@@ -28,7 +28,11 @@ function RegisterFormSection() {
     };
 
     try {
-      await serverAxios.post("/users/register", reqBody);
+      await serverAxios.post("/users/register", reqBody, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       toast.closeAll();
       toast({
         title: "회원가입 성공",

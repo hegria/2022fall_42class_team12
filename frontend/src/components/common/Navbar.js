@@ -1,7 +1,13 @@
 import { Button, Container, Flex, HStack, Text } from "@chakra-ui/react";
 import Link from "next/link";
+import useSWR from "swr";
+import { authFetcher } from "utils/axios";
 
 function Navbar() {
+  const { data } = useSWR("/users/me", authFetcher);
+
+  console.log(data);
+
   return (
     <Flex
       as="nav"
