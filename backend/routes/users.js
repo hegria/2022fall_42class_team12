@@ -172,7 +172,7 @@ router.get('/me', async function (req, res) {
 
         // 해당 식별번호의 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404).json({"success": false, "reason": "유효하지 않은 접근입니다."});
+            return res.status(404).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
         }
         
         let temp = new Object();
@@ -239,14 +239,14 @@ router.post('/login', async function(req, res) {
     });
     //2. 해당 아이디가 등록되어 있지 않은 경우
     if (!user){
-        return res.status(200).json({"success": false, "token": "", "reason": "등록되지 않은 아이디 입니다."});
+        return res.status(200).json({"success": false, "token": "", "reason": "아이디, 비밀번호를 다시 확인해주세요."});
     }
     //3. 패스워드 일치 여부 확인
     else{
         const hashedPassword = crypto.createHash("sha512").update(body.password).digest("base64");
         // 3. 패스워드가 일치 하지 않음 
         if(user.dataValues.password !== hashedPassword){
-            return res.status(200).json({"success": false, "token": "", "reason": "비밀번호가 틀렸습니다."});
+            return res.status(200).json({"success": false, "token": "", "reason": "아이디, 비밀번호를 다시 확인해주세요."});
         }
         // 4. 로그인 성공
         else{
@@ -350,7 +350,7 @@ router.patch('/me', uploadProfile.single('photoUrl'), async function(req, res) {
 
         // 해당 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404).json({"success": false, "reason": "유효하지 않은 접근입니다."});
+            return res.status(404).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
         }
         // 계정 수정 가능한 경우
         else{
@@ -429,7 +429,7 @@ router.delete('/me', async function(req, res) {
 
         // 해당 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404).json({"success": false, "reason": "유효하지 않은 접근입니다."});
+            return res.status(404).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
         }
         // 계정 삭제 가능한 경우
         else{

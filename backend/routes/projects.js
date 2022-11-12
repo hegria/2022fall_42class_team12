@@ -342,7 +342,7 @@ router.post('/', uploadProject.single('photoUrl'), async function(req, res) {
             return res.status(400).json({"success": false, "reason": "입력 값이 부족합니다."});
         // 해당 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404).json({"success": false, "reason": "유효하지 않은 접근입니다."});
+            return res.status(404).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
         }
         // 새로운 프로젝트 생성
         else{
@@ -567,7 +567,7 @@ router.delete('/:id', async function(req, res) {
 
         // 해당 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404).json({"success": false, "reason": "유효하지 않은 접근입니다."});
+            return res.status(404).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
         }
         // 토큰이 유효한 경우
         else{
@@ -632,7 +632,7 @@ router.patch('/:id', uploadProject.single('photoUrl'), async function(req, res) 
 
         // 해당 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404).json({"success": false, "reason": "유효하지 않은 접근입니다."});
+            return res.status(404).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
         }
         // 요청을 보낸 사용자의 토큰은 정상
         else{
@@ -735,7 +735,7 @@ router.post('/:id/favorite', async function(req, res) {
 
         // 해당 식별번호의 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404).json({"success": false, "reason": "유효하지 않은 접근입니다."});
+            return res.status(404).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
         }
         
         let isStar = await db.Star.findOne({
@@ -783,7 +783,7 @@ router.delete('/:id/favorite', async function(req, res) {
 
         // 해당 식별번호의 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404).json({"success": false, "reason": "유효하지 않은 접근입니다."});
+            return res.status(404).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
         }
         
         let isStar = await db.Star.findOne({

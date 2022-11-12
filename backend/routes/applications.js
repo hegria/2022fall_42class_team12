@@ -25,7 +25,7 @@ router.get('/', async function(req, res) {
 
         // 해당 식별번호의 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404).json({"success": false, "reason": "유효하지 않은 접근입니다."});
+            return res.status(404).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
         }
         
         let isLeader = await db.Project.findOne({
@@ -69,15 +69,6 @@ router.get('/', async function(req, res) {
 
         let content = [];
 
-        if (totalCount == 0) {
-            return res.status(200).json({
-                "pageNumber": pageNumber,
-                "pageSize": pageSize,
-                "totalCount": totalCount,
-                "totalPages": totalPages,
-                "content": content
-            });
-        }
         for(let i = 0; i < applyList.length; i++){
             let temp = new Object();
 
@@ -137,7 +128,7 @@ router.post('/', async function(req, res) {
 
         // 해당 식별번호의 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404).json({"success": false, "reason": "유효하지 않은 접근입니다."});
+            return res.status(404).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
 
         }
         
@@ -189,7 +180,7 @@ router.patch('/:id', async function(req, res) {
 
         // 해당 식별번호의 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404).json({"success": false, "reason": "유효하지 않은 접근입니다."});
+            return res.status(404).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
 
         }
         
@@ -267,7 +258,7 @@ router.delete('/:id', async function(req, res) {
 
         // 해당 식별번호의 사용자가 존재하지 않을 때
         if(!user){
-            return res.status(404).json({"success": false, "reason": "유효하지 않은 접근입니다."});
+            return res.status(404).json({"success": false, "reason": "사용자가 존재하지 않습니다."});
         }
         
         let isJoin = await db.Participate.findOne({
