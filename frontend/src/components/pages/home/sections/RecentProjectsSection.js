@@ -14,7 +14,7 @@ function RecentProjectsSection() {
   const projects = data ? [].concat(...data.map((pageData) => pageData.content)) : [];
   const loadingMore = initialLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
   const empty = data?.[0]?.content.length === 0;
-  const reachingEnd = empty || (data && data[data.length - 1]?.length < PAGE_SIZE);
+  const reachingEnd = empty || (data && data[data.length - 1]?.content.length < PAGE_SIZE);
 
   return (
     <HomeSectionLayout>
