@@ -265,7 +265,7 @@ router.post('/login', async function(req, res) {
 
             res.cookie("swe42_team12", token, {});
 
-            return res.status(201).json({"success": false, "token": token, "reason": "로그인 성공!!"});
+            return res.status(201).json({"success": true, "token": token, "reason": "로그인 성공!!"});
         }
     }
 });
