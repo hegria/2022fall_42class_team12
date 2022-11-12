@@ -328,7 +328,7 @@ router.get('/', async function(req, res) {
 // 프로젝트 등록
 router.post('/', uploadProject.single('photoUrl'), async function(req, res) {
     try{
-        const token = req.cookies.swe42_team12;
+        const token = req.headers.authorization.split('Bearer ')[1];
         const key = process.env.JWT_SECRET;
         const body = req.body;
 
@@ -449,7 +449,7 @@ router.get('/:id', async function(req, res) {
     let userFlag = false;
     let userId = '';
     try{
-        const token = req.cookies.swe42_team12;
+        const token = req.headers.authorization.split('Bearer ')[1];
         const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
@@ -555,7 +555,7 @@ router.get('/:id', async function(req, res) {
 // 프로젝트 삭제
 router.delete('/:id', async function(req, res) {
     try{
-        const token = req.cookies.swe42_team12;
+        const token = req.headers.authorization.split('Bearer ')[1];
         const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
@@ -620,7 +620,7 @@ router.post('/:id', uploadProject.single('photoUrl'), async function(req, res) {
             && !req.body.startDate && !req.body.endDate && !req.body.contact && !req.body.skills && !req.body.content ) {
             return res.status(400).json({"success": false, "reason": "입력 값이 부족합니다."});
         }
-        const token = req.cookies.swe42_team12;
+        const token = req.headers.authorization.split('Bearer ')[1];
         const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
@@ -723,7 +723,7 @@ router.post('/:id', uploadProject.single('photoUrl'), async function(req, res) {
 // 프로젝트 찜하기
 router.post('/:id/favorite', async function(req, res) {
     try{
-        const token = req.cookies.swe42_team12;
+        const token = req.headers.authorization.split('Bearer ')[1];
         const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
@@ -771,7 +771,7 @@ router.post('/:id/favorite', async function(req, res) {
 // 프로젝트 찜해제
 router.delete('/:id/favorite', async function(req, res) {
     try{
-        const token = req.cookies.swe42_team12;
+        const token = req.headers.authorization.split('Bearer ')[1];
         const key = process.env.JWT_SECRET;
 
         const identity = jwt.verify(token, key);
