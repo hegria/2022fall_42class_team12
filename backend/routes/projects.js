@@ -364,7 +364,7 @@ router.post('/', uploadProject.single('photoUrl'), async function(req, res) {
                 stars: 0,
                 startTime: body.startDate,
                 endTime: body.endDate,
-                image: req.file ? req.file.filename : "default-project-thumbnail.png",
+                image: req.file ? req.file.location : "default-project-thumbnail.png",
                 message: body.content ? body.content : "..."
             };
             
@@ -656,12 +656,7 @@ router.post('/:id', uploadProject.single('photoUrl'), async function(req, res) {
             try{
                 // 프로젝트 썸네일 이미지를 바꾼경우
                 if(req.file){
-                    if(project.dataValues.image !== "default-project-thumbnail.png"
-                    && fs.existsSync("../../frontend/public/images/projects/" + project.dataValues.image)){
-                        fs.unlinkSync("../../frontend/public/images/projects/" + project.dataValues.image);
-                    }
-                    
-                    await db.Project.update({image: req.file.filename},{where:{projectId: project.dataValues.projectId}});
+                    await db.Project.update({image: req.file.location},{where:{projectId: project.dataValues.projectId}});
                 }
 
                 // 프로젝트 이름을 변경하는 경우
