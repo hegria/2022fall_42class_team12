@@ -51,7 +51,7 @@ module.exports = function(sequelize) {
         },
         message:{
             field: 'message',
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(65535),
             allowNull: true,
         },
         image:{
