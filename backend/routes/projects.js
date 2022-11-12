@@ -1,5 +1,5 @@
 const db = require('../models');
-const {uploadProfile, uploadProject} = require('../utils/multer');
+const {uploadProfile, uploadProject, deleteImage} = require('../utils/multer');
 const {Op} = require('sequelize');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -364,7 +364,7 @@ router.post('/', uploadProject.single('photoUrl'), async function(req, res) {
                 stars: 0,
                 startTime: body.startDate,
                 endTime: body.endDate,
-                image: req.file ? req.file.location : "default-project-thumbnail.png",
+                image: req.file ? req.file.location : null,
                 message: body.content ? body.content : "..."
             };
             
@@ -589,9 +589,8 @@ router.delete('/:id', async function(req, res) {
 
             try{
                 //이미지가 기본 이미지가 아닐 경우 이미지 삭제
-                if(project.dataValues.image !== "default-project-thumbnail.png"
-                && fs.existsSync("../../frontend/public/images/profiles/" + project.dataValues.image)){
-                    fs.unlinkSync("../../frontend/public/images/profiles/" + project.dataValues.image);
+                if(project.dataValues.image !== null){
+                    await deleteImage(project.dataValues.image);
                 }
                 
                 //참여 관계, 즐겨찾기 관계, 프로젝트 관계 모두 반영
@@ -656,6 +655,10 @@ router.post('/:id', uploadProject.single('photoUrl'), async function(req, res) {
             try{
                 // 프로젝트 썸네일 이미지를 바꾼경우
                 if(req.file){
+                    //이미지가 기본 이미지가 아닐 경우 이미지 삭제
+                    if(project.dataValues.image !== null){
+                        await deleteImage(project.dataValues.image);
+                    }
                     await db.Project.update({image: req.file.location},{where:{projectId: project.dataValues.projectId}});
                 }
 
