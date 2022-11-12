@@ -16,8 +16,6 @@ import Link from "next/link";
 function Navbar() {
   const { loggedIn, logout, user } = useMe();
 
-  console.log(loggedIn, user);
-
   return (
     <Flex
       as="nav"

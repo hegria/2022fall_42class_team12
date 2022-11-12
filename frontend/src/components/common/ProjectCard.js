@@ -2,6 +2,7 @@ import { Avatar, Box, chakra, Flex, HStack, Icon, Tag, Text, VStack } from "@cha
 import Image from "next/image";
 import Link from "next/link";
 import { FaUser } from "react-icons/fa";
+import defaultImage from "/public/images/default-project-thumbnail.png";
 
 const Anchor = chakra("a", {
   baseStyle: {
@@ -42,7 +43,12 @@ function ProjectCard({
         >
           <Flex direction="column">
             <Box width="100%" height="200px" position="relative">
-              <Image src={photoUrl} alt="포스터 이미지" layout="fill" objectFit="cover" />
+              <Image
+                src={photoUrl ?? defaultImage}
+                alt="포스터 이미지"
+                layout="fill"
+                objectFit="cover"
+              />
             </Box>
 
             <Flex direction="column" padding="16px" rowGap="24px">
