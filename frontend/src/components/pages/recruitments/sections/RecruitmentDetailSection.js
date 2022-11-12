@@ -16,10 +16,12 @@ import {
   VStack,
   Wrap,
 } from "@chakra-ui/react";
-import { MOCKUP_PROJECT } from "constants/mockups/project";
+import useMe from "components/hooks/useMe";
+import useRecruitment from "components/hooks/useRecruitment";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import defaultUserImage from "/public/images/default-user-image.png";
 
 const InfoTitle = chakra(Text, {
   baseStyle: {
@@ -38,10 +40,13 @@ const InfoText = chakra(InfoTitle, {
 });
 
 function RecruitmentDetailSection() {
-  const [data, setData] = useState(MOCKUP_PROJECT);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [mine, setMine] = useState(false);
+  const router = useRouter();
 
+  const { data, loading } = useRecruitment(router.query.id);
+  const { loggedIn, user } = useMe();
+  const mine = user?.userId === data?.author.id ?? false;
+
+  if (loading) return "loading...";
   return (
     <Box as="section" marginTop="80px">
       <Container as="article" maxW="container.lg" paddingY="80px">
@@ -92,7 +97,7 @@ function RecruitmentDetailSection() {
             <VStack spacing="30px" w="100%" align="flex-start">
               <Link href={`/users/${data.author.id}`} passHref>
                 <HStack as="a" spacing="16px">
-                  <Avatar size="md" src={data.author.photoUrl} />
+                  <Avatar size="md" src={data.author.photoUrl ?? defaultUserImage.src} />
                   <Text fontSize="20px" color="gray.700" fontWeight="bold">
                     {data.author.name}
                   </Text>
@@ -139,9 +144,16 @@ function RecruitmentDetailSection() {
 
           <Divider />
 
-          <Box w="100%" h="420px" position="relative">
-            <Image src={data.photoUrl} alt="게시글 대표 이미지" layout="fill" objectFit="contain" />
-          </Box>
+          {data.photoUrl && (
+            <Box w="100%" h="420px" position="relative">
+              <Image
+                src={data.photoUrl}
+                alt="게시글 대표 이미지"
+                layout="fill"
+                objectFit="contain"
+              />
+            </Box>
+          )}
 
           <Box w="100%">{data.content}</Box>
 

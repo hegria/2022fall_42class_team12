@@ -2,6 +2,7 @@ import { Button, Container, Flex, Input, FormControl, FormLabel, useToast } from
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { serverAxios } from "utils/axios";
+import { setCookie } from "utils/cookie";
 
 function LoginSection() {
   const { register, handleSubmit } = useForm();
@@ -16,7 +17,7 @@ function LoginSection() {
 
       if (res.data.success) {
         toast.closeAll();
-        document.cookie = `jwt=${res.data.token};`;
+        setCookie("jwt", res.data.token);
         window.location = "/";
       } else {
         toast({
