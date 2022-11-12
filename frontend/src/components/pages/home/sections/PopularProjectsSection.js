@@ -20,7 +20,7 @@ function PopularProjectsSection() {
         <Center w="100%">등록된 모집글이 없습니다.</Center>
       ) : (
         <SimpleGrid columns={3} spacing="24px">
-          {data.content.map((project) => (
+          {data?.content.map((project) => (
             <ProjectCard
               key={project.id}
               projectId={project.id}
