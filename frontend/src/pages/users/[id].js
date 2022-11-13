@@ -22,13 +22,13 @@ function UserDetailPage() {
 
           <TabPanels>
             <TabPanel paddingX="0">
-              <AuthorListSection />
+              <AuthorListSection userId={router.query.id} />
             </TabPanel>
             <TabPanel paddingX="0">
               <FavoriteListSection userId={router.query.id} />
             </TabPanel>
             <TabPanel paddingX="0">
-              <AppliedListSection />
+              <AppliedListSection userId={router.query.id} />
             </TabPanel>
           </TabPanels>
         </Tabs>
