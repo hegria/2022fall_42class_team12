@@ -50,15 +50,11 @@ function RegisterFormSection() {
     }
   };
 
-  const onError = (data) => {
-    console.log(data);
-  };
-
   return (
     <Box as="section">
       <Container maxW="container.lg" paddingY="80px">
         <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit, onError)}>
+          <form onSubmit={methods.handleSubmit(onSubmit)}>
             <VStack spacing="40px">
               <AccountInfoFormGroup />
               <PersonalInfoFormGroup skills={[]} />
