@@ -6,13 +6,16 @@ import { deleteCookie, getCookie } from "utils/cookie";
 
 function useMe() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [loadingLoginCheck, setLoadingLoginCheck] = useState(true);
   useEffect(() => {
+    setLoadingLoginCheck(true);
     if (!document) {
       return;
     }
     if (getCookie("jwt") != null) {
       setLoggedIn(true);
     }
+    setLoadingLoginCheck(false);
   }, []);
 
   const logout = useCallback(() => {
@@ -27,6 +30,7 @@ function useMe() {
     logout,
     user: data,
     error,
+    loadingLoginCheck,
     mutate,
   };
 }
