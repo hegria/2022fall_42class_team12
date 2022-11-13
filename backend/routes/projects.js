@@ -32,7 +32,7 @@ router.get('/', async function(req, res) {
         }
     }
 
-    let orderStandard = 'createdAt';
+    let orderStandard = 'lastModified';
     let order = 'desc';
     if(req.query.sortBy){
         if(req.query.sortBy === "favorite.desc"){
