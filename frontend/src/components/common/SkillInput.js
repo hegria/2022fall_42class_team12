@@ -3,8 +3,8 @@ import { Button, FormControl, FormLabel, HStack, Input, VStack, Wrap } from "@ch
 import EditableTag from "components/common/EditableTag";
 import { useEffect, useRef, useState } from "react";
 
-function SkillInput({ onChange, ...props }) {
-  const [skills, setSkills] = useState([]);
+function SkillInput({ value = [], onChange, ...props }) {
+  const [skills, setSkills] = useState(value);
   const skillInputRef = useRef(null);
   const handleSkillsInput = () => {
     if (!skillInputRef.current) {
@@ -23,6 +23,10 @@ function SkillInput({ onChange, ...props }) {
   useEffect(() => {
     onChange?.(skills);
   }, [onChange, skills]);
+
+  useEffect(() => {
+    setSkills(value);
+  }, [value]);
 
   return (
     <VStack spacing="20px" {...props}>

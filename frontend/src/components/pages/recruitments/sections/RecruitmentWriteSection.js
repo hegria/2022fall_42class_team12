@@ -20,17 +20,21 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import SkillInput from "components/common/SkillInput";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { serverAxios } from "utils/axios";
 import { getCookie } from "utils/cookie";
 
 function RecruitmentWriteSection() {
+  const router = useRouter();
+
   const toast = useToast();
 
   const { register, handleSubmit, setValue, control } = useForm();
 
   register("skills", { required: true });
+  const [skills, setSkills] = useState([]);
 
   const onSubmit = async (data) => {
     const { photoUrl, ...body } = data;
@@ -40,12 +44,27 @@ function RecruitmentWriteSection() {
     };
 
     try {
-      await serverAxios.post("/projects", reqBody, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${getCookie("jwt")}`,
-        },
-      });
+      let createdId;
+      let toastMessage;
+      if (router.query.id) {
+        await serverAxios.post(`/projects/${router.query.id}`, reqBody, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${getCookie("jwt")}`,
+          },
+        });
+        createdId = router.query.id;
+        toastMessage = "모집글이 수정되었습니다.";
+      } else {
+        const { data } = await serverAxios.post("/projects", reqBody, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${getCookie("jwt")}`,
+          },
+        });
+        // createdId = data.id;
+        toastMessage = "모집글이 등록되었습니다.";
+      }
       toast.closeAll();
       toast({
         title: "모집글이 등록되었습니다.",
@@ -63,6 +82,31 @@ function RecruitmentWriteSection() {
       });
     }
   };
+
+  useEffect(() => {
+    if (!router.query.id) return;
+
+    const fetchRecruitmentInfo = async (id) => {
+      try {
+        const { data } = await serverAxios.get(`/projects/${id}`);
+        setValue("title", data.title);
+        setValue("subject", data.subject);
+        setValue("capacity", data.capacity);
+        setValue("startDate", data.startDate.split(" ")[0]);
+        setValue("endDate", data.endDate.split(" ")[0]);
+        setValue("contactMethod", data.contact.method);
+        setValue("contactValue", data.contact.value);
+        setValue("skills", data.skills);
+        setSkills(data.skills);
+        setValue("content", data.content);
+        // NOTE: input type="file" 의 value를 설정할 수 없는 문제가 있음
+        // setValue("photoUrl", data.photoUrl);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchRecruitmentInfo(router.query.id);
+  }, [router, setValue]);
 
   return (
     <Box as="section" marginTop="80px">
@@ -145,6 +189,7 @@ function RecruitmentWriteSection() {
 
               <SkillInput
                 w="100%"
+                value={skills}
                 onChange={(skills) => {
                   setValue("skills", skills);
                 }}
