@@ -52,9 +52,17 @@ router.get('/', async function(req, res) {
             totalPages = totalPages + 1;
         }
 
-        // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
-        
+        if (totalCount < 1){
+            return res.status(200).json({
+                "pageNumber": pageNumber,
+                "pageSize": pageSize,
+                "totalCount": totalCount,
+                "totalPages": totalPages,
+                "content": []
+            });
+        }
 
+        // 요청한 페이지 넘버가 1보다 작거나 totalPages 보다 큰 경우
         if(totalPages < pageNumber || pageNumber < 1){
             return res.status(400).json({"success": false, "reason": "잘못된 접근입니다"});
         }
