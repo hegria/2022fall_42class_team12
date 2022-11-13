@@ -1,12 +1,27 @@
 import { EmailIcon, InfoIcon } from "@chakra-ui/icons";
-import { Avatar, Box, Center, Container, HStack, Tag, Text, VStack, Wrap } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Center,
+  Container,
+  HStack,
+  Tag,
+  Text,
+  VStack,
+  Wrap,
+} from "@chakra-ui/react";
+import useMe from "components/hooks/useMe";
 import useUser from "components/hooks/useUser";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 function UserInfoSection() {
   const router = useRouter();
 
   const { data, loading } = useUser(router.query.id);
+  const { user } = useMe();
+  const mine = user?.userId === data?.userId ?? false;
 
   if (loading) return "loading...";
   return (
@@ -46,6 +61,14 @@ function UserInfoSection() {
               </HStack>
             )}
           </VStack>
+
+          {mine && (
+            <Link href="/account" passHref>
+              <Button as="a" colorScheme="gray">
+                프로필 수정하기
+              </Button>
+            </Link>
+          )}
         </Center>
       </Container>
     </Box>
