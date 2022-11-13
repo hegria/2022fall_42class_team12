@@ -203,7 +203,7 @@ function RecruitmentDetailSection() {
                 </HStack>
               </Link>
 
-              <HStack spacing="60px" wordBreak="break-all" align="flex-start">
+              <HStack spacing="60px" wordBreak="break-all" align="flex-start" w="100%">
                 <VStack spacing="30px" align="flex-start" flex="1">
                   <HStack spacing="30px" align="flex-start">
                     <InfoTitle>모집 주제</InfoTitle>
@@ -215,7 +215,7 @@ function RecruitmentDetailSection() {
                   </HStack>
                   <HStack spacing="30px" align="flex-start">
                     <InfoTitle>기술 스택</InfoTitle>
-                    <Wrap>
+                    <Wrap ㅈ>
                       {data.skills.map((skill) => (
                         <Tag key={skill}>{skill}</Tag>
                       ))}
@@ -254,7 +254,7 @@ function RecruitmentDetailSection() {
             </Box>
           )}
 
-          <Box w="100%" whiteSpace="pre">
+          <Box w="100%" whiteSpace="pre-wrap">
             {data.content}
           </Box>
 
