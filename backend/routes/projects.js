@@ -369,7 +369,7 @@ router.post('/', uploadProject.single('photoUrl'), async function(req, res) {
             };
             
             await db.Project.create(projectInfo).then( result => {
-                return res.status(201).json({"success":true, "reason": "프로젝트를 성공적으로 등록했습니다."});
+                return res.status(201).json({"success":true, "reason": "프로젝트를 성공적으로 등록했습니다.", "projectId": result.dataValues.projectId});
             }).catch(err => {
                 return res.status(500).json({"success": false, "reason": "시스템 오류가 발생했습니다. 다시 시도해주세요"});
             });
@@ -689,7 +689,7 @@ router.post('/:id', uploadProject.single('photoUrl'), async function(req, res) {
 
                 // 프로젝트 연락 수단을 변경하는 경우
                 if(req.body.contactMethod || req.body.contactValue){
-                    let contact = body.contactMethod + '#' + body.contactValue;
+                    let contact = req.body.contactMethod + '#' + req.body.contactValue;
                     await db.Project.update({message: contact},{where:{projectId: project.dataValues.projectId}});
                 }
 

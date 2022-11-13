@@ -90,9 +90,11 @@ function RecruitmentDetailSection() {
               {loggedIn ? (
                 mine ? (
                   <HStack spacing="8px">
-                    <Button colorScheme="gray" variant="outline">
-                      수정
-                    </Button>
+                    <Link href={`/recruitments/write?id=${router.query.id}`} passHref>
+                      <Button as="a" colorScheme="gray" variant="outline">
+                        수정
+                      </Button>
+                    </Link>
                     <Button colorScheme="red" onClick={onOpen}>
                       삭제
                     </Button>
@@ -198,7 +200,9 @@ function RecruitmentDetailSection() {
             </Box>
           )}
 
-          <Box w="100%">{data.content}</Box>
+          <Box w="100%" whiteSpace="pre">
+            {data.content}
+          </Box>
 
           {loggedIn ? (
             mine ? (

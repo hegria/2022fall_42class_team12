@@ -1,10 +1,9 @@
-/* eslint-disable react/display-name */
 import { Button, FormControl, FormLabel, HStack, Input, VStack, Wrap } from "@chakra-ui/react";
 import EditableTag from "components/common/EditableTag";
 import { useEffect, useRef, useState } from "react";
 
-function SkillInput({ onChange }) {
-  const [skills, setSkills] = useState([]);
+function SkillInput({ value = [], onChange, ...props }) {
+  const [skills, setSkills] = useState(value);
   const skillInputRef = useRef(null);
   const handleSkillsInput = () => {
     if (!skillInputRef.current) {
@@ -21,12 +20,16 @@ function SkillInput({ onChange }) {
   };
 
   useEffect(() => {
+    setSkills(value);
+  }, [value]);
+
+  useEffect(() => {
     onChange?.(skills);
   }, [onChange, skills]);
 
   return (
-    <VStack spacing="20px">
-      <HStack w="100%" align="flex-end">
+    <VStack spacing="20px" {...props}>
+      <HStack w="100%" align="flex-end" spacing="16px">
         <FormControl>
           <FormLabel>기술 스택</FormLabel>
           <Input
@@ -35,7 +38,9 @@ function SkillInput({ onChange }) {
             bg="white"
           />
         </FormControl>
-        <Button onClick={handleSkillsInput}>추가</Button>
+        <Button onClick={handleSkillsInput} w="30%">
+          추가
+        </Button>
       </HStack>
 
       <Wrap w="100%" overflow="visible">
