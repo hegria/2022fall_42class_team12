@@ -689,7 +689,7 @@ router.post('/:id', uploadProject.single('photoUrl'), async function(req, res) {
 
                 // 프로젝트 연락 수단을 변경하는 경우
                 if(req.body.contactMethod || req.body.contactValue){
-                    let contact = body.contactMethod + '#' + body.contactValue;
+                    let contact = req.body.contactMethod + '#' + req.body.contactValue;
                     await db.Project.update({message: contact},{where:{projectId: project.dataValues.projectId}});
                 }
 
