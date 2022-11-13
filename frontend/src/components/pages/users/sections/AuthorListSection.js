@@ -3,19 +3,19 @@ import ProjectCard from "components/common/ProjectCard";
 import useRecruitments from "components/hooks/useRecruitments";
 import { PAGE_SIZE } from "constants/list";
 
-function AppliedListSection({ userId }) {
+function AuthorListSection({ userId }) {
   const { recruitments, size, setSize, initialLoading, loadingMore, empty, reachingEnd } =
     useRecruitments({
       pageSize: PAGE_SIZE,
       userId,
-      isApplied: true,
+      isAuthor: true,
     });
 
   return (
     <Box as="section">
       <VStack spacing="40px">
         {!initialLoading && empty ? (
-          <Center>신청한 모집글이 없습니다.</Center>
+          <Center>작성한 모집글이 없습니다.</Center>
         ) : (
           <SimpleGrid columns={3} spacing="24px" w="100%">
             {recruitments.map((project) => (
@@ -46,4 +46,4 @@ function AppliedListSection({ userId }) {
   );
 }
 
-export default AppliedListSection;
+export default AuthorListSection;

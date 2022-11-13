@@ -8,14 +8,12 @@ import {
   FormHelperText,
 } from "@chakra-ui/react";
 import SkillInput from "components/common/SkillInput";
-import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
-function PersonalInfoFormGroup() {
+function PersonalInfoFormGroup({ skills }) {
   const { register, setValue } = useFormContext();
 
   register("skills", { required: true });
-  const [skills, setSkills] = useState([]);
 
   return (
     <Flex direction="column" w="100%">
@@ -91,7 +89,6 @@ function PersonalInfoFormGroup() {
       <SkillInput
         value={skills}
         onChange={(skills) => {
-          setSkills(skills);
           setValue("skills", skills);
         }}
       />
