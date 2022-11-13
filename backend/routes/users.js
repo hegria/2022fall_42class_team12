@@ -79,7 +79,10 @@ router.get('/', async function (req, res) {
                 temp.name = userList[i].name;
                 temp.department = userList[i].major;
                 temp.introduction = userList[i].message;
-                temp.skills = userList[i].stacks.split('#');
+                temp.skills = [];
+                if(userList[i].stacks){
+                    temp.skills = userList[i].stacks.split('#');
+                }
                 temp.email = userList[i].email;
                 temp.personalLink = userList[i].link ? userList[i].link : null;
                 temp.photoUrl = userList[i].image;
@@ -134,7 +137,10 @@ router.get('/', async function (req, res) {
                 temp.name = userList[i].name;
                 temp.department = userList[i].major;
                 temp.introduction = userList[i].message;
-                temp.skills = userList[i].stacks.split('#');
+                temp.skills = [];
+                if(userList[i].stacks){
+                    temp.skills = userList[i].stacks.split('#');
+                }
                 temp.email = userList[i].email;
                 temp.personalLink = userList[i].link ? userList[i].link : null;
                 temp.photoUrl = userList[i].image;
@@ -180,7 +186,10 @@ router.get('/me', async function (req, res) {
         temp.name = user.dataValues.name;
         temp.department = user.dataValues.major;
         temp.introduction = user.dataValues.message;
-        temp.skills = user.dataValues.stacks.split('#');
+        temp.skills = [];
+        if(user.dataValues.stacks){
+            temp.skills = user.dataValues.stacks.split('#');
+        }
         temp.email = user.dataValues.email;
         temp.personalLink = user.dataValues.link ? user.dataValues.link : null;
         temp.photoUrl = user.dataValues.image;
@@ -210,7 +219,10 @@ router.get('/:id', async function (req, res) {
         temp.name = user.dataValues.name;
         temp.department = user.dataValues.major;
         temp.introduction = user.dataValues.message;
-        temp.skills = user.dataValues.stacks.split('#');
+        temp.skills = [];
+        if(user.dataValues.stacks){
+            temp.skills = user.dataValues.stacks.split('#');
+        }
         temp.email = user.dataValues.email;
         temp.personalLink = user.dataValues.link ? user.dataValues.link : null;
         temp.photoUrl = user.dataValues.image;
@@ -305,10 +317,6 @@ router.post('/register', uploadProfile.single('photoUrl'), async function(req, r
 
     // 중복된 아이디 이메일도 없고 인풋의 조건이 충족되면 생성
     const hashedPassword = crypto.createHash("sha512").update(body.password).digest("base64");
-    let stacks = ""
-    if (body.skills) {
-        stacks = body.skills.join('#');
-    }
 
     const userInfo = {
         id: body.id,
@@ -318,7 +326,7 @@ router.post('/register', uploadProfile.single('photoUrl'), async function(req, r
         email: body.email,
         link: body.personalLink ? body.personalLink: null,
         image: req.file ? req.file.location : null,
-        stacks: stacks,
+        stacks: body.skills ? body.skills.join('#') : null,
         message: body.introduction ? body.introduction : "..."
     };
     
