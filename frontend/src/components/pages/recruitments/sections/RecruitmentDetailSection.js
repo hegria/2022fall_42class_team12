@@ -18,7 +18,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  SimpleGrid,
   Tag,
   Text,
   useDisclosure,
@@ -48,6 +47,7 @@ const InfoTitle = chakra(Text, {
 const InfoText = chakra(InfoTitle, {
   baseStyle: {
     color: "gray.700",
+    fontWeight: "medium",
     flexShrink: 1,
   },
 });
