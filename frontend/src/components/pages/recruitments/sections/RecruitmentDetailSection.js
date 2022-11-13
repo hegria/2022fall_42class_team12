@@ -26,6 +26,7 @@ import {
 } from "@chakra-ui/react";
 import useMe from "components/hooks/useMe";
 import useRecruitment from "components/hooks/useRecruitment";
+import ApplicantList from "components/pages/recruitments/ApplicantList";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -258,7 +259,10 @@ function RecruitmentDetailSection() {
 
           {loggedIn ? (
             mine ? (
-              <Button size="lg">신청자 확인하기</Button>
+              <>
+                <Divider />
+                <ApplicantList projectId={router.query.id} />
+              </>
             ) : (
               <>
                 {data.userApplication.isApplied ? (
