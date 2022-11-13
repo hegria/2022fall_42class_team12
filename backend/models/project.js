@@ -26,7 +26,7 @@ module.exports = function(sequelize) {
         stacks:{
             field: 'stacks',
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         required: {
             field: 'required',

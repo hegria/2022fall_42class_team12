@@ -283,7 +283,10 @@ router.get('/', async function(req, res) {
             temp.startDate = projectList[i].startTime;
             temp.endDate = projectList[i].endTime;
             temp.content = projectList[i].message;
-            temp.skills = projectList[i].stacks.split('#');
+            temp.skills = [];
+            if(projectList[i].stacks){
+                temp.skills = projectList[i].stacks.split('#');
+            }
             temp.photoUrl = projectList[i].image;
             temp.lastEdited = projectList[i].lastModified;
             temp.capacity = projectList[i].required;
@@ -347,10 +350,6 @@ router.post('/', uploadProject.single('photoUrl'), async function(req, res) {
         }
         // 새로운 프로젝트 생성
         else{
-            let stacks = "";
-            if (body.skills) {
-                stacks = body.skills.join('#');
-            }
             let contact = ""
             if (body.contactMethod || body.contactValue) contact = body.contactMethod + '#' + body.contactValue;
 
@@ -359,7 +358,7 @@ router.post('/', uploadProject.single('photoUrl'), async function(req, res) {
                 topic: body.subject,
                 leader: identity.userId,
                 contact: contact,
-                stacks: stacks,
+                stacks: body.skills ? body.skills.join('#') : null,
                 required: body.capacity,
                 current: 0,
                 stars: 0,
@@ -426,7 +425,10 @@ router.get('/random', async function (req, res) {
             temp.startDate = projectList[i].startTime;
             temp.endDate = projectList[i].endTime;
             temp.content = projectList[i].message;
-            temp.skills = projectList[i].stacks.split('#');
+            temp.skills = []
+            if(projectList[i].stacks){
+                temp.skills = projectList[i].stacks.split('#');
+            }
             temp.photoUrl = projectList[i].image;
             temp.lastEdited = projectList[i].lastModified;
             temp.capacity = projectList[i].required;
@@ -496,8 +498,10 @@ router.get('/:id', async function(req, res) {
         temp.contact.value = contact[1];
 
         temp.content = project.dataValues.message;
-        let skills = project.dataValues.stacks.split('#');
-        temp.skills = skills;
+        temp.skills = []
+        if(project.dataValues.stacks){
+            temp.skills = project.dataValues.stacks.split('#');
+        }
         temp.photoUrl = project.dataValues.image;
         temp.lastEdited = project.dataValues.lastModified;
         temp.capacity = project.dataValues.required;
