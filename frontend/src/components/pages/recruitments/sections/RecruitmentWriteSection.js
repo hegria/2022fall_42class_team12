@@ -44,7 +44,7 @@ function RecruitmentWriteSection() {
     };
 
     try {
-      let createdId;
+      let targetId;
       let toastMessage;
       if (router.query.id) {
         await serverAxios.post(`/projects/${router.query.id}`, reqBody, {
@@ -53,7 +53,7 @@ function RecruitmentWriteSection() {
             Authorization: `Bearer ${getCookie("jwt")}`,
           },
         });
-        createdId = router.query.id;
+        targetId = router.query.id;
         toastMessage = "모집글이 수정되었습니다.";
       } else {
         const { data } = await serverAxios.post("/projects", reqBody, {
@@ -62,7 +62,7 @@ function RecruitmentWriteSection() {
             Authorization: `Bearer ${getCookie("jwt")}`,
           },
         });
-        // createdId = data.id;
+        targetId = data.projectId;
         toastMessage = "모집글이 등록되었습니다.";
       }
       toast.closeAll();
@@ -72,7 +72,7 @@ function RecruitmentWriteSection() {
         isClosable: true,
       });
       // TODO: 백엔드에서 등록된 글 id 리턴해주면 글 링크로 이동
-      Router.push(`/`);
+      Router.push(`/recruitments/${targetId}`);
     } catch (e) {
       toast({
         title: "모집글 등록 실패",
