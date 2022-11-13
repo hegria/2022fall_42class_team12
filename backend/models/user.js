@@ -56,7 +56,7 @@ module.exports = function(sequelize) {
         },
         image:{
             field: 'image',
-            type: DataTypes.STRING(10000),
+            type: DataTypes.STRING(5000),
             allowNull: true,
         }
     }, {
