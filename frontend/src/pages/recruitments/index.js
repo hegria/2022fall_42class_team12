@@ -12,7 +12,7 @@ import {
 import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
 import ProjectCard from "components/common/ProjectCard";
 import { PAGE_SIZE } from "constants/list";
-import useRecruitments from "components/hooks/useRecruitments";
+import useRecruitments from "hooks/useRecruitments";
 import { useState } from "react";
 
 function RecruitPage() {
@@ -73,9 +73,11 @@ function RecruitPage() {
           </SimpleGrid>
         )}
 
-        <Button onClick={() => setSize(size + 1)} size="lg" disabled={loadingMore || reachingEnd}>
-          {loadingMore ? "불러오는 중..." : reachingEnd ? "데이터 없음" : "더 불러오기"}
-        </Button>
+        {!reachingEnd && (
+          <Button onClick={() => setSize(size + 1)} size="lg" disabled={loadingMore}>
+            {loadingMore ? "불러오는 중..." : "더 불러오기"}
+          </Button>
+        )}
       </VStack>
     </HomeSectionLayout>
   );

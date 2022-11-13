@@ -1,7 +1,7 @@
 import { Center, Heading, SimpleGrid } from "@chakra-ui/react";
 import ProjectCard from "components/common/ProjectCard";
 import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
-import useRecruitments from "components/hooks/useRecruitments";
+import useRecruitments from "hooks/useRecruitments";
 
 function PopularProjectsSection() {
   const { recruitments, initialLoading, empty } = useRecruitments({

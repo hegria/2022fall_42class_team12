@@ -12,17 +12,12 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import useApplication from "components/hooks/useApplication";
+import { APPLICATION_STATUS } from "components/pages/recruitments/sections/RecruitmentDetailSection";
+import useApplication from "hooks/useApplication";
 import Link from "next/link";
 import { useCallback } from "react";
 import { getAuthHeader } from "utils/auth";
 import { serverAxios } from "utils/axios";
-
-const STATUS = {
-  waiting: "대기",
-  approved: "승인",
-  rejected: "거절",
-};
 
 function ApplicantList({ projectId }) {
   const { data, mutate, loading } = useApplication(projectId);
@@ -81,7 +76,7 @@ function ApplicantList({ projectId }) {
                     </Button>
                   </Link>
                 </Td>
-                <Td textAlign="end">{STATUS[application.status]}</Td>
+                <Td textAlign="end">{APPLICATION_STATUS[application.status]}</Td>
                 <Td textAlign="end">
                   {application.status === "waiting" && (
                     <>

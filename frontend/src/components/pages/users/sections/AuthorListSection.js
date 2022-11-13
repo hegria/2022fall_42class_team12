@@ -1,39 +1,36 @@
-import { Button, Center, Heading, SimpleGrid, VStack } from "@chakra-ui/react";
+import { Box, Button, Center, SimpleGrid, VStack } from "@chakra-ui/react";
 import ProjectCard from "components/common/ProjectCard";
 import useRecruitments from "hooks/useRecruitments";
-import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
 import { PAGE_SIZE } from "constants/list";
 
-function RecentProjectsSection() {
+function AuthorListSection({ userId }) {
   const { recruitments, size, setSize, initialLoading, loadingMore, empty, reachingEnd } =
     useRecruitments({
       pageSize: PAGE_SIZE,
+      userId,
+      isAuthor: true,
     });
 
   return (
-    <HomeSectionLayout>
-      <Heading size="lg" marginBottom="40px">
-        최근 등록된 모집글
-      </Heading>
-
+    <Box as="section">
       <VStack spacing="40px">
         {!initialLoading && empty ? (
-          <Center>등록된 모집글이 없습니다.</Center>
+          <Center>작성한 모집글이 없습니다.</Center>
         ) : (
           <SimpleGrid columns={3} spacing="24px" w="100%">
             {recruitments.map((project) => (
               <ProjectCard
                 key={project.id}
                 projectId={project.id}
-                subject={project.subject}
                 title={project.title}
-                startDate={project.startDate}
-                skills={project.skills}
+                subject={project.subject}
                 photoUrl={project.photoUrl}
-                authorPhotoUrl={project.author.photoUrl}
+                startDate={project.startDate}
                 authorName={project.author.name}
-                maxPeopleCount={project.capacity}
+                authorPhotoUrl={project.author.photoUrl}
                 curPeopleCount={project.approvalCount}
+                maxPeopleCount={project.capacity}
+                skills={project.skills}
               />
             ))}
           </SimpleGrid>
@@ -45,8 +42,8 @@ function RecentProjectsSection() {
           </Button>
         )}
       </VStack>
-    </HomeSectionLayout>
+    </Box>
   );
 }
 
-export default RecentProjectsSection;
+export default AuthorListSection;

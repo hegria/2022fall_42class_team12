@@ -8,14 +8,12 @@ import {
   FormHelperText,
 } from "@chakra-ui/react";
 import SkillInput from "components/common/SkillInput";
-import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
-function PersonalInfoFormGroup() {
+function PersonalInfoFormGroup({ skills }) {
   const { register, setValue } = useFormContext();
 
-  register("skills", { required: true });
-  const [skills, setSkills] = useState([]);
+  register("skills");
 
   return (
     <Flex direction="column" w="100%">
@@ -33,8 +31,8 @@ function PersonalInfoFormGroup() {
             type="text"
             placeholder="홍길동"
             bg="white"
-            required
-            {...register("name", { required: true })}
+            maxLength={100}
+            {...register("name")}
           />
         </FormControl>
         <FormControl isRequired>
@@ -43,8 +41,8 @@ function PersonalInfoFormGroup() {
             type="text"
             placeholder="소프트웨어학과"
             bg="white"
-            required
-            {...register("department", { required: true })}
+            maxLength={100}
+            {...register("department")}
           />
         </FormControl>
       </Flex>
@@ -56,30 +54,26 @@ function PersonalInfoFormGroup() {
           type="email"
           placeholder="honggildong@skku.edu"
           bg="white"
-          required
-          {...register("email", { required: true })}
+          maxLength={100}
+          {...register("email")}
         />
         <FormHelperText>성균관대학교 이메일(skku.edu, g.skku.edu)을 입력해주세요.</FormHelperText>
       </FormControl>
 
       <FormControl marginBottom="16px">
-        <FormLabel>링크(선택)</FormLabel>
+        <FormLabel>링크</FormLabel>
         <Input
           type="url"
           placeholder="https://github.com/honggildong"
           bg="white"
+          maxLength={100}
           {...register("personalLink")}
         />
       </FormControl>
 
       <FormControl isRequired marginBottom="16px">
         <FormLabel>한 줄 자기소개</FormLabel>
-        <Textarea
-          resize="none"
-          required
-          bg="white"
-          {...register("introduction", { required: true })}
-        />
+        <Textarea resize="none" bg="white" maxLength={100} {...register("introduction")} />
       </FormControl>
 
       <FormControl marginBottom="16px">
@@ -91,7 +85,6 @@ function PersonalInfoFormGroup() {
       <SkillInput
         value={skills}
         onChange={(skills) => {
-          setSkills(skills);
           setValue("skills", skills);
         }}
       />

@@ -52,7 +52,8 @@ router.get('/', async function(req, res) {
             totalPages = totalPages + 1;
         }
 
-        if (totalCount < 1){
+        // 빈 경우 빈 배열을 반환
+        if(totalCount < 1){
             return res.status(200).json({
                 "pageNumber": pageNumber,
                 "pageSize": pageSize,
