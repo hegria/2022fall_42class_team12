@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Flex, HStack, Tag, Text, VStack } from "@chakra-ui/react";
 import Link from "next/link";
 
-function UserCard({ profimg, name, department, skills, intro }) {
+function UserCard({ userId, profimg, name, department, skills, intro }) {
   return (
     <Box
       minW="360px"
@@ -33,7 +33,7 @@ function UserCard({ profimg, name, department, skills, intro }) {
           </HStack>
           <Text fontSize="sm">{intro}</Text>
 
-          <Link href={`/users/${1}`} passHref>
+          <Link href={`/users/${userId}`} passHref>
             <Button as="a" colorScheme="gray" size="lg">
               프로필 보기
             </Button>
