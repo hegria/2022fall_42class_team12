@@ -3,7 +3,7 @@ import ProjectCard from "components/common/ProjectCard";
 import { MOCKUP_PROJECT_LIST } from "constants/mockups/project";
 import { useState } from "react";
 
-function OngoingListSection() {
+function AuthorListSection() {
   const [data, setData] = useState(MOCKUP_PROJECT_LIST);
 
   return (
@@ -33,4 +33,4 @@ function OngoingListSection() {
   );
 }
 
-export default OngoingListSection;
+export default AuthorListSection;

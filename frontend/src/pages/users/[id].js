@@ -1,10 +1,13 @@
 import { Container, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import AuthorListSection from "components/pages/users/sections/\bAuthorListSection";
 import AppliedListSection from "components/pages/users/sections/AppliedListSection";
 import FavoriteListSection from "components/pages/users/sections/FavoriteListSection";
-import OngoingListSection from "components/pages/users/sections/OngoingListSection";
 import UserInfoSection from "components/pages/users/sections/UserInfoSection";
+import { useRouter } from "next/router";
 
 function UserDetailPage() {
+  const router = useRouter();
+
   return (
     <>
       <UserInfoSection />
@@ -12,17 +15,17 @@ function UserDetailPage() {
       <Container maxW="container.xl" paddingBottom="80px">
         <Tabs variant="soft-rounded" colorScheme="green">
           <TabList>
+            <Tab>작성한 모집글</Tab>
             <Tab>즐겨찾기한 모집글</Tab>
-            <Tab>참여 중인 모집글</Tab>
             <Tab>신청한 모집글</Tab>
           </TabList>
 
           <TabPanels>
             <TabPanel paddingX="0">
-              <FavoriteListSection />
+              <AuthorListSection />
             </TabPanel>
             <TabPanel paddingX="0">
-              <OngoingListSection />
+              <FavoriteListSection userId={router.query.id} />
             </TabPanel>
             <TabPanel paddingX="0">
               <AppliedListSection />

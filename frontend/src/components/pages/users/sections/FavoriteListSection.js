@@ -1,15 +1,13 @@
 import { Box, Button, Center, SimpleGrid, VStack } from "@chakra-ui/react";
 import ProjectCard from "components/common/ProjectCard";
-import useMe from "components/hooks/useMe";
 import useRecruitments from "components/hooks/useRecruitments";
 import { PAGE_SIZE } from "constants/list";
 
-function FavoriteListSection() {
-  const { user } = useMe();
+function FavoriteListSection({ userId }) {
   const { recruitments, size, setSize, initialLoading, loadingMore, empty, reachingEnd } =
     useRecruitments({
       pageSize: PAGE_SIZE,
-      userId: user?.userId,
+      userId,
       isFavorite: true,
     });
 
