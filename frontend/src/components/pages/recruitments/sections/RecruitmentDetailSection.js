@@ -198,7 +198,9 @@ function RecruitmentDetailSection() {
             </Box>
           )}
 
-          <Box w="100%">{data.content}</Box>
+          <Box w="100%" whiteSpace="pre">
+            {data.content}
+          </Box>
 
           {loggedIn ? (
             mine ? (
