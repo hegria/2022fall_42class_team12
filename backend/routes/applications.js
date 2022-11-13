@@ -65,6 +65,9 @@ router.get('/', async function(req, res) {
             offset: offset,
             limit: pageSize,
             order:[['id', 'ASC']],
+            where:{
+                project: req.body.projectId
+            }
         });
 
         let content = [];
