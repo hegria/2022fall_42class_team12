@@ -75,7 +75,7 @@ router.get('/', async function(req, res) {
             limit: pageSize,
             order:[['id', 'ASC']],
             where:{
-                project: req.body.projectId
+                project: req.query.projectId
             }
         });
 
