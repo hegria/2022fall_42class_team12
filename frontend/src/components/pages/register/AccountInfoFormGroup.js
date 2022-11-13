@@ -15,13 +15,7 @@ function AccountInfoFormGroup() {
 
       <FormControl isRequired marginBottom="16px">
         <FormLabel>아이디</FormLabel>
-        <Input
-          type="text"
-          bg="white"
-          width="320px"
-          required
-          {...register("id", { required: true })}
-        />
+        <Input type="text" bg="white" width="320px" maxLength={100} required {...register("id")} />
       </FormControl>
 
       <FormControl isRequired marginBottom="16px">
@@ -30,8 +24,9 @@ function AccountInfoFormGroup() {
           type="password"
           bg="white"
           width="320px"
+          maxLength={100}
           required
-          {...register("password", { required: true })}
+          {...register("password")}
         />
       </FormControl>
 
@@ -41,8 +36,9 @@ function AccountInfoFormGroup() {
           type="password"
           bg="white"
           width="320px"
+          maxLength={100}
           required
-          {...register("rpassword", { required: true })}
+          {...register("rpassword")}
         />
         {errors.rpassword && <FormErrorMessage>{errors.rpassword.message}</FormErrorMessage>}
       </FormControl>

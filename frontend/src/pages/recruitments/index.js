@@ -12,7 +12,7 @@ import {
 import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
 import ProjectCard from "components/common/ProjectCard";
 import { PAGE_SIZE } from "constants/list";
-import useRecruitments from "components/hooks/useRecruitments";
+import useRecruitments from "hooks/useRecruitments";
 import { useState } from "react";
 
 function RecruitPage() {

@@ -11,10 +11,11 @@ import {
   VStack,
   Wrap,
 } from "@chakra-ui/react";
-import useMe from "components/hooks/useMe";
-import useUser from "components/hooks/useUser";
+import useMe from "hooks/useMe";
+import useUser from "hooks/useUser";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import defaultUserImage from "/public/images/default-user-image.png";
 
 function UserInfoSection() {
   const router = useRouter();
@@ -28,7 +29,7 @@ function UserInfoSection() {
     <Box as="section" marginTop="80px">
       <Container maxW="container.md" paddingY="80px">
         <Center flexDirection="column" rowGap="24px">
-          <Avatar size="2xl" src={data.photoUrl} />
+          <Avatar size="2xl" src={data.photoUrl ?? defaultUserImage.src} />
 
           <VStack spacing="8px">
             <Text fontSize="24px" fontWeight="bold">

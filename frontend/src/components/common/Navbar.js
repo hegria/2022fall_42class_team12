@@ -10,8 +10,9 @@ import {
   MenuList,
   Text,
 } from "@chakra-ui/react";
-import useMe from "components/hooks/useMe";
+import useMe from "hooks/useMe";
 import Link from "next/link";
+import defaultUserImage from "/public/images/default-user-image.png";
 
 function Navbar() {
   const { loggedIn, logout, user } = useMe();
@@ -63,7 +64,7 @@ function Navbar() {
               <Menu>
                 <MenuButton as={Button} colorScheme="gray" variant="ghost">
                   <HStack spacing="18px">
-                    <Avatar src={user?.photoUrl} size="sm" />
+                    <Avatar src={user.photoUrl ?? defaultUserImage.src} size="sm" />
                     <Text fontSize="16px">{user.name}</Text>
                   </HStack>
                 </MenuButton>

@@ -1,6 +1,6 @@
 import { Container, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import AuthorListSection from "components/pages/users/sections/\bAuthorListSection";
 import AppliedListSection from "components/pages/users/sections/AppliedListSection";
+import AuthorListSection from "components/pages/users/sections/AuthorListSection";
 import FavoriteListSection from "components/pages/users/sections/FavoriteListSection";
 import UserInfoSection from "components/pages/users/sections/UserInfoSection";
 import { useRouter } from "next/router";

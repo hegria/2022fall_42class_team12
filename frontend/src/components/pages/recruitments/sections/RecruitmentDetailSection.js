@@ -24,8 +24,8 @@ import {
   VStack,
   Wrap,
 } from "@chakra-ui/react";
-import useMe from "components/hooks/useMe";
-import useRecruitment from "components/hooks/useRecruitment";
+import useMe from "hooks/useMe";
+import useRecruitment from "hooks/useRecruitment";
 import ApplicantList from "components/pages/recruitments/ApplicantList";
 import Image from "next/image";
 import Link from "next/link";
@@ -47,6 +47,7 @@ const InfoTitle = chakra(Text, {
 const InfoText = chakra(InfoTitle, {
   baseStyle: {
     color: "gray.700",
+    fontWeight: "medium",
     flexShrink: 1,
   },
 });
@@ -202,36 +203,38 @@ function RecruitmentDetailSection() {
                 </HStack>
               </Link>
 
-              <HStack spacing="60px" w="100%">
+              <HStack spacing="60px" wordBreak="break-all" align="flex-start" w="100%">
                 <VStack spacing="30px" align="flex-start" flex="1">
-                  <HStack spacing="30px">
+                  <HStack spacing="30px" align="flex-start">
                     <InfoTitle>모집 주제</InfoTitle>
                     <InfoText>{data.subject}</InfoText>
                   </HStack>
-                  <HStack spacing="30px">
+                  <HStack spacing="30px" align="flex-start">
                     <InfoTitle>모집 인원</InfoTitle>
                     <InfoText>{data.capacity}</InfoText>
                   </HStack>
-                  <HStack spacing="30px" align="flex-start">
-                    <InfoTitle>기술 스택</InfoTitle>
-                    <Wrap>
-                      {data.skills.map((skill) => (
-                        <Tag key={skill}>{skill}</Tag>
-                      ))}
-                    </Wrap>
-                  </HStack>
+                  {data.skills.length !== 0 && (
+                    <HStack spacing="30px" align="flex-start">
+                      <InfoTitle>기술 스택</InfoTitle>
+                      <Wrap>
+                        {data.skills.map((skill) => (
+                          <Tag key={skill}>{skill}</Tag>
+                        ))}
+                      </Wrap>
+                    </HStack>
+                  )}
                 </VStack>
 
                 <VStack spacing="30px" align="flex-start" flex="1">
-                  <HStack spacing="30px">
+                  <HStack spacing="30px" align="flex-start">
                     <InfoTitle>시작 예정</InfoTitle>
-                    <InfoText>{data.startDate}</InfoText>
+                    <InfoText>{data.startDate.split(" ")[0]}</InfoText>
                   </HStack>
-                  <HStack spacing="30px">
+                  <HStack spacing="30px" align="flex-start">
                     <InfoTitle>종료 예정</InfoTitle>
-                    <InfoText>{data.endDate}</InfoText>
+                    <InfoText>{data.endDate.split(" ")[0]}</InfoText>
                   </HStack>
-                  <HStack spacing="30px">
+                  <HStack spacing="30px" align="flex-start">
                     <InfoTitle>연락 방법</InfoTitle>
                     <InfoText>{data.contact.value}</InfoText>
                   </HStack>
@@ -253,7 +256,7 @@ function RecruitmentDetailSection() {
             </Box>
           )}
 
-          <Box w="100%" whiteSpace="pre">
+          <Box w="100%" whiteSpace="pre-wrap">
             {data.content}
           </Box>
 
