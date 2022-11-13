@@ -542,6 +542,14 @@ router.get('/:id', async function(req, res) {
             if(isApply){
                 temp.userApplication.isApplied = true;
                 temp.userApplication.id = isApply.dataValues.id;
+                temp.userApplication.status = "waiting";
+                let status = isApply.dataValues.accept;
+                if(status == 1){
+                    temp.userApplication.status = "approved";
+                }
+                else if(status == 2){
+                    temp.userApplication.status = "rejected";
+                }
             }
         }
 
