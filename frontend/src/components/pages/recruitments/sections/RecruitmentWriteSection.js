@@ -31,9 +31,13 @@ function RecruitmentWriteSection() {
 
   const toast = useToast();
 
-  const { register, handleSubmit, setValue, control } = useForm();
+  const { register, handleSubmit, setValue, control } = useForm({
+    defaultValues: {
+      capacity: 1,
+    },
+  });
 
-  register("skills", { required: true });
+  register("skills");
   const [skills, setSkills] = useState([]);
 
   const onSubmit = async (data) => {
@@ -123,7 +127,8 @@ function RecruitmentWriteSection() {
                 <Input
                   placeholder="같이 프로젝트 하실 분 구합니다!"
                   bg="white"
-                  {...register("title", { required: true })}
+                  maxLength={50}
+                  {...register("title")}
                 />
               </FormControl>
 
@@ -133,7 +138,8 @@ function RecruitmentWriteSection() {
                   <Input
                     placeholder="프로젝트"
                     bg="white"
-                    {...register("subject", { required: true })}
+                    maxLength={10}
+                    {...register("subject")}
                   />
                 </FormControl>
 
@@ -159,19 +165,19 @@ function RecruitmentWriteSection() {
               <HStack w="100%" spacing="16px">
                 <FormControl isRequired>
                   <FormLabel>시작 예정</FormLabel>
-                  <Input type="date" bg="white" {...register("startDate", { required: true })} />
+                  <Input type="date" bg="white" {...register("startDate")} />
                 </FormControl>
 
                 <FormControl isRequired>
                   <FormLabel>종료 예정</FormLabel>
-                  <Input type="date" bg="white" {...register("endDate", { required: true })} />
+                  <Input type="date" bg="white" {...register("endDate")} />
                 </FormControl>
               </HStack>
 
               <HStack w="100%" spacing="16px" align="flex-end">
                 <FormControl isRequired w="30%">
                   <FormLabel>연락 방법</FormLabel>
-                  <Select bg="white" {...register("contactMethod", { required: true })}>
+                  <Select bg="white" {...register("contactMethod")}>
                     <option value="kakao">카카오톡 오픈채팅</option>
                     <option value="email">이메일</option>
                     <option value="phone">전화번호</option>
@@ -183,7 +189,8 @@ function RecruitmentWriteSection() {
                   required
                   placeholder="연락처를 입력하세요"
                   bg="white"
-                  {...register("contactValue", { required: true })}
+                  maxLength={120}
+                  {...register("contactValue")}
                 />
               </HStack>
 
@@ -205,7 +212,8 @@ function RecruitmentWriteSection() {
                   resize="none"
                   style={{ height: "300px" }}
                   bg="white"
-                  {...register("content", { required: true })}
+                  maxLength={2000}
+                  {...register("content")}
                 />
               </FormControl>
 

@@ -213,14 +213,16 @@ function RecruitmentDetailSection() {
                     <InfoTitle>모집 인원</InfoTitle>
                     <InfoText>{data.capacity}</InfoText>
                   </HStack>
-                  <HStack spacing="30px" align="flex-start">
-                    <InfoTitle>기술 스택</InfoTitle>
-                    <Wrap ㅈ>
-                      {data.skills.map((skill) => (
-                        <Tag key={skill}>{skill}</Tag>
-                      ))}
-                    </Wrap>
-                  </HStack>
+                  {data.skills.length !== 0 && (
+                    <HStack spacing="30px" align="flex-start">
+                      <InfoTitle>기술 스택</InfoTitle>
+                      <Wrap>
+                        {data.skills.map((skill) => (
+                          <Tag key={skill}>{skill}</Tag>
+                        ))}
+                      </Wrap>
+                    </HStack>
+                  )}
                 </VStack>
 
                 <VStack spacing="30px" align="flex-start" flex="1">
