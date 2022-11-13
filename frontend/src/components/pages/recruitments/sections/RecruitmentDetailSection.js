@@ -52,6 +52,12 @@ const InfoText = chakra(InfoTitle, {
   },
 });
 
+export const APPLICATION_STATUS = {
+  waiting: "대기",
+  approved: "승인",
+  rejected: "거절",
+};
+
 function RecruitmentDetailSection() {
   const router = useRouter();
 
@@ -269,9 +275,16 @@ function RecruitmentDetailSection() {
             ) : (
               <>
                 {data.userApplication.isApplied ? (
-                  <Button size="lg" colorScheme="red" onClick={handleClickApplicationCancelButton}>
-                    신청 취소
-                  </Button>
+                  <VStack>
+                    <Button
+                      size="lg"
+                      colorScheme="red"
+                      onClick={handleClickApplicationCancelButton}
+                    >
+                      신청 취소
+                    </Button>
+                    <Text>신청 상태: {APPLICATION_STATUS[data.userApplication.status]}</Text>
+                  </VStack>
                 ) : (
                   <Button size="lg" onClick={handleClickApplicationButton}>
                     신청하기
