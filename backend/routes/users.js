@@ -376,7 +376,7 @@ router.post('/me', uploadProfile.single('photoUrl'), async function(req, res) {
 
                 //이메일을 변경하는 경우
                 if(req.body.email){
-                    if( !body.email.endsWith('skku.edu') && !body.email.endsWith('g.skku.edu') ){
+                    if( !req.body.email.endsWith('skku.edu') && !req.body.email.endsWith('g.skku.edu') ){
                         return res.status(400).json({"success": false, "reason": "성균관대학교 이메일만 사용 가능합니다!!"});
                     }
                     await db.User.update({email: req.body.email},{where:{userId: identity.userId}});
@@ -401,6 +401,7 @@ router.post('/me', uploadProfile.single('photoUrl'), async function(req, res) {
                 // 개인 페이지 수정 완료
                 return res.status(200).json({"success": true, "reason": "정보를 수정했습니다."});
             }catch(err){
+                console.log(err)
                 // 시스템 오류
                 return res.status(500).json({"success": false, "reason": "시스템 오류가 발생했습니다. 다시 시도해주세요"});
             }
