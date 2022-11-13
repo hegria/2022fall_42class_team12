@@ -24,8 +24,8 @@ import {
   VStack,
   Wrap,
 } from "@chakra-ui/react";
-import useMe from "components/hooks/useMe";
-import useRecruitment from "components/hooks/useRecruitment";
+import useMe from "hooks/useMe";
+import useRecruitment from "hooks/useRecruitment";
 import ApplicantList from "components/pages/recruitments/ApplicantList";
 import Image from "next/image";
 import Link from "next/link";

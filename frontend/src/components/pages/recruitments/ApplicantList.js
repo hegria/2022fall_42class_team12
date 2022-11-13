@@ -12,7 +12,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import useApplication from "components/hooks/useApplication";
+import useApplication from "hooks/useApplication";
 import Link from "next/link";
 import { useCallback } from "react";
 import { getAuthHeader } from "utils/auth";

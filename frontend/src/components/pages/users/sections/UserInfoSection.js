@@ -11,8 +11,8 @@ import {
   VStack,
   Wrap,
 } from "@chakra-ui/react";
-import useMe from "components/hooks/useMe";
-import useUser from "components/hooks/useUser";
+import useMe from "hooks/useMe";
+import useUser from "hooks/useUser";
 import Link from "next/link";
 import { useRouter } from "next/router";
 

@@ -1,5 +1,5 @@
 import { Box, Button, Container, useToast, VStack } from "@chakra-ui/react";
-import useMe from "components/hooks/useMe";
+import useMe from "hooks/useMe";
 import PersonalInfoFormGroup from "components/pages/register/PersonalInfoFormGroup";
 import Router from "next/router";
 import { useEffect, useState } from "react";

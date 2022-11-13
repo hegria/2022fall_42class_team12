@@ -12,7 +12,7 @@ import {
 import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
 import { MOCKUP_USER_LIST } from "constants/mockups/users";
 import UserCard from "components/common/UserCard";
-import useUsers from "components/hooks/useUsers";
+import useUsers from "hooks/useUsers";
 import { PAGE_SIZE } from "constants/list";
 import { useState } from "react";
 

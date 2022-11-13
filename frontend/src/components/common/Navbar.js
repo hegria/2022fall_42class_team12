@@ -10,7 +10,7 @@ import {
   MenuList,
   Text,
 } from "@chakra-ui/react";
-import useMe from "components/hooks/useMe";
+import useMe from "hooks/useMe";
 import Link from "next/link";
 
 function Navbar() {
