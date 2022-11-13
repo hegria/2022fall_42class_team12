@@ -8,7 +8,7 @@ import { serverAxios } from "utils/axios";
 import { getCookie } from "utils/cookie";
 
 function AccountModifySection() {
-  const { user } = useMe();
+  const { user, mutate } = useMe();
 
   const methods = useForm();
 
@@ -29,6 +29,7 @@ function AccountModifySection() {
           Authorization: `Bearer ${getCookie("jwt")}`,
         },
       });
+      mutate();
       toast.closeAll();
       toast({
         title: "정보가 수정되었습니다.",
