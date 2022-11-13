@@ -2,7 +2,7 @@ import { Box, Button, Container, useToast, VStack } from "@chakra-ui/react";
 import useMe from "components/hooks/useMe";
 import PersonalInfoFormGroup from "components/pages/register/PersonalInfoFormGroup";
 import Router from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { serverAxios } from "utils/axios";
 import { getCookie } from "utils/cookie";
@@ -46,6 +46,7 @@ function AccountModifySection() {
     }
   };
 
+  const [skills, setSkills] = useState([]);
   useEffect(() => {
     if (!user) return;
     methods.setValue("name", user.name);
@@ -55,6 +56,7 @@ function AccountModifySection() {
     methods.setValue("introduction", user.introduction);
     methods.setValue("photoUrl", user.photoUrl);
     methods.setValue("skills", user.skills);
+    setSkills(user.skills);
   }, [user, methods]);
 
   return (
@@ -63,7 +65,7 @@ function AccountModifySection() {
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             <VStack spacing="40px">
-              <PersonalInfoFormGroup />
+              <PersonalInfoFormGroup skills={skills} />
               <Button type="submit" size="lg">
                 수정
               </Button>

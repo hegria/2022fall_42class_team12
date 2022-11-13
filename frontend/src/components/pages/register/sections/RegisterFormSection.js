@@ -61,7 +61,7 @@ function RegisterFormSection() {
           <form onSubmit={methods.handleSubmit(onSubmit, onError)}>
             <VStack spacing="40px">
               <AccountInfoFormGroup />
-              <PersonalInfoFormGroup />
+              <PersonalInfoFormGroup skills={[]} />
               <Button type="submit" size="lg">
                 회원 가입
               </Button>
