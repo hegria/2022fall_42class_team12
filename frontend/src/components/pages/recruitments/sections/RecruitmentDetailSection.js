@@ -86,6 +86,24 @@ function RecruitmentDetailSection() {
     }
   }, [router, mutate]);
 
+  const handleClickApplicationButton = useCallback(async () => {
+    try {
+      await serverAxios.post(`/applications`, { projectId: router.query.id }, getAuthHeader());
+      mutate();
+    } catch (e) {
+      console.log(e);
+    }
+  }, [router, mutate]);
+
+  const handleClickApplicationCancelButton = useCallback(async () => {
+    try {
+      await serverAxios.delete(`/applications/${data.userApplication.id}`, getAuthHeader());
+      mutate();
+    } catch (e) {
+      console.log(e);
+    }
+  }, [mutate, data]);
+
   if (loading) return "loading...";
   return (
     <Box as="section" marginTop="80px">
@@ -242,7 +260,17 @@ function RecruitmentDetailSection() {
             mine ? (
               <Button size="lg">신청자 확인하기</Button>
             ) : (
-              <Button size="lg">신청하기</Button>
+              <>
+                {data.userApplication.isApplied ? (
+                  <Button size="lg" colorScheme="red" onClick={handleClickApplicationCancelButton}>
+                    신청 취소
+                  </Button>
+                ) : (
+                  <Button size="lg" onClick={handleClickApplicationButton}>
+                    신청하기
+                  </Button>
+                )}
+              </>
             )
           ) : (
             <></>
