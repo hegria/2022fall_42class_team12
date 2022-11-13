@@ -800,10 +800,11 @@ router.delete('/:id/favorite', async function(req, res) {
 
         // 즐겨찾기 테이블에서 삭제
         await db.Star.destroy({
-            where: {projectId: req.params.id, user: identity.userId}
+            where: {project: req.params.id, user: identity.userId}
         }).then( result => {
             return res.status(200).json({"success":true, "reason": "즐겨찾기에서 삭제했습니다."});
         }).catch(err => {
+            console.log(err)
             return res.status(500).json({"success": false, "reason": "시스템 오류가 발생했습니다. 다시 시도해주세요"});
         });
 

@@ -26,6 +26,7 @@ import {
 } from "@chakra-ui/react";
 import useMe from "components/hooks/useMe";
 import useRecruitment from "components/hooks/useRecruitment";
+import ApplicantList from "components/pages/recruitments/ApplicantList";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -55,6 +56,10 @@ function RecruitmentDetailSection() {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const { data, loading, mutate } = useRecruitment(router.query.id);
+  const { loggedIn, user } = useMe();
+  const mine = user?.userId === data?.author.id ?? false;
+
   const handleClickDeleteButton = useCallback(async () => {
     try {
       await serverAxios.delete(`/projects/${router.query.id}`, getAuthHeader());
@@ -64,9 +69,41 @@ function RecruitmentDetailSection() {
     }
   }, [router]);
 
-  const { data, loading } = useRecruitment(router.query.id);
-  const { loggedIn, user } = useMe();
-  const mine = user?.userId === data?.author.id ?? false;
+  const handleClickFavoriteButton = useCallback(async () => {
+    try {
+      await serverAxios.post(`/projects/${router.query.id}/favorite`, {}, getAuthHeader());
+      mutate();
+    } catch (e) {
+      console.log(e);
+    }
+  }, [router, mutate]);
+
+  const handleClickUnfavoriteButton = useCallback(async () => {
+    try {
+      await serverAxios.delete(`/projects/${router.query.id}/favorite`, getAuthHeader());
+      mutate();
+    } catch (e) {
+      console.log(e);
+    }
+  }, [router, mutate]);
+
+  const handleClickApplicationButton = useCallback(async () => {
+    try {
+      await serverAxios.post(`/applications`, { projectId: router.query.id }, getAuthHeader());
+      mutate();
+    } catch (e) {
+      console.log(e);
+    }
+  }, [router, mutate]);
+
+  const handleClickApplicationCancelButton = useCallback(async () => {
+    try {
+      await serverAxios.delete(`/applications/${data.userApplication.id}`, getAuthHeader());
+      mutate();
+    } catch (e) {
+      console.log(e);
+    }
+  }, [mutate, data]);
 
   if (loading) return "loading...";
   return (
@@ -119,9 +156,25 @@ function RecruitmentDetailSection() {
                     </Modal>
                   </HStack>
                 ) : (
-                  <Button colorScheme="gray" variant="outline">
-                    즐겨찾기 등록
-                  </Button>
+                  <>
+                    {data.isFavorite ? (
+                      <Button
+                        colorScheme="gray"
+                        variant="outline"
+                        onClick={handleClickUnfavoriteButton}
+                      >
+                        즐겨찾기 해제
+                      </Button>
+                    ) : (
+                      <Button
+                        colorScheme="gray"
+                        variant="outline"
+                        onClick={handleClickFavoriteButton}
+                      >
+                        즐겨찾기 등록
+                      </Button>
+                    )}
+                  </>
                 )
               ) : (
                 <></>
@@ -206,9 +259,22 @@ function RecruitmentDetailSection() {
 
           {loggedIn ? (
             mine ? (
-              <Button size="lg">신청자 확인하기</Button>
+              <>
+                <Divider />
+                <ApplicantList projectId={router.query.id} />
+              </>
             ) : (
-              <Button size="lg">신청하기</Button>
+              <>
+                {data.userApplication.isApplied ? (
+                  <Button size="lg" colorScheme="red" onClick={handleClickApplicationCancelButton}>
+                    신청 취소
+                  </Button>
+                ) : (
+                  <Button size="lg" onClick={handleClickApplicationButton}>
+                    신청하기
+                  </Button>
+                )}
+              </>
             )
           ) : (
             <></>
