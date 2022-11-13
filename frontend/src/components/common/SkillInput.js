@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import { Button, FormControl, FormLabel, HStack, Input, VStack, Wrap } from "@chakra-ui/react";
 import EditableTag from "components/common/EditableTag";
 import { useEffect, useRef, useState } from "react";
@@ -21,12 +20,12 @@ function SkillInput({ value = [], onChange, ...props }) {
   };
 
   useEffect(() => {
-    onChange?.(skills);
-  }, [onChange, skills]);
-
-  useEffect(() => {
     setSkills(value);
   }, [value]);
+
+  useEffect(() => {
+    onChange?.(skills);
+  }, [onChange, skills]);
 
   return (
     <VStack spacing="20px" {...props}>
