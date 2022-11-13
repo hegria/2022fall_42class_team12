@@ -55,6 +55,10 @@ function RecruitmentDetailSection() {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const { data, loading, mutate } = useRecruitment(router.query.id);
+  const { loggedIn, user } = useMe();
+  const mine = user?.userId === data?.author.id ?? false;
+
   const handleClickDeleteButton = useCallback(async () => {
     try {
       await serverAxios.delete(`/projects/${router.query.id}`, getAuthHeader());
@@ -64,9 +68,23 @@ function RecruitmentDetailSection() {
     }
   }, [router]);
 
-  const { data, loading } = useRecruitment(router.query.id);
-  const { loggedIn, user } = useMe();
-  const mine = user?.userId === data?.author.id ?? false;
+  const handleClickFavoriteButton = useCallback(async () => {
+    try {
+      await serverAxios.post(`/projects/${router.query.id}/favorite`, {}, getAuthHeader());
+      mutate();
+    } catch (e) {
+      console.log(e);
+    }
+  }, [router, mutate]);
+
+  const handleClickUnfavoriteButton = useCallback(async () => {
+    try {
+      await serverAxios.delete(`/projects/${router.query.id}/favorite`, getAuthHeader());
+      mutate();
+    } catch (e) {
+      console.log(e);
+    }
+  }, [router, mutate]);
 
   if (loading) return "loading...";
   return (
@@ -119,9 +137,25 @@ function RecruitmentDetailSection() {
                     </Modal>
                   </HStack>
                 ) : (
-                  <Button colorScheme="gray" variant="outline">
-                    즐겨찾기 등록
-                  </Button>
+                  <>
+                    {data.isFavorite ? (
+                      <Button
+                        colorScheme="gray"
+                        variant="outline"
+                        onClick={handleClickUnfavoriteButton}
+                      >
+                        즐겨찾기 해제
+                      </Button>
+                    ) : (
+                      <Button
+                        colorScheme="gray"
+                        variant="outline"
+                        onClick={handleClickFavoriteButton}
+                      >
+                        즐겨찾기 등록
+                      </Button>
+                    )}
+                  </>
                 )
               ) : (
                 <></>
