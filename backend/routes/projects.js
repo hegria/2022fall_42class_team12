@@ -8,6 +8,7 @@ const express = require('express');
 
 const router = express.Router();
 const fs = require('fs');
+const { sequelize, Sequelize } = require('../models');
 
 // 프로젝트 리스트
 router.get('/', async function(req, res) {
@@ -284,7 +285,7 @@ router.get('/', async function(req, res) {
             temp.content = projectList[i].message;
             temp.skills = projectList[i].stacks.split('#');
             temp.photoUrl = projectList[i].image;
-            temp.lastEdited = projectList[i].updatedAt;
+            temp.lastEdited = projectList[i].lastModified;
             temp.capacity = projectList[i].required;
             temp.applicationCount = await db.Participate.count({
                 where:{
@@ -427,7 +428,7 @@ router.get('/random', async function (req, res) {
             temp.content = projectList[i].message;
             temp.skills = projectList[i].stacks.split('#');
             temp.photoUrl = projectList[i].image;
-            temp.lastEdited = projectList[i].updatedAt;
+            temp.lastEdited = projectList[i].lastModified;
             temp.capacity = projectList[i].required;
             temp.applicationCount = await db.Participate.count({
                 where:{
@@ -498,7 +499,7 @@ router.get('/:id', async function(req, res) {
         let skills = project.dataValues.stacks.split('#');
         temp.skills = skills;
         temp.photoUrl = project.dataValues.image;
-        temp.lastEdited = project.dataValues.updatedAt;
+        temp.lastEdited = project.dataValues.lastModified;
         temp.capacity = project.dataValues.required;
         temp.approvalCount = project.dataValues.current;
         temp.favoriteCount = project.dataValues.stars;
@@ -703,6 +704,8 @@ router.post('/:id', uploadProject.single('photoUrl'), async function(req, res) {
                 if(req.body.content){
                     await db.Project.update({message: req.body.content},{where:{projectId: project.dataValues.projectId}});
                 }
+
+                await db.Project.update({lastModified: Sequelize.fn('NOW')},{where:{projectId: project.dataValues.projectId}});
 
                 // 개인 페이지 수정 완료
                 return res.status(200).json({"success": true, "reason": "정보를 수정했습니다."});

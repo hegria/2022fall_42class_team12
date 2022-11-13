@@ -64,14 +64,20 @@ module.exports = function(sequelize) {
             field: 'message',
             type: DataTypes.STRING(5000),
             allowNull: true,
-        }
+        },
+        lastModified:{
+            field: 'lastModified',
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: Sequelize.NOW
+        },
     }, {
         tableName: 'project',
         underscored: false,
         freezeTableName: true,
         timestamps: true,
         createdAt: true,
-        updatedAt: true,
+        updatedAt: false,
         charset: "utf8mb4",
         collate: "utf8mb4_general_ci"
     });
