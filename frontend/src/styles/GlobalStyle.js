@@ -5,8 +5,7 @@ const fontsStyle = css`
 
   @font-face {
     font-family: "BinggraeSamanco";
-    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/BinggraeSamanco-Bold.woff")
-      format("woff");
+    src: url("/fonts/BinggraeSamanco-Bold.woff") format("woff");
     font-weight: normal;
     font-style: normal;
   }
