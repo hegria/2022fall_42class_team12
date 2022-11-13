@@ -18,6 +18,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  SimpleGrid,
   Tag,
   Text,
   useDisclosure,
@@ -202,13 +203,13 @@ function RecruitmentDetailSection() {
                 </HStack>
               </Link>
 
-              <HStack spacing="60px" w="100%">
+              <HStack spacing="60px" wordBreak="break-all" align="flex-start">
                 <VStack spacing="30px" align="flex-start" flex="1">
-                  <HStack spacing="30px">
+                  <HStack spacing="30px" align="flex-start">
                     <InfoTitle>모집 주제</InfoTitle>
                     <InfoText>{data.subject}</InfoText>
                   </HStack>
-                  <HStack spacing="30px">
+                  <HStack spacing="30px" align="flex-start">
                     <InfoTitle>모집 인원</InfoTitle>
                     <InfoText>{data.capacity}</InfoText>
                   </HStack>
@@ -223,15 +224,15 @@ function RecruitmentDetailSection() {
                 </VStack>
 
                 <VStack spacing="30px" align="flex-start" flex="1">
-                  <HStack spacing="30px">
+                  <HStack spacing="30px" align="flex-start">
                     <InfoTitle>시작 예정</InfoTitle>
-                    <InfoText>{data.startDate}</InfoText>
+                    <InfoText>{data.startDate.split(" ")[0]}</InfoText>
                   </HStack>
-                  <HStack spacing="30px">
+                  <HStack spacing="30px" align="flex-start">
                     <InfoTitle>종료 예정</InfoTitle>
-                    <InfoText>{data.endDate}</InfoText>
+                    <InfoText>{data.endDate.split(" ")[0]}</InfoText>
                   </HStack>
-                  <HStack spacing="30px">
+                  <HStack spacing="30px" align="flex-start">
                     <InfoTitle>연락 방법</InfoTitle>
                     <InfoText>{data.contact.value}</InfoText>
                   </HStack>
