@@ -3,12 +3,17 @@ import ProjectCard from "components/common/ProjectCard";
 import useRecruitments from "hooks/useRecruitments";
 import HomeSectionLayout from "components/pages/home/HomeSectionLayout";
 import { PAGE_SIZE } from "constants/list";
+import { useEffect } from "react";
 
 function RecentProjectsSection() {
-  const { recruitments, size, setSize, initialLoading, loadingMore, empty, reachingEnd } =
+  const { recruitments, size, setSize, initialLoading, loadingMore, empty, reachingEnd, mutate } =
     useRecruitments({
       pageSize: PAGE_SIZE,
     });
+
+  useEffect(() => {
+    mutate();
+  }, [mutate]);
 
   return (
     <HomeSectionLayout>
