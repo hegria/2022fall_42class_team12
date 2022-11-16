@@ -15,7 +15,7 @@ function useRecruitments({ pageSize, keyword, sortBy, userId, isAuthor, isFavori
   const initialLoading = !data && !error;
   const loadingMore = initialLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
   const empty = data?.[0]?.content.length === 0;
-  const reachingEnd = empty || (data && data[data.length - 1]?.content.length < pageSize);
+  const reachingEnd = empty || (data && data[data.length - 1]?.totalPages < size + 1);
 
   return {
     data,
